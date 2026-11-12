@@ -336,10 +336,10 @@ body.dark .lk:hover{background:rgba(255,255,255,.1);}
 .neg-tag{font:500 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#b25000;}
 .sec .neg p{margin:0;font:400 16px/1.45 var(--sf);color:var(--ink-2);max-width:none;}
 @media (max-width:760px){.negs{grid-template-columns:1fr;}}
-.talk{display:flex;flex-direction:column;gap:22vh;margin:40px 0 12vh;padding-top:4vh;}
-.say{display:flex;align-items:flex-end;gap:14px;max-width:640px;opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1);}
+.talk{display:flex;flex-direction:column;align-items:center;gap:clamp(28px,5vh,48px);margin:48px auto 56px;}
+.say{display:flex;align-items:flex-end;gap:14px;box-sizing:border-box;width:min(620px,100%);opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1);}
 .say.in{opacity:1;transform:none;}
-.say:nth-child(even){margin-left:clamp(0px,6vw,72px);}
+.say:nth-child(even){padding-left:clamp(0px,5vw,48px);}
 .talk-av{flex:none;width:56px;height:56px;border-radius:50%;object-fit:cover;background:#8a817c;box-shadow:0 0 0 3px #fff,0 6px 16px -6px rgba(0,0,0,.35);}
 .talk-b{position:relative;background:#f5f5f7;border-radius:22px 22px 22px 6px;padding:16px 20px;}
 .talk-b p{margin:0;font:500 clamp(18px,2.1vw,22px)/1.4 var(--sf);letter-spacing:-.2px;color:var(--ink);}
@@ -355,7 +355,7 @@ body.dark .lk:hover{background:rgba(255,255,255,.1);}
 .say-last .talk-b{background:var(--ink);}
 .say-last .talk-b p{color:#fff;font-size:clamp(22px,2.8vw,30px);}
 @media (prefers-reduced-motion: reduce){.say{opacity:1;transform:none;transition:none;}.say.in .talk-e{animation:none;}}
-@media (max-width:760px){.talk{gap:14vh;}.say:nth-child(even){margin-left:0;}}
+@media (max-width:760px){.talk{gap:24px;}.say:nth-child(even){padding-left:0;}}
 .voices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 30px;margin-top:36px;padding-top:10px;}
 .voice{--tilt:-1.6deg;--tint:#FBF1C8;position:relative;margin:0;padding:26px 22px 22px;border-radius:26px;background:var(--tint);
   display:flex;flex-direction:column;gap:16px;transform:rotate(var(--tilt));
@@ -3110,7 +3110,7 @@ mvs.forEach(function(v){mio.observe(v)});
 })();
 </script>
 <script>(function(){var rm=matchMedia('(prefers-reduced-motion: reduce)').matches,L=document.querySelectorAll('.talk .say');if(rm||!('IntersectionObserver' in window)){L.forEach(function(e){e.classList.add('in')});return;}
-var io=new IntersectionObserver(function(es){es.forEach(function(x){if(!x.isIntersecting)return;var e=x.target;io.unobserve(e);e.classList.add('in','typing');setTimeout(function(){e.classList.remove('typing')},650);});},{rootMargin:'0px 0px -28% 0px',threshold:.6});L.forEach(function(e){io.observe(e)});})();</script>
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(!x.isIntersecting)return;var e=x.target;io.unobserve(e);e.classList.add('in','typing');setTimeout(function(){e.classList.remove('typing')},650);});},{rootMargin:'0px 0px -18% 0px',threshold:.9});L.forEach(function(e){io.observe(e)});})();</script>
 <script>(function(){var B=[[2,'<b>Mark it.</b> Your words become a decision.'],[3.85,'<b>Claude keeps it.</b> A new plan clashes, you decide.'],[6,'<b>Find it.</b> One tap back to the moment you decided.'],[99,'']];
 document.querySelectorAll('video.dt-reel').forEach(function(v){var box=v.closest('.cdl')||v.parentNode,c=document.createElement('div'),cur=-1;c.className='dt-cap';c.setAttribute('aria-hidden','true');box.appendChild(c);
 function sync(){var t=v.currentTime,i=0;while(t>=B[i][0])i++;if(i!==cur){cur=i;if(B[i][1]){c.innerHTML=B[i][1];c.classList.add('on');}else c.classList.remove('on');}}
