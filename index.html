@@ -1062,7 +1062,7 @@ html.has-cur [data-cur] *{cursor:none;}
 .dt-cap b{color:#F0B79C;font-weight:600;}
 .dt-cap.on{opacity:1;transform:translate(-50%,0);}
 .h-ss a .cv-cdl .dt-cap{bottom:12cqw;}
-@media (hover:none){.dt-cap{display:none;}}
+
 .cdl.dt{text-align:left;gap:3cqw;padding:5cqw 5cqw;align-items:stretch;}
 .dt-chat{flex:1.5;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2cqw;padding:3.6cqw;border-radius:3.4cqw;background:#FAF8F3;box-shadow:0 2cqw 5cqw -2cqw rgba(60,40,20,.25);}
 .dt-top{font-size:1.9cqw;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:#8a7b6c;}
@@ -3088,12 +3088,14 @@ mvs.forEach(function(v){mio.observe(v)});
   window.addEventListener('resize',fit); new MutationObserver(fit).observe(document.body,{attributes:true,subtree:true,attributeFilter:['hidden']}); fit(); setTimeout(fit,600);
 })();
 </script>
-<script>(function(){var B=[[2,'<b>Mark it.</b> Your words become a decision.'],[3.85,'<b>Claude keeps it.</b> A new plan clashes, you decide.'],[6,'<b>Find it.</b> One tap back to the moment you decided.'],[99,'<b>Trust it later.</b> The why stays with every call.']];
-document.querySelectorAll('video.dt-reel').forEach(function(v){var box=v.closest('.cdl')||v.parentNode,c=document.createElement('div');c.className='dt-cap';c.setAttribute('aria-hidden','true');box.appendChild(c);
+<script>(function(){var B=[[2,'<b>Mark it.</b> Your words become a decision.'],[3.85,'<b>Claude keeps it.</b> A new plan clashes, you decide.'],[6,'<b>Find it.</b> One tap back to the moment you decided.'],[99,'']];
+document.querySelectorAll('video.dt-reel').forEach(function(v){var box=v.closest('.cdl')||v.parentNode,c=document.createElement('div'),cur=-1;c.className='dt-cap';c.setAttribute('aria-hidden','true');box.appendChild(c);
+function sync(){var t=v.currentTime,i=0;while(t>=B[i][0])i++;if(i!==cur){cur=i;if(B[i][1]){c.innerHTML=B[i][1];c.classList.add('on');}else c.classList.remove('on');}}
+if(v.requestVideoFrameCallback){(function f(){sync();v.requestVideoFrameCallback(f);})();}else{v.addEventListener('timeupdate',sync);}
+v.addEventListener('seeked',sync);v.addEventListener('loadeddata',sync);
 var host=v.closest('a')||v.closest('.cv-cdl')||box;
-function on(){if(!matchMedia('(hover:hover)').matches)return;v.pause();var t=v.currentTime;for(var i=0;i<B.length;i++){if(t<B[i][0]){c.innerHTML=B[i][1];break;}}c.classList.add('on');}
-function off(){c.classList.remove('on');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)v.play().catch(function(){});}
-host.addEventListener('mouseenter',on);host.addEventListener('mouseleave',off);});})();</script>
+host.addEventListener('mouseenter',function(){v.pause();});
+host.addEventListener('mouseleave',function(){if(!matchMedia('(prefers-reduced-motion: reduce)').matches)v.play().catch(function(){});});});})();</script>
 <script>(function(){var r=matchMedia('(prefers-reduced-motion: reduce)').matches;document.querySelectorAll('.dt-vid').forEach(function(v){if(r){v.removeAttribute('autoplay');v.pause();return;}if('IntersectionObserver' in window){new IntersectionObserver(function(e){e.forEach(function(x){x.isIntersecting?v.play().catch(function(){}):v.pause();});}).observe(v);}});})();</script>
 <style>
 /* ── About draft v2 · simple, scannable ─────────────────── */
