@@ -2449,19 +2449,10 @@ document.addEventListener('DOMContentLoaded',function(){
 
     <section class="sec" data-xsec="Concept">
     <h2>Mark, check, find your place.</h2>
-    <p>Try it: add your decision, open Claude’s side of it, then start a new chat and ask where you are.</p>
-    <div class="cdl-demo" data-cdl-demo>
-      <div class="cdl-dchat">
-        <div class="cdl-dtop"><span>Fashion Week pop-up</span><span class="cdl-dses" data-cdl-ses>Nov 1</span></div>
-        <div class="cdl-dmsgs" data-cdl-msgs>
-          <div class="cdl-b a">Two venues fit the budget. The Chinatown gallery has the stronger story; SoHo has more foot traffic.</div>
-          <div class="cdl-b u cdl-mark">Go with the Chinatown gallery. It fits the brand’s story and leaves money for the build-out.</div>
-          <div class="cdl-offer" data-cdl-offer><span>Add this to Decisions?</span><div><button type="button" data-cdl-yes>Add to Decisions</button><button type="button" class="ghost" data-cdl-no>Leave in chat</button></div></div>
-        </div>
-        <button type="button" class="cdl-new" data-cdl-new>Open a new chat →</button>
-      </div>
-      <div class="cdl-drec"><span class="cdl-rt">Decisions</span><ol data-cdl-list><li><i class="cdl-full" title="You raised it"></i><span>No influencer gifting bags.<small class="cdl-meta">Oct 24</small></span></li></ol><p class="cdl-dnote">Full dot: you raised it. Half dot: Claude suggested it, you decided.</p></div>
-    </div>
+    <p>Here’s the prototype as it runs: a decision gets marked in the chat, then Claude checks a later plan against it.</p>
+    <div class="dtg"><figure class="wide"><video src="assets/dt/dt-sign.mp4" poster="assets/dt/dt-sign.jpg" muted loop playsinline autoplay preload="metadata" style="display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--rule)" aria-label="Prototype recording: marking a decision in the chat"></video><figcaption><b>Mark it.</b>After a message that reads like a decision, a quiet line appears under it: Add to Decisions, or leave it in chat.</figcaption></figure>
+    <figure class="wide"><video src="assets/dt/dt-drift.mp4" poster="assets/dt/dt-drift.jpg" muted loop playsinline autoplay preload="metadata" style="display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--rule)" aria-label="Prototype recording: Claude flags a plan step that conflicts with a decision"></video><figcaption><b>Claude checks its plan.</b>Step 1 breaks a call from Oct 24. Claude quotes it inside the reply and asks: keep it, or change it?</figcaption></figure></div>
+
     <div class="three">
       <div><h3>Who proposed it</h3><p>Claude suggested the gallery a minute before you chose it, so the entry gets a half dot. Your words stay the decision; Claude’s reason folds underneath, quoted whole.</p></div>
       <div><h3>Drift check</h3><p>When a plan would break a call you made, Claude quotes it inside its normal reply and asks. Change it, and the old call stays, struck through.</p></div>
@@ -2470,8 +2461,8 @@ document.addEventListener('DOMContentLoaded',function(){
     <p class="rp-eye ins-eye">The prototype, scene by scene</p>
     <div class="dtg">
       <figure class="wide"><img src="assets/dt/proto-jump.jpg" alt="Prototype: the chat scrolled to the highlighted moment the decision was made, with a bar to go back to the Decisions page" loading="lazy" width="1400" height="798"><figcaption><b>Jump back.</b>One tap from the Decisions page returns you to the exact moment you decided, highlighted in the original chat.</figcaption></figure>
-      <figure><img src="assets/dt/proto-mark.jpg" alt="Prototype: under a message choosing the Chinatown gallery, a quiet offer reads Add to Decisions or Leave in chat" loading="lazy" width="1200" height="809"><figcaption><b>Mark it.</b>After a message that reads like a decision, a quiet offer appears. Nothing saves until you tap.</figcaption></figure>
-      <figure><img src="assets/dt/proto-clash.jpg" alt="Prototype: Claude flags that step 1 of its promotion plan conflicts with the Oct 24 decision, with Keep my call and Change it buttons" loading="lazy" width="1200" height="809"><figcaption><b>Claude checks its plan.</b>Step 1 breaks a call from Oct 24. Claude quotes it inside the reply and asks: keep it, or change it?</figcaption></figure>
+      
+      
       <figure><img src="assets/dt/proto-decisions.jpg" alt="Prototype: the Decisions page listing calls by week, one opened to show the exact words and Claude’s reason folded underneath" loading="lazy" width="1200" height="724"><figcaption><b>Decisions page.</b>Every call in your own words, grouped by week. Claude’s reason folds underneath.</figcaption></figure>
       <figure><img src="assets/dt/proto-reflect.jpg" alt="Prototype: the Reflect tab showing 73 decisions across 3 projects, a breakdown by kind and a bar chart of decisions per day" loading="lazy" width="1200" height="724"><figcaption><b>Reflect.</b>Patterns in how you decide, and a habit you can turn into a reusable skill.</figcaption></figure>
     </div></section>
