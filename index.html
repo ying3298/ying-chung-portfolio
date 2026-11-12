@@ -1085,6 +1085,7 @@ html.has-cur [data-cur] *{cursor:none;}
 .h-ss a .cv-cdl .cdl.dt-v{padding-bottom:9cqw;}
 .cdl-herobox .dt-win{width:min(96cqw,calc(94cqh * 1.6));}
 .dt-reel{width:100%;height:100%;object-fit:contain;background:#EFE9DE;}
+.dt-hero{margin:28px 0 8px;}.dt-hero img{display:block;width:100%;height:auto;border-radius:18px;box-shadow:0 0 0 1px rgba(60,40,20,.08);}
 .dt-ov{margin:28px 0 8px;border-radius:18px;overflow:hidden;aspect-ratio:16/9;background:#EFE9DE;box-shadow:0 0 0 1px rgba(60,40,20,.08);}
 .dt-ov .dt-vid{object-fit:cover;}
 .dt-sync>div{transition:opacity .35s ease;position:relative;}
@@ -2450,12 +2451,8 @@ document.addEventListener('DOMContentLoaded',function(){
     <section class="sec" data-xsec="Overview">
     <h2>A month in, the plan forgets what you decided.</h2>
     <p>A month into producing a Fashion Week pop-up, you ask Claude for the promotion plan. Step 1 sends gifting bags to 30 influencers, the opposite of what you decided on Oct 24. The next morning, in a new chat, you explain everything again.</p>
-    <figure class="dt-ov"><video class="dt-vid dt-ovv" src="assets/dt/dt-overview.mp4" poster="assets/dt/dt-overview.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Decision Trail in 12 seconds: a month in, mark a decision in your words, Claude checks its plan against it, find the why from the Decisions page"></video></figure>
-    <div class="three dt-sync">
-      <div><h3>Mark it in your words</h3><p>After you send a message that reads like a decision, a quiet prompt offers to add it. Nothing saves until you tap.</p></div>
-      <div><h3>Claude checks its plans</h3><p>When a plan conflicts with a call you made, Claude says so inside its reply and asks: keep it, or change it?</p></div>
-      <div><h3>Find the why, anytime</h3><p>Every decision links back to the moment you made it, one tap away.</p></div>
-    </div></section>
+    <figure class="dt-hero"><img src="assets/dt/dt-overview-hero.jpg" alt="Decision Trail at a glance. 1, Kept in your words: a chat message marked Added to Decisions, your exact words. 2, Claude checks, you decide: asked for a promotion plan, Claude flags that step 1 clashes with your Oct 24 decision, No influencer gifting bags, and offers Keep my call or Change it. 3, One tap back: tapping the quote on the Decisions page opens the chat at the moment you decided. Jump back was rated 7 out of 7 for ease by all 5 testers." width="3200" height="1800" loading="lazy"></figure>
+</section>
 
     <section class="sec" data-xsec="Problem">
     <h2>“It makes me feel like I’m super forgetful.” <span aria-hidden="true">🤷🏻</span></h2>
@@ -2494,6 +2491,12 @@ document.addEventListener('DOMContentLoaded',function(){
 
     <section class="sec" data-xsec="Concept">
     <h2>Mark, check, find your place.</h2>
+    <figure class="dt-ov" style="margin-top:20px"><video class="dt-vid dt-ovv" src="assets/dt/dt-overview.mp4" poster="assets/dt/dt-overview.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Decision Trail in 12 seconds: a month in, mark a decision in your words, Claude checks its plan against it, find the why from the Decisions page"></video></figure>
+    <div class="three dt-sync">
+      <div><h3>Mark it in your words</h3><p>After you send a message that reads like a decision, a quiet prompt offers to add it. Nothing saves until you tap.</p></div>
+      <div><h3>Claude checks its plans</h3><p>When a plan conflicts with a call you made, Claude says so inside its reply and asks: keep it, or change it?</p></div>
+      <div><h3>Find the why, anytime</h3><p>Every decision links back to the moment you made it, one tap away.</p></div>
+    </div>
     <p>Here’s the prototype as it runs: a decision gets marked in the chat, then Claude checks a later plan against it.</p>
     <div class="dtg"><figure class="wide"><video src="assets/dt/dt-sign.mp4" poster="assets/dt/dt-sign.jpg" muted loop playsinline autoplay preload="metadata" style="display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--rule)" aria-label="Prototype recording: marking a decision in the chat"></video><figcaption><b>Mark it.</b>After a message that reads like a decision, a quiet line appears under it: Add to Decisions, or leave it in chat.</figcaption></figure>
     <figure class="wide"><video src="assets/dt/dt-drift.mp4" poster="assets/dt/dt-drift.jpg" muted loop playsinline autoplay preload="metadata" style="display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--rule)" aria-label="Prototype recording: Claude flags a plan step that conflicts with a decision"></video><figcaption><b>Claude checks its plan.</b>Step 1 breaks a call from Oct 24. Claude quotes it inside the reply and asks: keep it, or change it?</figcaption></figure></div>
