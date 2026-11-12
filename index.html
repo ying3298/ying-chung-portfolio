@@ -1085,6 +1085,13 @@ html.has-cur [data-cur] *{cursor:none;}
 .h-ss a .cv-cdl .cdl.dt-v{padding-bottom:9cqw;}
 .cdl-herobox .dt-win{width:min(96cqw,calc(94cqh * 1.6));}
 .dt-reel{width:100%;height:100%;object-fit:contain;background:#EFE9DE;}
+.dt-ov{margin:28px 0 8px;border-radius:18px;overflow:hidden;aspect-ratio:16/9;background:#EFE9DE;box-shadow:0 0 0 1px rgba(60,40,20,.08);}
+.dt-ov .dt-vid{object-fit:cover;}
+.dt-sync>div{transition:opacity .35s ease;position:relative;}
+.dt-sync>div::before{content:"";position:absolute;left:0;right:0;top:-1px;height:2px;background:#D97757;transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1);}
+.dt-sync.live>div{opacity:.4;}
+.dt-sync.live>div.on{opacity:1;}
+.dt-sync.live>div.on::before{transform:none;}
 .dt-cap{position:absolute;left:50%;bottom:4cqw;transform:translate(-50%,6px);max-width:84cqw;padding:.7em 1.1em;border-radius:999px;background:rgba(31,30,29,.92);color:#FAF9F5;font:500 max(12px,1.9cqw)/1.35 "Inter",-apple-system,sans-serif;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;white-space:nowrap;}
 .dt-cap b{color:#F0B79C;font-weight:600;}
 .dt-cap.on{opacity:1;transform:translate(-50%,0);}
@@ -2443,7 +2450,8 @@ document.addEventListener('DOMContentLoaded',function(){
     <section class="sec" data-xsec="Overview">
     <h2>A month in, the plan forgets what you decided.</h2>
     <p>A month into producing a Fashion Week pop-up, you ask Claude for the promotion plan. Step 1 sends gifting bags to 30 influencers, the opposite of what you decided on Oct 24. The next morning, in a new chat, you explain everything again.</p>
-    <div class="three">
+    <figure class="dt-ov"><video class="dt-vid dt-ovv" src="assets/dt/dt-overview.mp4" poster="assets/dt/dt-overview.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Decision Trail in 12 seconds: a month in, mark a decision in your words, Claude checks its plan against it, find the why from the Decisions page"></video></figure>
+    <div class="three dt-sync">
       <div><h3>Mark it in your words</h3><p>After you send a message that reads like a decision, a quiet prompt offers to add it. Nothing saves until you tap.</p></div>
       <div><h3>Claude checks its plans</h3><p>When a plan conflicts with a call you made, Claude says so inside its reply and asks: keep it, or change it?</p></div>
       <div><h3>Find the why, anytime</h3><p>Every decision links back to the moment you made it, one tap away.</p></div>
@@ -3121,6 +3129,9 @@ if(matchMedia('(prefers-reduced-motion: reduce)').matches){T.classList.add('stat
 function go(n){if(n===cur)return;var fwd=n>cur;cur=n;clearTimeout(tm);L.forEach(function(e,i){e.classList.toggle('in',i===n);e.classList.toggle('past',i<n);e.classList.remove('typing');});P.forEach(function(e,i){e.classList.toggle('on',i===n)});if(fwd){L[n].classList.add('typing');tm=setTimeout(function(){L[n].classList.remove('typing')},550);}}
 var S=T.querySelector('.talk-stage');function onS(){var r=T.getBoundingClientRect(),run=r.height-S.offsetHeight,t0=parseFloat(getComputedStyle(S).top)||0;if(r.bottom<0||r.top>innerHeight)return;var pr=Math.min(.999,Math.max(0,(t0-r.top)/run));go(Math.floor(pr*L.length));}
 addEventListener('scroll',onS,{passive:true});document.addEventListener('scroll',onS,{passive:true,capture:true});onS();})();</script>
+<script>(function(){var v=document.querySelector('video.dt-ovv'),T=document.querySelector('.three.dt-sync');if(!v||!T)return;var C=T.children,B=[[2.9,-1],[5.45,0],[8.5,1],[11.6,2],[99,-1]],cur=-2;
+function sync(){var t=v.currentTime,i=0;while(t>=B[i][0])i++;var n=B[i][1];if(n===cur)return;cur=n;T.classList.toggle('live',n>=0);for(var j=0;j<C.length;j++)C[j].classList.toggle('on',j===n);}
+if(v.requestVideoFrameCallback){(function f(){sync();v.requestVideoFrameCallback(f);})();}else v.addEventListener('timeupdate',sync);v.addEventListener('seeked',sync);})();</script>
 <script>(function(){var B=[[2,'<b>Mark it.</b> Your words become a decision.'],[3.85,'<b>Claude keeps it.</b> A new plan clashes, you decide.'],[6,'<b>Find it.</b> One tap back to the moment you decided.'],[99,'']];
 document.querySelectorAll('video.dt-reel').forEach(function(v){var box=v.closest('.cdl')||v.parentNode,c=document.createElement('div'),cur=-1;c.className='dt-cap';c.setAttribute('aria-hidden','true');box.appendChild(c);
 function sync(){var t=v.currentTime,i=0;while(t>=B[i][0])i++;if(i!==cur){cur=i;if(B[i][1]){c.innerHTML=B[i][1];c.classList.add('on');}else c.classList.remove('on');}}
