@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>百子櫃 · The Hundred-Drawer Cabinet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#262311;--mut:#6d6650;--paper:#F7F6EE;--g:#EDEFC2;--gd:#C9CE7E;--forest:#182912;--hl:#D4F25E;--rule:#262311;
+--serif:'Fraunces','Noto Serif TC','Songti TC',Georgia,serif;--zh:'Noto Serif TC','Songti TC','PMingLiU',serif;--sans:"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.7,.2,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--g);color:var(--ink);font:15px/1.5 var(--sans);transition:background-color .8s var(--ease);min-height:100vh}
+html.rm body{transition:background-color .3s linear}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.app{max-width:520px;margin:0 auto;min-height:100vh;border-left:1px solid var(--rule);border-right:1px solid var(--rule);position:relative;overflow-x:hidden}
+@media(max-width:520px){.app{border:0}}
+.serif{font-family:var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1}
+.zh{font-family:var(--zh)}
+.mono{font:11px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.06em}
+
+/* top bar: hairline cells */
+.bar{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:52px 1fr auto 52px;border-bottom:1px solid var(--rule);background:color-mix(in srgb,var(--g) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background-color .8s var(--ease)}
+.bar>*{height:52px;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--rule)}
+.bar>*:last-child{border-right:0}
+.bar .mark{justify-content:flex-start;padding:0 14px;gap:8px;text-decoration:none;font-size:17px}
+.bar .mark b{font-family:var(--zh);font-weight:600;letter-spacing:.08em}
+.bar .mark span{font:11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.bar .jarbtn{padding:0 14px;font:11px var(--mono);text-transform:uppercase;letter-spacing:.06em;gap:6px}
+.bar .jarbtn i{font-style:normal;background:var(--ink);color:var(--paper);border-radius:99px;min-width:20px;height:20px;display:inline-grid;place-items:center;padding:0 6px;transition:transform .4s var(--spring)}
+.bar .jarbtn i.bump{transform:scale(1.5)}
+.bar button:disabled{opacity:.25;cursor:default}
+.bar .ico{font-size:20px;transition:transform .5s var(--spring)}
+.bar button:active .ico{transform:scale(.85)}
+.burger{display:grid;gap:5px}.burger i{display:block;width:20px;height:1.5px;background:var(--ink)}
+
+/* view transitions */
+#view{transition:opacity .22s ease}
+#view.leaving{opacity:0}
+.rise{opacity:0;transform:translateY(22px);animation:rise .8s var(--ease) forwards;animation-delay:calc(var(--i,0)*80ms)}
+@keyframes rise{to{opacity:1;transform:none}}
+html.rm .rise{transform:none;animation-name:fade;animation-duration:.4s;animation-delay:0s}
+@keyframes fade{to{opacity:1}}
+.settle{animation:settle 1.1s var(--ease) both}
+@keyframes settle{from{transform:scale(1.06);opacity:0}to{transform:none;opacity:1}}
+html.rm .settle{animation:fade .4s both}
+.hl{background:linear-gradient(var(--hl),var(--hl)) no-repeat 0 88%/0% 62%;animation:wipe .9s .55s var(--ease) forwards;padding:0 .08em}
+@keyframes wipe{to{background-size:100% 62%}}
+html.rm .hl{animation:none;background-size:100% 62%}
+
+.pad{padding:0 20px}
+.metarow{display:flex;justify-content:space-between;gap:10px;font:10.5px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.07em;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:9px 0}
+.metarow span:nth-child(2){text-align:center}.metarow span:last-child{text-align:right}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:99px;padding:13px 20px;background:var(--ink);color:var(--paper);font-size:15px;text-decoration:none;transition:transform .25s var(--spring),background .2s,opacity .2s}
+.pill:active{transform:scale(.95)}
+.pill.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.pill.lime{background:var(--hl);color:var(--ink)}
+.pill:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.pill[aria-pressed=true]{background:var(--hl);color:var(--ink)}
+.chip{border-radius:99px;padding:7px 12px;box-shadow:inset 0 0 0 1px var(--ink);font-size:13px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;transition:background .2s,color .2s,transform .2s var(--spring)}
+.chip:active{transform:scale(.94)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.chip .dot{width:9px;height:9px;border-radius:50%;box-shadow:0 0 0 1px var(--ink)}
+.h-label{font:600 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px}
+
+/* blobs + art */
+.blob{border-radius:42% 58% 63% 37%/41% 44% 56% 59%;animation:morph 10s ease-in-out infinite alternate;display:grid;place-items:center;position:relative}
+@keyframes morph{0%{border-radius:42% 58% 63% 37%/41% 44% 56% 59%}50%{border-radius:61% 39% 45% 55%/55% 62% 38% 45%}100%{border-radius:38% 62% 52% 48%/36% 49% 51% 64%}}
+html.rm .blob{animation:none}
+.art{width:100%;height:100%;display:block;overflow:visible}
+.bob{animation:bob 4s ease-in-out infinite alternate}
+@keyframes bob{from{transform:translateY(-3px) rotate(-2deg)}to{transform:translateY(4px) rotate(2deg)}}
+html.rm .bob{animation:none}
+.wiggle{animation:wig .7s var(--spring)}
+@keyframes wig{0%{transform:rotate(0) scale(1)}25%{transform:rotate(-9deg) scale(1.08)}50%{transform:rotate(7deg) scale(.96)}75%{transform:rotate(-4deg) scale(1.03)}100%{transform:none}}
+html.rm .wiggle{animation:none}
+
+/* cover */
+.cover{display:grid;grid-template-columns:56px 1fr;min-height:calc(100vh - 53px)}
+.strip{border-right:1px solid var(--rule);position:relative;background:var(--hl)}
+.strip span{position:absolute;left:50%;top:24px;transform-origin:0 0;transform:rotate(90deg) translateY(-50%);white-space:nowrap;font:300 30px/1 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1;letter-spacing:-.02em}
+.cover-main{padding:26px 20px 30px;display:flex;flex-direction:column;gap:18px}
+.cover h1{font:300 clamp(48px,13.5vw,74px)/.92 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1;letter-spacing:-.045em;margin:0}
+.cover h1 em{font-style:italic}
+.toss{position:relative;height:250px;margin:4px 0}
+.toss button{position:absolute;width:96px;height:96px;transition:transform .4s var(--spring)}
+.toss button:hover{transform:scale(1.12) rotate(-6deg)}
+.toss button span{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);font:12px var(--zh);background:var(--paper);padding:1px 6px;border-radius:99px;box-shadow:0 0 0 1px var(--ink);white-space:nowrap}
+.cover .lede{font-size:17px;max-width:34ch;margin:0}
+.cover .ctas{display:flex;flex-wrap:wrap;gap:10px}
+.coord{font:300 34px/1 var(--serif);letter-spacing:-.03em}
+
+/* section heads */
+.vh{padding:28px 20px 18px}
+.vh .num{font:300 15px var(--serif);display:flex;gap:14px;align-items:baseline;margin-bottom:10px}
+.vh h1{font:300 clamp(40px,11vw,60px)/.95 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1;letter-spacing:-.04em;margin:0 0 12px}
+.vh p{margin:0;max-width:38ch;font-size:16px}
+
+/* drawers */
+.filters{padding:0 20px 14px;display:grid;gap:10px}
+.search{display:flex;align-items:center;border-bottom:1.5px solid var(--ink);gap:8px}
+.search input{flex:1;border:0;background:transparent;font:300 22px var(--serif);padding:8px 0;color:var(--ink);outline:none;min-width:0}
+.search input::placeholder{color:var(--mut);font-style:italic}
+.search button{font-size:13px;text-decoration:underline}
+.scroller{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:2px 20px}
+.scroller::-webkit-scrollbar{display:none}
+.count{font:11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.wall{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--rule);background:#8a6a3f22;perspective:600px}
+.drawer{position:relative;aspect-ratio:1/1.12;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:5px;transform-style:preserve-3d}
+.drawer:nth-child(5n){border-right:0}
+.drawer .front{position:absolute;inset:4px;border-radius:5px;background:var(--dc);box-shadow:inset 0 0 0 1px var(--ink),inset 0 -6px 0 rgba(0,0,0,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .45s var(--spring),box-shadow .3s;z-index:1}
+.drawer .front em{position:absolute;top:4px;left:6px;font:9px var(--mono);font-style:normal;opacity:.7}
+.drawer .front b{font:600 clamp(13px,3.9vw,18px)/1.1 var(--zh);letter-spacing:.02em;text-align:center}
+.drawer .front i{width:12px;height:5px;border-radius:3px;background:#B08A3E;box-shadow:0 0 0 1px var(--ink);margin-top:4px}
+.drawer:hover .front{transform:translateZ(14px) translateY(-1px)}
+.drawer:active .front{transform:translateZ(4px) scale(.97)}
+.drawer .peek{position:absolute;inset:-10%;z-index:3;pointer-events:none;opacity:0;transform:scale(.2) translateY(30%);transition:all .5s var(--spring)}
+.drawer.open .front{transform:translateZ(40px) translateY(8px) scale(1.08);box-shadow:inset 0 0 0 1px var(--ink),0 18px 24px -12px rgba(0,0,0,.45)}
+.drawer.open .peek{opacity:1;transform:scale(1.3) translateY(-40%)}
+.drawer.dim .front{opacity:.32}
+html.rm .drawer .front,html.rm .drawer .peek{transition:opacity .2s}
+.empty{padding:40px 20px 50px;text-align:center;display:grid;justify-items:center;gap:12px}
+.empty .serif{font:300 30px/1.05 var(--serif);letter-spacing:-.03em;max-width:16ch}
+.empty p{margin:0;max-width:30ch;color:var(--mut)}
+
+/* contents */
+.agenda a{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center;padding:16px 20px;border-top:1px solid var(--rule);text-decoration:none;transition:background .3s,padding .3s var(--ease)}
+.agenda a:last-child{border-bottom:1px solid var(--rule)}
+.agenda a:hover{padding-left:28px}
+.agenda .n{font:300 34px/1 var(--serif)}
+.agenda .t{font:300 25px/1.05 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1;letter-spacing:-.02em}
+.agenda .t small{display:block;font:13px var(--zh);margin-top:4px;color:var(--mut)}
+.agenda .sw{width:34px;height:34px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--ink)}
+
+/* chapter list */
+.hlist a{display:grid;grid-template-columns:92px 1fr;gap:16px;align-items:center;padding:16px 20px;border-top:1px solid var(--rule);text-decoration:none}
+.hlist a:last-child{border-bottom:1px solid var(--rule)}
+.hlist .blob{width:92px;height:92px;padding:10px;background:var(--gd)}
+.hlist .t{font:400 28px/1 var(--zh)}
+.hlist .e{font:300 italic 18px var(--serif);margin:2px 0 4px}
+.hlist .l{font-size:13.5px;color:var(--mut)}
+.hlist a:hover .blob .art{animation:wig .7s var(--spring)}
+
+/* herb */
+.kicker{display:flex;justify-content:space-between;padding:14px 20px;font:11px var(--mono);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--rule)}
+.kicker a{text-decoration:none;border-bottom:1px solid}
+.stage{position:relative;padding:22px 20px 0;display:grid;place-items:center}
+.stage .blob{width:min(78vw,330px);height:min(78vw,330px);background:var(--gd);padding:30px;cursor:pointer}
+.bubble{position:absolute;top:18px;right:14px;max-width:190px;background:var(--paper);box-shadow:0 0 0 1px var(--ink);padding:10px 12px;border-radius:16px 16px 16px 4px;font-size:13px;line-height:1.35;transform:scale(0);transform-origin:0 100%;transition:transform .45s var(--spring)}
+.bubble.on{transform:scale(1)}
+.tapme{font:10px var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:8px;color:var(--mut)}
+.title{padding:14px 20px 8px}
+.title h1{margin:0;font:400 clamp(64px,19vw,104px)/1 var(--zh);letter-spacing:.02em}
+.title .py{font:300 22px/1.2 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1;margin:6px 0 0}
+.title .py em{font-style:italic}.pyn{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:.92em}
+.lead{font:300 26px/1.15 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1;letter-spacing:-.02em;padding:18px 20px 6px;margin:0}
+.therm{padding:16px 20px 4px}
+.therm .track{position:relative;height:16px;border-radius:99px;background:linear-gradient(90deg,#9CC3D9,#C7DCC8 35%,#F1EBD0 50%,#F2C79A 70%,#E0774A);box-shadow:inset 0 0 0 1px var(--ink)}
+.therm .knob{position:absolute;top:50%;width:28px;height:28px;border-radius:50%;background:var(--paper);box-shadow:0 0 0 1.5px var(--ink);transform:translate(-50%,-50%);left:50%;display:grid;place-items:center;font:600 13px var(--zh);transition:left 1.1s var(--spring) .4s}
+.therm .ends{display:flex;justify-content:space-between;font:11px var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
+.flav{display:flex;gap:8px;padding:12px 20px 0;flex-wrap:wrap}
+.flav span{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:5px 11px 5px 5px;box-shadow:inset 0 0 0 1px var(--ink);font-size:13px}
+.flav b{font:600 13px var(--zh);width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center}
+dl.rows{margin:18px 20px 0}
+.rows .row{display:grid;grid-template-columns:96px 1fr;gap:12px;border-top:1px solid var(--rule);padding:12px 0}
+.rows dt{font:11px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.05em}
+.rows dd{margin:0}
+.rows .warn dd{background:#F6D8C6;padding:6px 9px;border-radius:6px}
+.fact{margin:18px 20px 0;padding:16px;background:var(--paper);border-radius:14px;box-shadow:0 0 0 1px var(--ink);position:relative}
+.fact::before{content:'✦';position:absolute;top:-12px;left:14px;background:var(--hl);border-radius:50%;width:24px;height:24px;display:grid;place-items:center;box-shadow:0 0 0 1px var(--ink);font-size:12px}
+.fact p{margin:4px 0 0;font:300 19px/1.3 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1}
+.actions{display:flex;gap:8px;flex-wrap:wrap;padding:22px 20px}
+.pn{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--rule)}
+.pn a,.pn span{padding:14px 20px;text-decoration:none;display:block}
+.pn a:last-child,.pn span:last-child{text-align:right;border-left:1px solid var(--rule)}
+.pn small{display:block;font:10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.pn b{font:400 20px var(--zh)}
+.pn span{opacity:.3}
+.next{display:block;border-top:2px solid var(--rule);padding:16px 20px 0;height:150px;overflow:hidden;text-decoration:none;position:relative;transition:transform .7s var(--ease),opacity .7s}
+.next .mono{display:flex;justify-content:space-between}
+.next .big{font:300 92px/1 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1;letter-spacing:-.05em;margin-top:12px;white-space:nowrap;transition:transform .6s var(--ease)}
+.next .big .zh{font-weight:400}
+.next:hover .big{transform:translateY(-14px)}
+.next.grow{transform:translateY(-60px) scale(1.06);opacity:0}
+html.rm .next.grow{transform:none}
+
+/* brew */
+.pot{display:grid;place-items:center;padding:6px 20px 0;position:relative}
+.pot svg{width:250px;height:220px;overflow:visible}
+.liquid{transition:fill 1s var(--ease),y 1s var(--ease),height 1s var(--ease)}
+.steam path{stroke-dasharray:6 8;animation:steam 1.6s linear infinite;opacity:0;transition:opacity .4s}
+.pot.hot .steam path{opacity:.7}
+@keyframes steam{to{stroke-dashoffset:-28}}
+.pot.brewing svg{animation:shake .25s linear infinite}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-1.5deg)}75%{transform:rotate(1.5deg)}}
+html.rm .pot.brewing svg,html.rm .steam path{animation:none}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px 20px 0}
+.slot{aspect-ratio:1;border-radius:50%;border:1.5px dashed var(--ink);display:grid;place-items:center;position:relative;font:11px var(--mono);color:var(--mut);text-transform:uppercase}
+.slot.full{border-style:solid;background:var(--paper)}
+.slot.full .art{width:72%;height:72%}
+.slot .x{position:absolute;top:-4px;right:-4px;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:13px;display:grid;place-items:center}
+.slot .nm{position:absolute;bottom:-6px;font:12px var(--zh);color:var(--ink);background:var(--paper);padding:0 6px;border-radius:99px;box-shadow:0 0 0 1px var(--ink);text-transform:none}
+.picker{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--rule);margin-top:14px}
+.picker button{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:8px 4px 10px;display:grid;justify-items:center;gap:2px;transition:background .2s}
+.picker button:nth-child(4n){border-right:0}
+.picker button .art{width:52px;height:52px}
+.picker button b{font:400 14px var(--zh)}
+.picker button[aria-pressed=true]{background:var(--hl)}
+.picker button:disabled{opacity:.3;cursor:not-allowed}
+.result{margin:16px 20px;padding:20px;border-radius:18px;background:var(--paper);box-shadow:0 0 0 1px var(--ink)}
+.result h2{font:300 34px/1 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1;letter-spacing:-.03em;margin:6px 0 10px}
+.result p{margin:0 0 10px}
+.small{font-size:12.5px;color:var(--mut)}
+
+/* quiz + guess */
+.prog{padding:0 20px}
+.prog .line{height:3px;background:#0002;border-radius:3px;overflow:hidden}
+.prog .line i{display:block;height:100%;background:var(--ink);transition:width .6s var(--ease)}
+.prog .mono{display:flex;justify-content:space-between;margin-top:8px}
+.q{padding:18px 20px 0}
+.q h2{font:300 34px/1.02 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1;letter-spacing:-.03em;margin:0 0 18px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:15px 16px;border-radius:14px;box-shadow:inset 0 0 0 1px var(--ink);font-size:16px;display:flex;justify-content:space-between;align-items:center;transition:background .2s,transform .25s var(--spring)}
+.opt:active{transform:scale(.98)}
+.opt[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.opt.right{background:#BFE3A6}.opt.wrong{background:#F2B9A5}
+.opt:disabled{cursor:default}
+.qnav{display:flex;justify-content:space-between;padding:20px}
+.clue{display:grid;grid-template-columns:130px 1fr;gap:16px;align-items:center;padding:6px 20px 14px}
+.clue .blob{width:130px;height:130px;padding:16px;background:var(--gd)}
+
+/* jar */
+.jgrid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule)}
+.jgrid>div{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);position:relative}
+.jgrid>div:nth-child(3n){border-right:0}
+.jgrid a{display:grid;justify-items:center;padding:12px 6px;text-decoration:none}
+.jgrid .art{width:70px;height:70px}
+.jgrid b{font:400 18px var(--zh)}
+.jgrid small{font:300 italic 13px var(--serif)}
+.jgrid .x{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--ink);font-size:13px}
+.blends>div{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--rule)}
+.blends b{font:300 20px var(--serif)}
+.sec{padding:26px 20px 10px}
+
+/* settings */
+.switch{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-top:1px solid var(--rule);width:100%;text-align:left}
+.switch .tg{width:46px;height:26px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--ink);position:relative;transition:background .2s}
+.switch .tg::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--ink);transition:transform .3s var(--spring)}
+.switch[aria-pressed=true] .tg{background:var(--hl)}
+.switch[aria-pressed=true] .tg::after{transform:translateX(20px)}
+.prose{padding:0 20px 20px;font-size:15.5px}
+.prose p{margin:0 0 12px;max-width:44ch}
+
+/* menu */
+#menu{position:fixed;inset:0;z-index:50;background:var(--forest);color:#EFEDE0;transform:translateY(-102%);transition:transform .7s var(--ease);display:flex;flex-direction:column;visibility:hidden}
+#menu.on{transform:none;visibility:visible}
+html.rm #menu{transition:opacity .3s,visibility .3s;transform:none;opacity:0}
+html.rm #menu.on{opacity:1}
+#menu .mtop{display:grid;grid-template-columns:1fr 52px;border-bottom:1px solid #EFEDE055;max-width:520px;width:100%;margin:0 auto}
+#menu .mtop>*{height:52px;display:flex;align-items:center;padding:0 20px}
+#menu .mtop button{justify-content:center;padding:0;border-left:1px solid #EFEDE055;font-size:26px;color:#EFEDE0;transition:transform .5s var(--spring)}
+#menu.on .mtop button{transform:rotate(90deg)}
+#menu .sentence{max-width:520px;margin:0 auto;padding:26px 20px;font:300 clamp(30px,8.6vw,44px)/1.14 var(--serif);font-variation-settings:'SOFT' 100,'WONK' 1;letter-spacing:-.03em;overflow:auto}
+#menu .sentence>span{opacity:0;transform:translateY(16px);display:inline;transition:opacity .5s,transform .5s var(--ease)}
+#menu.on .sentence>span{opacity:1;transform:none;transition-delay:calc(var(--i)*55ms + .25s)}
+#menu .sentence a{text-decoration:none;background:linear-gradient(#D4F25E,#D4F25E) no-repeat 0 100%/100% 2px;transition:background-size .3s,color .3s}
+#menu .sentence a:hover,#menu .sentence a.cur{background-size:100% 100%;color:var(--forest)}
+#menu .foot{margin-top:auto;max-width:520px;width:100%;margin-inline:auto;border-top:1px solid #EFEDE055;padding:14px 20px;display:flex;justify-content:space-between;font:11px var(--mono);text-transform:uppercase;letter-spacing:.06em;opacity:.75}
+
+/* toast + splash */
+#toast{transition:transform .5s var(--spring),opacity .3s;position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:99px;font-size:14px;z-index:60;transition:transform .5s var(--spring);max-width:calc(100% - 40px);text-align:center}
+#toast:empty,#toast:not(.on){opacity:0;pointer-events:none}#toast.on{transform:translate(-50%,0);opacity:1}
+#toast.err{background:#8B2E1F}
+#splash{position:fixed;inset:0;z-index:70;background:#EDEFC2;display:grid;place-items:center;transition:opacity .6s}
+#splash.off{opacity:0;pointer-events:none}
+#splash .grid{display:grid;grid-template-columns:repeat(5,22px);gap:4px}
+#splash .grid i{height:22px;border-radius:3px;box-shadow:inset 0 0 0 1px var(--ink);animation:pulse 1s ease-in-out infinite alternate;animation-delay:calc(var(--i)*40ms)}
+@keyframes pulse{from{transform:scale(.85);opacity:.4}to{transform:none;opacity:1}}
+#splash p{font:11px var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:14px;text-align:center}
+footer.meta{padding:26px 20px 40px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div id="splash" aria-hidden="true"><div><div class="grid" id="sgrid"></div><p>Opening the cabinet…</p></div></div>
+<div class="app">
+  <header class="bar">
+    <button id="back" aria-label="Back"><span class="ico">←</span></button>
+    <a class="mark" href="#/"><b>百子櫃</b><span>Hundred Drawers</span></a>
+    <a class="jarbtn" href="#/jar" aria-label="My jar">Jar <i id="jarn">0</i></a>
+    <button id="menuBtn" aria-label="Open menu" aria-expanded="false"><span class="burger"><i></i><i></i><i></i></span></button>
+  </header>
+  <main id="view" tabindex="-1"></main>
+</div>
+<nav id="menu" aria-label="Menu" aria-hidden="true">
+  <div class="mtop"><span class="mono">Menu · 目錄</span><button id="menuX" aria-label="Close menu">×</button></div>
+  <div class="sentence" id="sentence"></div>
+  <div class="foot"><span>Volume one</span><span>50 herbs</span><span>7 chapters</span></div>
+</nav>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const INK='#262311';
+const CH=[
+ {n:'01',zh:'補氣',en:'The Gentle Lifters',sub:'Roots and fruits that top up qi — the body’s get-up-and-go.',g:'#EDEFC2',d:'#CDD27F'},
+ {n:'02',zh:'養血・滋陰',en:'The Moisteners',sub:'For when you feel thin, dry, or a little faded around the edges.',g:'#F0DAD0',d:'#DDA992'},
+ {n:'03',zh:'清熱',en:'The Cool-Downs',sub:'Bitter, cold, and quietly heroic in a heatwave.',g:'#D7E3C9',d:'#A0BC8C'},
+ {n:'04',zh:'解表',en:'The Sweat-Starters',sub:'First responders for the very first sneeze.',g:'#F4E2C1',d:'#E3B76F'},
+ {n:'05',zh:'理氣・消食',en:'The Untanglers',sub:'For knots — in the belly, and in the mood.',g:'#E8DFD1',d:'#C2AA88'},
+ {n:'06',zh:'安神',en:'The Night-Lights',sub:'Seeds, barks and one lacquered mushroom for nights that won’t end.',g:'#DCDFE8',d:'#A3A9C4'},
+ {n:'07',zh:'活血',en:'The River-Wakers',sub:'Reds and golds that get things moving again.',g:'#F1CFBE',d:'#D88E6D'},
+];
+const NAT={c:[-2,'寒','Cold'],sc:[-1.3,'微寒','Slightly cold'],cl:[-1,'涼','Cool'],n:[0,'平','Neutral'],sw:[1,'微溫','Slightly warm'],w:[1.6,'溫','Warm']};
+const FLV={'甘':'Sweet','苦':'Bitter','酸':'Sour','辛':'Pungent','鹹':'Salty','淡':'Bland','澀':'Astringent'};
+const TASTE={'甘':'a honeyed softness','苦':'a strong-tea bitterness','酸':'a pucker','辛':'a peppery tingle','鹹':'a hint of salt','淡':'almost nothing at all','澀':'a dry, tight finish'};
+// [slug, zh, pinyin, english, latin, part, draw, colour, nature, flavours, chapter, line, body, kitchen, caution, fact, colour2]
+const RAW=[
+['ren-shen','人參','rén shēn','Ginseng','Panax ginseng','Root','root','#E8CFA0','sw','甘苦',0,'The forked root that looks like a tiny person going for a walk.','The classic qi tonic. Herbalists reach for it when someone is worn thin after a long illness.','Thin slices steeped in hot water, or simmered whole in a clear broth.','Strong stuff — not a daily snack. Check with a doctor if you take blood thinners or diabetes medicine.','Its genus name, Panax, shares a root with “panacea” — cure-all.'],
+['huang-qi','黃耆','huáng qí','Astragalus','Astragalus mongholicus','Root, sliced','slice','#EAD69C','sw','甘',0,'Looks like a wooden tongue depressor; tastes faintly of sweet beans.','Lifts qi and steadies the body’s outer guard (衛氣) — the defence that keeps the wind out.','A few slices tossed into soup stock and fished out before serving.','','The long flat slices are often sold looking like pale wooden spatulas.'],
+['dang-shen','黨參','dǎng shēn','Codonopsis','Codonopsis pilosula','Root','root','#D8B98A','n','甘',0,'Ginseng’s mild-mannered, budget-friendly cousin.','Gentler than ginseng, so it shows up in everyday family soups to support qi and appetite.','Cut into short lengths and simmered in soups.','','Herbalists look for ring-wrinkles at the top of the root, which they call a “lion’s head” (獅子盤頭).'],
+['gan-cao','甘草','gān cǎo','Licorice root','Glycyrrhiza uralensis','Root, sliced','slice','#E7C97C','n','甘',0,'The peacemaker that turns up in more formulas than almost anything else.','Nicknamed 國老, “the elder statesman”: it harmonises other herbs and softens harsh flavours.','One or two slices sweeten a pot of tea without sugar.','Large amounts, or long use, can raise blood pressure.','Its sweet compound, glycyrrhizin, is dozens of times sweeter than sugar.'],
+['da-zao','大棗','dà zǎo','Red jujube','Ziziphus jujuba','Fruit','fruit','#A3302A','w','甘',0,'A wrinkly red date that makes any soup taste like a hug.','Supports qi and blood and settles the mind; often paired with ginger to balance a formula.','Simmered in sweet soups, steamed with rice, or eaten straight from the bag.','','A folk saying: 一日吃三棗，終生不顯老 — three dates a day and you’ll never look old.'],
+['shan-yao','山藥','shān yào','Chinese yam','Dioscorea polystachya','Rhizome, sliced','slice','#F3EEE0','n','甘',0,'Slippery when fresh, chalky white when dried.','A three-way gentle tonic for the spleen, lungs and kidneys at once.','Fresh in stir-fries and soups; dried slices cooked into congee.','','The fresh sap can make your hands itch — many cooks peel it wearing gloves.'],
+['bai-zhu','白朮','bái zhú','White atractylodes','Atractylodes macrocephala','Rhizome','rhizome','#CFAB7A','w','苦甘',0,'A knobbly rhizome for damp, heavy, slow-belly days.','Strengthens the spleen and dries dampness. One of the Four Gentlemen (四君子湯).','A teapot-and-formula herb rather than a food.','','All four of the Four Gentlemen live in this cabinet: ginseng, atractylodes, poria and licorice. Can you find them?'],
+['xi-yang-shen','西洋參','xī yáng shēn','American ginseng','Panax quinquefolius','Root','root','#EBDDBA','cl','甘苦',0,'Ginseng’s cooler, calmer American cousin.','Supports qi while gently moistening — the pick for people who run hot and dry.','Thin slices to sip as tea; a classic gift in Taiwan and Hong Kong.','','It grows wild in Appalachian forests, and most of the harvest is shipped to Asia.'],
+['dang-gui','當歸','dāng guī','Dong quai','Angelica sinensis','Root','root','#B98C5E','w','甘辛',1,'The “come home” root, with a smell you’ll recognise across a room.','The best-known herb for nourishing and moving blood, especially in women’s health.','A small piece perfumes a whole pot of soup — a little goes a long way.','Avoid in pregnancy and with blood thinners.','One folk reading of its name, “should return,” ties it to a wife waiting for her husband to come home.'],
+['shu-di','熟地黃','shú dì huáng','Prepared rehmannia','Rehmannia glutinosa','Root, steamed','rhizome','#3A2A22','sw','甘',1,'Steamed and dried until it turns glossy black, like herbal fudge.','Deeply nourishes blood and yin. It is heavy, so it is often paired with something that helps digestion.','Mostly in formulas; sticky and sweet.','','The traditional preparation is 九蒸九曬 — steamed nine times and sun-dried nine times.'],
+['bai-shao','白芍','bái sháo','White peony root','Paeonia lactiflora','Root, sliced','slice','#F0E5D3','sc','苦酸',1,'The root under the flower poets love.','Nourishes blood and eases cramping and tension. With licorice it makes a famous two-herb duo (芍藥甘草湯).','A formula herb rather than a food.','','The peony is called 花相, “prime minister of flowers” — second only to the tree peony, 花王.'],
+['gou-qi','枸杞子','gǒu qǐ zǐ','Goji berry','Lycium barbarum','Berry','berry','#D2392B','n','甘',1,'Tiny red berries, famous for bright eyes and floating in thermos cups.','Nourishes the liver and kidneys; traditionally linked to clear eyesight.','A handful in tea, soup or porridge — they plump up as they soak.','','保溫杯裡泡枸杞 — goji soaking in a thermos — became a meme for middle-aged life in China.'],
+['long-yan','龍眼肉','lóng yǎn ròu','Longan flesh','Dimocarpus longan','Fruit','fruit','#6B3B1F','w','甘',1,'“Dragon’s eye”: smoky, raisin-sweet dried fruit.','Nourishes heart and blood; used for worry and restless sleep.','In sweet soups with lotus seed, or steeped as tea.','','Peel a fresh one and the black seed inside white flesh looks like an eye.'],
+['bai-he','百合','bǎi hé','Lily bulb','Lilium brownii','Bulb scales','bulb','#F2E9D3','sc','甘',1,'Petal-like scales that taste of almost nothing, in the nicest way.','Moistens the lungs and calms the mind — for dry coughs and fidgety evenings.','Stir-fried fresh with celery, or in sweet mung bean soup.','','百合 means “a hundred together” — from its many overlapping scales.'],
+['mai-dong','麥冬','mài dōng','Ophiopogon','Ophiopogon japonicus','Tuber','tuber','#E8DAA9','sc','甘苦',1,'Plump little tubers from the grass you’ve seen edging gardens.','Moistens the lungs and stomach and clears a little heat; a favourite for dryness.','Steeped with other herbs as tea.','','The plant is mondo grass, the dark-green edging in many Japanese gardens.'],
+['hei-zhi-ma','黑芝麻','hēi zhī ma','Black sesame','Sesamum indicum','Seed','seed','#2E2722','n','甘',1,'The dessert herb.','Nourishes liver, kidneys and blood; traditionally linked to dark hair and easy digestion.','Ground into sweet soup (芝麻糊), tucked inside tang yuan, sprinkled on everything.','','Folk wisdom says it keeps hair black. Science has not caught up.'],
+['ju-hua','菊花','jú huā','Chrysanthemum','Chrysanthemum morifolium','Flower','flower','#F2D25C','sc','甘苦',2,'Tiny suns that bloom a second time in your teacup.','Clears heat from the head and eyes — for tired screen-eyes and summer headaches.','Steeped with goji, or with pu’er as 菊普.','','On the Double Ninth Festival people traditionally drink chrysanthemum wine.'],
+['jin-yin-hua','金銀花','jīn yín huā','Honeysuckle','Lonicera japonica','Flower bud','bud','#F0DD8E','c','甘',2,'Gold and silver: the flowers open white and turn yellow.','Clears heat and toxins; a front-liner for sore throats and summer heat.','Steeped as a cooling tea, often with chrysanthemum.','','One vine carries white new flowers and yellow older ones at the same time — hence gold-silver.','#FBF8EC'],
+['pu-gong-ying','蒲公英','pú gōng yīng','Dandelion','Taraxacum mongolicum','Whole plant','puff','#F4C430','c','苦甘',2,'The lawn weed with a serious day job.','Clears heat and eases hot, swollen sores.','Young leaves blanched as a bitter green; roots roasted into a coffee-ish drink.','','Each seed in the puff flies on its own tiny parachute.'],
+['huang-lian','黃連','huáng lián','Coptis','Coptis chinensis','Rhizome','rhizome','#D9A520','c','苦',2,'The bitterest thing in the cabinet. Maybe the bitterest thing you will ever taste.','Clears heat and dries damp, especially in the gut.','Never a food. Formula only.','Very cold and very bitter. Not for long use, pregnancy, or babies.','啞巴吃黃連，有苦說不出 — a mute eating coptis: a bitterness you can’t put into words.'],
+['xia-ku-cao','夏枯草','xià kū cǎo','Self-heal','Prunella vulgaris','Flower spike','spike','#7A5A8C','c','辛苦',2,'A purple spike that withers in summer — hence the name.','Clears liver heat; used for red eyes, headaches and lumps.','A key ingredient in Cantonese herbal tea (涼茶).','','English calls it self-heal; Chinese calls it summer-withering. Same plant, opposite moods.'],
+['jue-ming-zi','決明子','jué míng zǐ','Cassia seed','Senna obtusifolia','Seed','seed','#7A5230','sc','甘苦鹹',2,'Shiny little seeds named for “bright eyes.”','Clears liver heat, benefits the eyes, and moistens the bowels.','Roasted and brewed as a nutty tea, a little like barley tea.','Mildly laxative — go easy.','Old-fashioned pillows were stuffed with these seeds.'],
+['lu-dou','綠豆','lǜ dòu','Mung bean','Vigna radiata','Bean','bean','#6FA35B','c','甘',2,'Summer’s favourite dessert is secretly medicine.','Clears summer heat and quenches thirst.','綠豆湯 — mung bean soup — sweet and chilled on a hot day.','','Some cooks keep the soup green, not red, believing the skins hold most of the cooling.'],
+['yu-xing-cao','魚腥草','yú xīng cǎo','Houttuynia','Houttuynia cordata','Leaf','leaf','#6E9B55','sc','辛',2,'Smells like fish. Really.','Clears lung heat; traditionally for coughs with yellow phlegm.','In Sichuan and Guizhou the roots (折耳根) are eaten as a crunchy salad.','','Even its English nickname is “fish mint.”'],
+['sheng-jiang','生薑','shēng jiāng','Fresh ginger','Zingiber officinale','Rhizome','rhizome','#E3C27A','sw','辛',3,'The first thing anyone’s grandmother reaches for.','Warms the middle, scatters a chill, and settles nausea.','Simmered with brown sugar as 薑母茶, or in literally any stir-fry.','','Fresh, dried and roasted ginger count as three different herbs.'],
+['gui-zhi','桂枝','guì zhī','Cinnamon twig','Cinnamomum cassia','Twig','twig','#8A5A3B','w','辛甘',3,'Not the bark — the twig.','Warms the channels and helps shake off a chill. Star of 桂枝湯, called “the first of all formulas.”','Tea with ginger and jujube on a cold day.','','The bark from the same tree is a separate herb, 肉桂.'],
+['bo-he','薄荷','bò he','Mint','Mentha haplocalyx','Leaf','leaf','#5FA06B','cl','辛',3,'Cold breath, in leaf form.','Clears heat from the head and throat at the scratchy start of a cold.','Add at the very end — it loses its punch if boiled.','','Prescriptions literally write 後下, “add last,” next to it.'],
+['zi-su-ye','紫蘇葉','zǐ sū yè','Perilla leaf','Perilla frutescens','Leaf','leaf','#7E4A7A','w','辛',3,'Purple on one side, green on the other, like it couldn’t decide.','Releases a chill and eases the stomach.','Wrapped around grilled food, or steeped as tea.','','Japanese shiso is the same species.','#6E9B55'],
+['cong-bai','蔥白','cōng bái','Scallion white','Allium fistulosum','Stalk','stalk','#F4F2E6','w','辛',3,'The white end of a scallion, promoted to medicine.','Gently warms and opens, for a cold caught in its first hours.','Boiled with ginger and brown sugar as a home cold remedy.','','Only the white part counts. The green tops are just dinner.'],
+['sang-ye','桑葉','sāng yè','Mulberry leaf','Morus alba','Leaf','leaf','#8BA35A','c','甘苦',3,'Silkworm food, and a cool leaf for warm colds.','Clears wind-heat and soothes red, sore eyes.','Frost-touched leaves (霜桑葉) steeped as tea.','','The best leaves are picked after the first frost.'],
+['ge-gen','葛根','gé gēn','Kudzu root','Pueraria montana var. lobata','Root, sliced','slice','#E3D4B5','cl','甘辛',3,'The root of the vine that famously swallowed the American South.','Relaxes the muscles — think stiff neck at the start of a cold — and eases thirst.','Its starch (葛粉) makes a silky, clear pudding.','','Kudzu was planted in the US to stop erosion, then refused to stop.'],
+['chen-pi','陳皮','chén pí','Aged tangerine peel','Citrus reticulata','Peel','peel','#D9772E','w','苦辛',4,'Orange peel that gets better with age, like wine.','Moves qi, settles the stomach and dries damp phlegm.','In red bean soup, braises, or steeped as tea.','','Prized Xinhui (新會) peel is aged for years — the older, the pricier.'],
+['shan-zha','山楂','shān zhā','Hawthorn','Crataegus pinnatifida','Fruit','fruit','#C0392B','sw','酸甘',4,'The tart red fruit on every 冰糖葫蘆 stick.','Helps digest heavy, greasy meals, and moves blood.','Candied on sticks, pressed into pink haw flakes, or brewed sour-sweet.','Very sour — not on an empty stomach.','Those pink coin-shaped candies (haw flakes) are hawthorn.'],
+['sha-ren','砂仁','shā rén','Amomum','Amomum villosum','Fruit','pod','#8C6A4A','w','辛',4,'A bumpy little pod full of perfume.','Moves qi, wakes the appetite, and settles a queasy stomach.','Crushed and added at the end — the smell is the medicine.','','It is added late (後下) so its scent doesn’t boil away.'],
+['fo-shou','佛手','fó shǒu','Buddha’s hand','Citrus medica var. sarcodactylis','Fruit, sliced','slice','#E9C65A','w','辛苦酸',4,'A citron that grew fingers.','Soothes the liver and moves stuck qi in the chest and belly.','Slices steeped as tea; also candied.','','The fruit often has no pulp at all — it is mostly rind and perfume.'],
+['mei-gui-hua','玫瑰花','méi guī huā','Rose bud','Rosa rugosa','Flower bud','bud','#C2456B','w','甘苦',4,'A small dried rosebud, mostly for the mood.','Moves qi and eases a low, tight mood and period discomfort.','Steeped as tea; folded into jam and pastries.','','Medicinal rose is Rosa rugosa, a tough little beach rose.'],
+['mai-ya','麥芽','mài yá','Barley sprout','Hordeum vulgare','Sprouted grain','sprout','#E2C77B','n','甘',4,'Barley that just started to grow.','Helps digest starchy food and settles a too-full belly.','The idea behind 麥芽糖, the stretchy amber malt candy.','','In large doses it was traditionally used to help stop breast milk when weaning.'],
+['fu-ling','茯苓','fú líng','Poria','Wolfiporia extensa','Fungus','cube','#F3EFE6','n','甘淡',4,'A fungus from pine roots, sold as chalky white cubes.','Drains damp and calms the mind. Another of the Four Gentlemen.','茯苓餅 — thin Beijing wafers with a sweet filling.','','It grows underground on pine roots; diggers find it by probing the soil.'],
+['yi-ren','薏苡仁','yì yǐ rén','Job’s tears','Coix lacryma-jobi','Seed','bean','#F4F0E3','cl','甘淡',4,'Pearl-white grains named for tears.','Drains damp and strengthens the spleen; traditionally for puffy, heavy days and skin.','Cooked like barley in soups, sweet soups and congee — 薏仁湯 is a Taiwan staple.','Traditionally avoided in pregnancy.','Job’s tears beads are also strung into necklaces.'],
+['suan-zao-ren','酸棗仁','suān zǎo rén','Sour jujube seed','Ziziphus jujuba var. spinosa','Seed','seed','#8B4A2B','n','甘酸',5,'The go-to seed for nights that won’t end.','Nourishes the heart and calms the spirit for poor sleep with busy dreams.','Crushed and simmered as an evening tea.','','It is the seed of the sour wild jujube, not the sweet red one — the cabinet keeps both.'],
+['he-huan-pi','合歡皮','hé huān pí','Albizia bark','Albizia julibrissin','Bark','bark','#9A7A5C','n','甘',5,'Bark from the “shared joy” tree.','Calms the spirit and lifts a heavy mood.','A formula herb.','','The tree’s leaves fold up at night, as if it is going to sleep too.'],
+['yuan-zhi','遠志','yuǎn zhì','Polygala','Polygala tenuifolia','Root','bark','#CDB088','w','苦辛',5,'Its name means “far-reaching will.”','Calms the mind, steadies memory, and clears phlegm.','A formula herb; usually prepared with licorice to tame its bite.','','The roots are sold as hollow tubes once the woody core is pulled out.'],
+['ling-zhi','靈芝','líng zhī','Reishi','Ganoderma lingzhi','Fungus','fungus','#8B2E1F','n','甘',5,'The lacquered mushroom from every immortal’s painting.','Calms the spirit and supports qi. Listed as sweet on paper; tastes woody and bitter.','Thin slices simmered for an hour — too tough to eat.','','The curling head of the 如意 sceptre is drawn in its shape.'],
+['lian-zi','蓮子','lián zǐ','Lotus seed','Nelumbo nucifera','Seed','bean','#EFE3C8','n','甘澀',5,'Seeds from a flower that blooms clean out of mud.','Calms the heart and supports the spleen, for restless sleep and loose bowels.','Sweet soup with lily bulb and longan — half this cabinet in one bowl.','','The bitter green sprout inside (蓮子心) is a separate, cooling herb.'],
+['dan-shen','丹參','dān shēn','Red sage root','Salvia miltiorrhiza','Root','root','#9C3B26','sc','苦',6,'A brick-red root with a famous heart.','Moves blood and calms the heart; widely used in heart-health formulas.','A formula herb.','Avoid with blood thinners and in pregnancy.','An old saying: 一味丹參，功同四物 — one herb doing the work of a four-herb formula.'],
+['chuan-xiong','川芎','chuān xiōng','Sichuan lovage','Ligusticum chuanxiong','Rhizome','rhizome','#A88559','w','辛',6,'A lumpy rhizome that goes straight to your head, in a good way.','Moves blood and qi; a classic for headaches.','A formula herb, very aromatic.','Avoid in pregnancy and with heavy periods.','川 stands for Sichuan, where the best of it grows.'],
+['hong-hua','紅花','hóng huā','Safflower','Carthamus tinctorius','Flower','threads','#E0531F','w','辛',6,'Red-orange threads once used to dye silk.','Moves blood and eases pain from bruises and stuck periods.','A pinch in formulas; not a kitchen herb.','Not in pregnancy.','Before synthetic dyes, safflower gave rouge its red.'],
+['yi-mu-cao','益母草','yì mǔ cǎo','Motherwort','Leonurus japonicus','Whole plant','herb','#6E8F4E','sc','苦辛',6,'Its name literally means “benefits mothers.”','Moves blood, regulates periods, and eases swelling.','A formula herb; sometimes brewed with brown sugar.','Not in pregnancy.','One of the herbs most tied to women’s health in Chinese folk tradition.','#C88AB8'],
+['san-qi','三七','sān qī','Notoginseng','Panax notoginseng','Root','rhizome','#76705A','w','甘苦',6,'The root that both stops and moves blood.','Stops bleeding without leaving clots behind; best known inside Yunnan Baiyao.','Powdered, in tiny amounts.','Avoid in pregnancy.','The name may come from its three branches with seven leaves — or from the three to seven years it takes to grow.'],
+['jiang-huang','薑黃','jiāng huáng','Turmeric','Curcuma longa','Rhizome','rhizome','#E3A11C','w','辛苦',6,'The golden rhizome you already know from curry.','Moves blood and qi; eases aching shoulders and period pain.','Curries, golden milk, and permanently stained cutting boards.','High doses: check with a doctor if you take blood thinners.','Curcumin, its pigment, is one of the most-studied plant compounds — with very mixed results.'],
+];
+const H=RAW.map((r,i)=>({i,slug:r[0],zh:r[1],py:r[2],en:r[3],lat:r[4],part:r[5],draw:r[6],c:r[7],nat:r[8],fl:[...r[9]],ch:r[10],line:r[11],body:r[12],kit:r[13],warn:r[14],fact:r[15],c2:r[16]}));
+const BY=Object.fromEntries(H.map(h=>[h.slug,h]));
+
+/* ---------- illustrations (hand-coded SVG) ---------- */
+function rng(s){return()=>{s=(s*9301+49297)%233280;return s/233280}}
+const S=`stroke="${INK}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"`;
+const tube=(d,c,w)=>`<path d="${d}" fill="none" stroke="${INK}" stroke-width="${w+3.4}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+const ln=(d,w=1.4,col=INK)=>`<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+const f1=n=>n.toFixed(1);
+const ART={
+root(c,r){const L=(r()-.5)*12;return tube(`M62 60 Q${74+L} 78 ${82+L} 100`,c,7)+tube(`M57 62 Q${46+L} 80 ${38+L} 99`,c,7)+tube('M66 40 Q84 44 92 34',c,4)+tube('M54 42 Q38 46 28 38',c,4)+
+ `<path d="M51 22 Q60 11 70 22 Q74 42 67 62 Q60 71 53 62 Q46 42 51 22Z" fill="${c}" ${S}/>`+ln('M54 30 Q60 33 66 30')+ln('M53 39 Q60 42 68 39')+ln('M54 48 Q60 51 66 48')+tube('M60 16 Q60 8 66 4','#7A8A4A',2.5)+
+ ln(`M${82+L} 100 Q${87+L} 106 ${84+L} 113`,1)+ln(`M${38+L} 99 Q${33+L} 106 ${36+L} 113`,1)+ln('M92 34 Q99 32 103 37',1)+ln('M28 38 Q21 36 17 41',1)+ln('M64 70 q6 4 8 10',1)},
+slice(c,r){let o='';[[38,44,-20],[76,56,15],[52,86,-5]].forEach(([x,y,a])=>{o+=`<g transform="translate(${x} ${y}) rotate(${f1(a+(r()-.5)*24)})"><ellipse rx="28" ry="17" fill="${c}" ${S}/><ellipse rx="18" ry="10" fill="none" stroke="${INK}" stroke-width="1" opacity=".5"/>`;for(let k=0;k<8;k++){const t=k*Math.PI/4;o+=ln(`M${f1(Math.cos(t)*4)} ${f1(Math.sin(t)*2.4)} L${f1(Math.cos(t)*15)} ${f1(Math.sin(t)*8.5)}`,.9)}o+=`<circle r="2.2" fill="${INK}"/></g>`});return o},
+rhizome(c,r){let o=tube('M22 72 Q38 52 56 66 T94 56',c,17);[[24,70],[40,58],[57,66],[74,54],[92,58]].forEach(([x,y])=>{const R=8+r()*6;o+=`<circle cx="${x}" cy="${f1(y-6)}" r="${f1(R)}" fill="${c}" ${S}/>`+ln(`M${x-4} ${f1(y-7)} q4 -3 8 0`,1)});return o+ln('M30 80 q-4 8 -2 15',1)+ln('M58 76 q3 9 -2 16',1)+ln('M88 68 q5 8 2 15',1)+tube('M74 44 Q78 30 72 20','#7FA05A',2.5)},
+leaf(c,r,c2){let o='';[[38,80,-42,.62,c2||c],[84,82,40,.6,c2||c],[60,56,0,1,c]].forEach(([x,y,a,s,f])=>{o+=`<g transform="translate(${x} ${y}) rotate(${a}) scale(${s})"><path d="M0 -44 C28 -24 28 22 0 44 C-28 22 -28 -24 0 -44Z" fill="${f}" ${S}/>${ln('M0 -38 L0 50',1.4)}${[-22,-8,6,20].map(v=>ln(`M0 ${v} L13 ${v-11} M0 ${v} L-13 ${v-11}`,1)).join('')}</g>`});return o},
+flower(c){let o='';[[30,92,.5],[94,88,.45],[60,56,1]].forEach(([x,y,s])=>{o+=`<g transform="translate(${x} ${y}) scale(${s})">`;for(let k=0;k<16;k++)o+=`<ellipse cx="0" cy="-25" rx="6.5" ry="20" fill="${c}" ${S} transform="rotate(${k*22.5})"/>`;for(let k=0;k<12;k++)o+=`<ellipse cx="0" cy="-14" rx="4.5" ry="11" fill="${c}" ${S} transform="rotate(${k*30+11})"/>`;o+=`<circle r="8" fill="#C98A1C" ${S}/></g>`});return o},
+bud(c,r,c2){let o='';[[42,58,-26],[62,50,6],[82,62,30]].forEach(([x,y,a],i)=>{o+=`<g transform="translate(${x} ${y+10}) rotate(${a})">${tube('M0 18 L0 46','#6E8A4A',3)}<path d="M0 -32 C15 -14 15 10 0 18 C-15 10 -15 -14 0 -32Z" fill="${i==1&&c2?c2:c}" ${S}/><path d="M-12 6 Q-4 28 0 18 Q4 28 12 6 Q6 14 0 12 Q-6 14 -12 6Z" fill="#7C9A55" ${S}/>${ln('M0 -27 Q-5 -8 0 10',1)}</g>`});return o},
+fruit(c,r){let o='';[[42,72,24,20],[78,60,22,25],[64,90,19,16]].forEach(([x,y,rx,ry])=>{o+=`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${c}" ${S}/>`+ln(`M${f1(x-rx*.55)} ${f1(y-ry*.35)} q${f1(rx*.25)} -${f1(ry*.35)} ${f1(rx*.6)} -${f1(ry*.25)}`,1.6,'rgba(255,255,255,.75)')+ln(`M${x-7} ${y+5} q3.5 3 7 0 q3.5 -3 7 0`,1)+tube(`M${x} ${y-ry} q2 -8 8 -10`,'#7A5A3A',2)});return o},
+berry(c,r){let o='';for(let k=0;k<12;k++){const x=26+r()*68,y=30+r()*62,a=r()*180;o+=`<g transform="translate(${f1(x)} ${f1(y)}) rotate(${a|0})"><ellipse rx="11" ry="6" fill="${c}" ${S}/>${ln('M-6 -2 q4 -2 8 0',1.2,'rgba(255,255,255,.75)')}<circle cx="11" cy="0" r="1.6" fill="${INK}"/></g>`}return o},
+seed(c,r){let o='';for(let k=0;k<22;k++){const x=24+r()*72,y=28+r()*66,a=r()*180;o+=`<g transform="translate(${f1(x)} ${f1(y)}) rotate(${a|0})"><ellipse rx="6.5" ry="3.8" fill="${c}" ${S}/>${ln('M-3 -1.3 L2 -1.6',.9,'rgba(255,255,255,.7)')}</g>`}return o},
+bean(c,r){let o='';for(let k=0;k<10;k++){const x=28+r()*64,y=32+r()*60,a=r()*180;o+=`<g transform="translate(${f1(x)} ${f1(y)}) rotate(${a|0})"><ellipse rx="11" ry="8.5" fill="${c}" ${S}/>${ln('M-2 -8 L-2 8',1.1,'rgba(255,255,255,.8)')}${ln('M-6 -4 q3 -3 7 -2',1.2,'rgba(255,255,255,.6)')}</g>`}return o},
+tuber(c,r){let o='';for(let k=0;k<8;k++){const x=28+r()*62,y=32+r()*58,a=r()*180;o+=`<g transform="translate(${f1(x)} ${f1(y)}) rotate(${a|0})"><path d="M-18 0 Q0 -10 18 0 Q0 10 -18 0Z" fill="${c}" ${S}/>${ln('M-11 -1 L11 -1',.8)}</g>`}return o},
+sprout(c,r){let o='';for(let k=0;k<10;k++){const x=28+r()*62,y=36+r()*54,a=r()*360;o+=`<g transform="translate(${f1(x)} ${f1(y)}) rotate(${a|0})">${tube('M8 0 q10 -4 14 -13','#F3F0DE',2)}<ellipse rx="10" ry="5" fill="${c}" ${S}/>${ln('M-8 0 L8 0',.8)}</g>`}return o},
+peel(c){let o='';[[24,42,18],[40,74,-12],[62,44,32]].forEach(([x,y,a])=>{o+=`<g transform="translate(${x} ${y}) rotate(${a})"><path d="M0 0 C20 -12 46 -6 58 8 C46 2 24 2 6 13 Z" fill="${c}" ${S}/>${[10,20,30,40].map(v=>`<circle cx="${v}" cy="${v<30?3:6}" r="1.2" fill="${INK}" opacity=".5"/>`).join('')}</g>`});return o},
+twig(c,r){let o='';[[24,42],[28,60],[22,78],[32,96]].forEach(([x,y])=>{const L=58+r()*14,e=y-18+r()*8;o+=tube(`M${x} ${y} L${f1(x+L)} ${f1(e)}`,c,9)+`<ellipse cx="${f1(x+L)}" cy="${f1(e)}" rx="4.5" ry="5.5" fill="#E9C9A0" ${S}/>`});return o},
+bark(c,r){let o='';[[22,42,-12],[28,66,4],[24,90,-5]].forEach(([x,y,a])=>{const L=62+r()*12;o+=`<g transform="translate(${x} ${y}) rotate(${a})"><rect x="0" y="-8" width="${f1(L)}" height="16" rx="4" fill="${c}" ${S}/><path d="M${f1(L)} -8 a8 8 0 1 1 0 16 a5 5 0 1 1 0 -10" fill="#EBDAB9" ${S}/>${ln(`M8 -2 L${f1(L-16)} -3`,.9)}${ln(`M14 4 L${f1(L-26)} 3`,.9)}</g>`});return o},
+fungus(c){return tube('M58 68 Q55 90 62 106','#5A2016',8)+`<path d="M18 60 C18 24 102 20 104 56 C106 76 84 72 60 70 C36 70 18 78 18 60Z" fill="${c}" ${S}/>`+[0,1,2].map(k=>ln(`M${28+k*8} ${60-k*3} C${33+k*6} ${40-k*3} ${86-k*6} ${37-k*3} ${94-k*8} ${57-k*3}`,1.1,'rgba(255,220,160,.7)')).join('')+`<path d="M22 63 C40 72 80 72 100 61" fill="none" stroke="#F0C36A" stroke-width="2.5"/>`},
+cube(c){let o='';[[26,76],[64,82],[44,46]].forEach(([x,y])=>{const s=18;o+=`<g transform="translate(${x} ${y})"><path d="M0 0 L${s} -9 L${s*2} 0 L${s} 9Z" fill="#FFFFFF" ${S}/><path d="M0 0 L${s} 9 L${s} 29 L0 20Z" fill="${c}" ${S}/><path d="M${s} 9 L${s*2} 0 L${s*2} 20 L${s} 29Z" fill="#D9D1BF" ${S}/></g>`});return o},
+bulb(c){let o='';[[-52,.85],[50,.85],[-24,1],[24,1],[0,.92]].forEach(([a,s])=>{o+=`<g transform="translate(60 98) rotate(${a}) scale(${s})"><path d="M0 0 C-17 -20 -15 -54 0 -66 C15 -54 17 -20 0 0Z" fill="${c}" ${S}/>${ln('M0 -6 L0 -56',.9)}</g>`});return o},
+stalk(c){let o='';[[42,-9],[60,0],[78,9]].forEach(([x,a])=>{o+=`<g transform="translate(${x} 62) rotate(${a})">${tube('M0 -44 L0 -14','#7DAA55',8)}<path d="M-8 -16 L8 -16 L9 26 Q0 36 -9 26Z" fill="${c}" ${S}/>${ln('M-4 32 q-3 6 -1 11',.9)}${ln('M0 33 q0 6 0 12',.9)}${ln('M4 32 q3 6 1 11',.9)}</g>`});return o},
+herb(c,r,c2){let o=tube('M60 110 Q58 70 60 24','#5E7D44',4);[[94,1],[76,-1],[58,1],[42,-1]].forEach(([y,s])=>{o+=`<g transform="translate(60 ${y}) scale(${s} 1) rotate(-28)"><path d="M0 0 C10 -12 28 -10 34 0 C28 10 10 12 0 0Z" fill="${c}" ${S}/>${ln('M2 0 L30 0',.9)}</g>`});[[60,20],[50,28],[70,28],[52,42],[68,42],[56,58],[64,58]].forEach(([x,y])=>o+=`<circle cx="${x}" cy="${y}" r="5" fill="${c2||'#C88AB8'}" ${S}/>`);return o},
+spike(c){let o='';[[42,-9],[76,10]].forEach(([x,a])=>{o+=`<g transform="translate(${x} 64) rotate(${a})">${tube('M0 46 L0 0','#7A6A3A',3)}<rect x="-12" y="-42" width="24" height="46" rx="11" fill="${c}" ${S}/>${[-33,-23,-13,-3].map(v=>ln(`M-12 ${v} Q0 ${v+7} 12 ${v}`,1)).join('')}</g>`});return o},
+puff(c){let o=tube('M58 112 Q62 80 60 50','#6E8F4E',3);for(let k=0;k<22;k++){const t=k/22*Math.PI*2,x=60+Math.cos(t)*25,y=34+Math.sin(t)*25;o+=ln(`M60 34 L${f1(x)} ${f1(y)}`,.8)+`<circle cx="${f1(x)}" cy="${f1(y)}" r="2.7" fill="#fff" stroke="${INK}" stroke-width=".8"/>`}o+=`<circle cx="60" cy="34" r="5" fill="#A8B07A" ${S}/><path d="M26 110 L34 94 L30 94 L40 78 L36 78 L48 62 L52 100 Z" fill="#7FA05A" ${S}/><g transform="translate(88 92)">`+Array.from({length:12},(_,k)=>`<ellipse cx="0" cy="-10" rx="2.8" ry="9.5" fill="${c}" ${S} transform="rotate(${k*30})"/>`).join('')+`<circle r="3.5" fill="#C98A1C"/></g>`;return o},
+threads(c,r){let o=`<ellipse cx="60" cy="98" rx="36" ry="7" fill="${INK}" opacity=".12"/>`;for(let k=0;k<28;k++){const x=38+r()*44,y=38+r()*44,a=r()*Math.PI*2,l=10+r()*16;o+=`<path d="M${f1(x)} ${f1(y)} q${f1(Math.cos(a)*l/2+3)} ${f1(Math.sin(a)*l/2-3)} ${f1(Math.cos(a)*l)} ${f1(Math.sin(a)*l)}" fill="none" stroke="${k%3?c:'#F2A23A'}" stroke-width="3.2" stroke-linecap="round"/>`}return o},
+pod(c,r){let o='';[[42,64,17],[76,56,19],[62,88,15]].forEach(([x,y,R])=>{o+=`<circle cx="${x}" cy="${y}" r="${R}" fill="${c}" ${S}/>`;for(let k=0;k<14;k++){const t=k/14*Math.PI*2+r()*.4;o+=`<circle cx="${f1(x+Math.cos(t)*R*.62)}" cy="${f1(y+Math.sin(t)*R*.62)}" r="1.7" fill="${INK}" opacity=".55"/>`}o+=tube(`M${x} ${y-R} l3 -7`,'#6E5A3A',2)});return o},
+};
+function art(h,cls=''){return `<svg class="art ${cls}" viewBox="0 0 120 120" aria-hidden="true"><ellipse cx="60" cy="112" rx="38" ry="5" fill="${INK}" opacity=".08"/>${ART[h.draw](h.c,rng(h.i*97+13),h.c2)}</svg>`}
+
+/* ---------- state ---------- */
+const $=s=>document.querySelector(s);
+const view=$('#view');
+let store;try{store=JSON.parse(localStorage.getItem('bzg')||'{}')}catch(e){store={}}
+store.herbs=store.herbs||[];store.blends=store.blends||[];
+const save=()=>{try{localStorage.setItem('bzg',JSON.stringify(store))}catch(e){}};
+const ui={q:'',chf:-1,natf:'all',brew:[],brewed:null,quiz:{i:0,a:[]},guess:null,confirmEmpty:false};
+const rm=matchMedia('(prefers-reduced-motion: reduce)');
+if(store.rm===undefined?rm.matches:store.rm)document.documentElement.classList.add('rm');
+const isRM=()=>document.documentElement.classList.contains('rm');
+const fold=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const pad=n=>String(n).padStart(2,'0');
+function setGround(c,d){document.body.style.backgroundColor=c;document.documentElement.style.setProperty('--g',c);document.documentElement.style.setProperty('--gd',d||c)}
+function toast(msg,err){const t=$('#toast');t.textContent=msg;t.classList.toggle('err',!!err);t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2600)}
+function jarCount(){const n=store.herbs.length+store.blends.length,el=$('#jarn');el.textContent=n;el.classList.add('bump');setTimeout(()=>el.classList.remove('bump'),300)}
+function toggleHerb(slug){const k=store.herbs.indexOf(slug);if(k>-1){store.herbs.splice(k,1);toast('Back in its drawer.')}else{store.herbs.push(slug);toast(BY[slug].zh+' is in your jar.')}save();jarCount()}
+const rise=(i)=>`class="rise" style="--i:${i}"`;
+function nextBlock(href,label,big,meta){return `<a class="next" href="${href}" data-next><div class="mono"><span>Next reading</span><span>${meta||''}</span></div><div class="big">${big}</div><span class="sr">${esc(label)}</span></a>`}
+
+/* ---------- views ---------- */
+function vCover(){
+ setGround('#EDEFC2','#CDD27F');
+ const picks=[0,11,16,31,42,46,24];const pos=[[2,10,-8],[58,0,6],[30,34,0],[70,42,-10],[4,58,12],[44,66,-4],[70,74,8]];
+ return `<section class="cover"><div class="strip"><span>The Hundred-Drawer Cabinet</span></div><div class="cover-main">
+ <div ${rise(0)}><div class="metarow"><span>Volume one</span><span>50 herbs</span><span>7 chapters</span></div></div>
+ <h1 ${rise(1)}>Fifty herbs,<br>one <em class="hl">tiny</em><br>pharmacy.</h1>
+ <p class="lede" ${rise(2)}>A Chinese herbal cabinet (百子櫃) has a drawer for every root, seed and petal. Pull one. Brew three. Find out which one you are.</p>
+ <div class="toss" ${rise(3)} aria-label="Tap an herb to open it">${picks.map((p,k)=>{const h=H[p],[x,y,a]=pos[k];return `<button style="left:${x}%;top:${y}%;transform:rotate(${a}deg)" data-go="#/herb/${h.slug}" aria-label="${h.en}"><div class="bob" style="animation-delay:${-k*.6}s">${art(h)}</div><span>${h.zh}</span></button>`}).join('')}</div>
+ <div class="ctas" ${rise(4)}><a class="pill" href="#/drawers">Open the drawers →</a><a class="pill lime" href="#/brew">Brew something</a><a class="pill ghost" href="#/quiz">Which herb are you?</a></div>
+ <div ${rise(5)} class="coord">25°03′N — 121°30′E</div>
+ <p class="small" ${rise(6)}>For curiosity, not for diagnosis. <a href="#/about">Read the small print.</a></p>
+ </div></section>`+nextBlock('#/ch/0','Chapter 01',`01 <span class="zh">補氣</span> Gentle Lifters`,'Chapter 01');
+}
+
+function filtered(){const q=fold(ui.q.trim());return H.filter(h=>(ui.chf<0||h.ch===ui.chf)&&(ui.natf==='all'||(ui.natf==='cold'?NAT[h.nat][0]<0:ui.natf==='neutral'?NAT[h.nat][0]===0:NAT[h.nat][0]>0))&&(!q||fold(h.zh+' '+h.py+' '+h.py.replace(/ /g,'')+' '+h.en+' '+h.lat+' '+h.part).includes(q)))}
+function wallHTML(){const list=filtered(),set=new Set(list.map(h=>h.slug));
+ if(!list.length)return `<div class="empty"><svg width="90" height="80" viewBox="0 0 90 80"><rect x="5" y="20" width="80" height="55" rx="6" fill="none" stroke="${INK}" stroke-width="1.8"/><rect x="15" y="10" width="60" height="30" rx="4" fill="#fff" stroke="${INK}" stroke-width="1.8"/><circle cx="45" cy="28" r="3" fill="#B08A3E" stroke="${INK}"/></svg><div class="serif">This drawer is empty.</div><p>Nothing matches “${esc(ui.q)}”${ui.chf>=0?' in '+CH[ui.chf].en:''}${ui.natf!=='all'?' that runs '+ui.natf:''}. Try pinyin without tones, or an English name.</p><button class="pill ghost" data-act="clearf">Clear filters</button></div>`;
+ return `<div class="count pad" style="padding-bottom:8px">${list.length} of 50 drawers</div><div class="wall">${H.map(h=>`<button class="drawer${set.has(h.slug)?'':' dim'}" style="--dc:${CH[h.ch].g}" data-drawer="${h.slug}" ${set.has(h.slug)?'':'tabindex="-1" aria-hidden="true"'} aria-label="${h.zh} ${h.en}"><span class="front"><em>${pad(h.i+1)}</em><b>${h.zh}</b><i></i></span><span class="peek">${art(h)}</span></button>`).join('')}</div>`}
+function vDrawers(){
+ setGround('#F3EEDF','#D8CBA8');
+ return `<div class="vh"><div class="num" ${rise(0)}><span>Index</span><span>藥櫃</span></div><h1 ${rise(1)}>Pull a <em class="hl">drawer.</em></h1><p ${rise(2)}>Fifty drawers, colour-coded by chapter. Tap one and see what rolls out.</p></div>
+ <div class="filters" ${rise(3)}>
+  <label class="search"><span class="sr">Search herbs</span><input id="q" type="search" placeholder="ginger, gǒu qǐ, 菊…" value="${esc(ui.q)}" autocomplete="off"><button data-act="clearq" ${ui.q?'':'hidden'}>Clear</button></label>
+  <div class="scroller" role="group" aria-label="Chapter">${[-1,...CH.keys()].map(k=>`<button class="chip" data-chf="${k}" aria-pressed="${ui.chf===k}">${k<0?'All chapters':`<span class="dot" style="background:${CH[k].g}"></span>${CH[k].n} ${CH[k].en.replace('The ','')}`}</button>`).join('')}</div>
+  <div class="scroller" role="group" aria-label="Nature">${[['all','Any nature'],['cold','寒涼 Cold–cool'],['neutral','平 Neutral'],['warm','溫 Warm']].map(([k,l])=>`<button class="chip" data-natf="${k}" aria-pressed="${ui.natf===k}">${l}</button>`).join('')}</div>
+ </div><div id="wall" ${rise(4)}>${wallHTML()}</div>`+nextBlock('#/contents','Contents','Read by chapter','Contents');
+}
+
+function vContents(){
+ setGround('#F3EEDF','#D8CBA8');
+ return `<div class="vh"><div class="num" ${rise(0)}><span>Contents</span><span>目錄</span></div><h1 ${rise(1)}>Seven <em class="hl">chapters</em>, read in any order.</h1><p ${rise(2)}>Each chapter is a job the herbs do together. Each has its own colour of paper.</p></div>
+ <div class="agenda">${CH.map((c,k)=>`<a href="#/ch/${k}" ${rise(3+k)}><span class="n">${c.n}</span><span class="t">${c.en}<small>${c.zh} · ${H.filter(h=>h.ch===k).length} herbs</small></span><span class="sw" style="background:${c.g}"></span></a>`).join('')}</div>`+nextBlock('#/ch/0','Chapter 01',`01 <span class="zh">補氣</span> Gentle Lifters`,'Chapter 01');
+}
+
+function vChapter(k){
+ k=+k;const c=CH[k];if(!c)return vMissing();setGround(c.g,c.d);
+ const list=H.filter(h=>h.ch===k);const nx=CH[k+1];
+ return `<div class="vh"><div class="num" ${rise(0)}><span style="font-size:44px;line-height:1">${c.n}</span><span class="zh" style="font-size:20px">${c.zh}</span></div><h1 ${rise(1)}>${c.en.replace(/(\S+)$/,'<em class="hl">$1</em>')}</h1><p ${rise(2)}>${c.sub}</p></div>
+ <div class="pad" ${rise(3)}><div class="metarow"><span>Chapter ${c.n} of 07</span><span>${list.length} herbs</span><span>${c.zh}</span></div></div>
+ <div class="hlist" style="margin-top:14px">${list.map((h,j)=>`<a href="#/herb/${h.slug}" ${rise(4+j)}><div class="blob" style="animation-delay:${-j*1.3}s">${art(h)}</div><div><div class="t">${h.zh}</div><div class="e">${h.en}</div><div class="l">${h.line}</div></div></a>`).join('')}</div>`+
+ (nx?nextBlock(`#/ch/${k+1}`,'Chapter '+nx.n,`${nx.n} <span class="zh">${nx.zh}</span> ${nx.en.replace('The ','')}`,'Chapter '+nx.n):nextBlock('#/brew','Brew lab','Now, brew something','Brew lab'));
+}
+
+function vHerb(slug){
+ const h=BY[slug];if(!h)return vMissing();const c=CH[h.ch];setGround(c.g,c.d);
+ const [nv,nz,ne]=NAT[h.nat];const pos=((nv+2)/4*100).toFixed(0);
+ const pv=H[h.i-1],nx=H[h.i+1];const saved=store.herbs.includes(h.slug);const inBrew=ui.brew.includes(h.slug);
+ return `<div class="kicker"><span>No. ${pad(h.i+1)} / 50</span><a href="#/ch/${h.ch}">Ch. ${c.n} ${c.en.replace('The ','')}</a></div>
+ <div class="stage"><button class="blob settle" id="poke" style="--gd:${c.d}" aria-label="Poke ${h.en} for a fact"><div class="bob">${art(h)}</div></button><div class="bubble" id="bubble" aria-live="polite"></div><div class="tapme">Tap me</div></div>
+ <div class="title"><h1 ${rise(1)}>${h.zh}</h1><p class="py" ${rise(2)}><span class="pyn">${h.py}</span> — <em class="hl">${h.en}</em></p></div>
+ <div class="pad" ${rise(3)}><div class="metarow"><span>${h.part}</span><span>${ne}</span><span>${h.fl.map(f=>FLV[f]).join(' · ')}</span></div></div>
+ <p class="lead" ${rise(4)}>${h.line}</p>
+ <div class="therm" ${rise(5)}><div class="h-label">Nature 性</div><div class="track"><div class="knob" id="knob" data-pos="${pos}">${nz.slice(-1)}</div></div><div class="ends"><span>寒 Cold</span><span>平 Neutral</span><span>熱 Hot</span></div></div>
+ <div ${rise(6)}><div class="h-label pad" style="margin:18px 0 0">Flavour 味</div><div class="flav">${h.fl.map(f=>`<span><b>${f}</b>${FLV[f]}</span>`).join('')}</div></div>
+ <dl class="rows" ${rise(7)}><div class="row"><dt>What it’s for</dt><dd>${h.body}</dd></div><div class="row"><dt>In the kitchen</dt><dd>${h.kit}</dd></div>${h.warn?`<div class="row warn"><dt>Careful</dt><dd>${h.warn}</dd></div>`:''}<div class="row"><dt>Latin</dt><dd><em>${h.lat}</em></dd></div></dl>
+ <div class="fact" ${rise(8)}><div class="h-label" style="margin:0">Odd fact</div><p>${h.fact}</p></div>
+ <div class="actions" ${rise(9)}><button class="pill" data-act="save" data-slug="${h.slug}" aria-pressed="${saved}">${saved?'✓ In your jar':'＋ Save to jar'}</button><button class="pill ghost" data-act="brewadd" data-slug="${h.slug}" ${inBrew?'aria-pressed="true"':''} ${!inBrew&&ui.brew.length>=3?'disabled':''}>${inBrew?'✓ In the pot':ui.brew.length>=3?'Pot is full':'Add to pot'}</button><button class="pill ghost" data-act="share">Share</button></div>
+ <nav class="pn" aria-label="Previous and next herb">${pv?`<a href="#/herb/${pv.slug}"><small>← No. ${pad(pv.i+1)}</small><b>${pv.zh}</b></a>`:`<span><small>← Start</small><b>—</b></span>`}${nx?`<a href="#/herb/${nx.slug}"><small>No. ${pad(nx.i+1)} →</small><b>${nx.zh}</b></a>`:`<span><small>End →</small><b>—</b></span>`}</nav>`+
+ (nx?nextBlock(`#/herb/${nx.slug}`,nx.en,`<span class="zh">${nx.zh}</span> ${nx.en}`,'No. '+pad(nx.i+1)):nextBlock('#/quiz','Quiz','Which one are you?','The end'));
+}
+
+/* brew */
+function blend(){const hs=ui.brew.map(s=>BY[s]);const nv=hs.reduce((a,h)=>a+NAT[h.nat][0],0)/hs.length;
+ const fl=[...new Set(hs.flatMap(h=>h.fl))];const cnt={};hs.forEach(h=>cnt[h.ch]=(cnt[h.ch]||0)+1);const top=+Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0][0];
+ const adj=nv<=-1?'A Cold-Shoulder':nv<0?'A Breezy':nv===0?'A Perfectly Balanced':nv<1.2?'A Cosy':'A Fireside';
+ const noun=['Get-Up-and-Go','Soft Dew','Shade Tree','First Sneeze','Loosened Knot','Lantern-Low','Red River'][top];
+ const col=mix(hs.map(h=>h.c));return {name:`${adj} ${noun} Tea`,nv,fl,col,herbs:ui.brew.slice(),warn:hs.filter(h=>h.warn).map(h=>h.zh)}}
+function mix(cs){let r=0,g=0,b=0;cs.forEach(c=>{r+=parseInt(c.slice(1,3),16);g+=parseInt(c.slice(3,5),16);b+=parseInt(c.slice(5,7),16)});const n=cs.length;const t=v=>Math.round(v/n*.7+60).toString(16).padStart(2,'0');return '#'+t(r)+t(g)+t(b)}
+function potSVG(){const n=ui.brew.length,col=n?mix(ui.brew.map(s=>BY[s].c)):'#E9E3D2';const lvl=[0,.35,.6,.85][n];const top=150-lvl*80;
+ return `<svg viewBox="0 0 250 220" aria-label="Teapot with ${n} herbs"><defs><clipPath id="potc"><path d="M60 80 Q60 60 80 58 L170 58 Q190 60 190 80 L196 150 Q196 178 125 180 Q54 178 54 150Z"/></clipPath></defs>
+ <g class="steam"><path d="M110 40 q-8 -12 0 -24 q8 -12 0 -24" stroke="${INK}" stroke-width="2" fill="none"/><path d="M130 44 q-8 -12 0 -24 q8 -12 0 -24" stroke="${INK}" stroke-width="2" fill="none"/><path d="M150 40 q-8 -12 0 -24 q8 -12 0 -24" stroke="${INK}" stroke-width="2" fill="none"/></g>
+ <path d="M190 84 Q232 82 226 118 Q220 146 192 140" fill="none" stroke="${INK}" stroke-width="10" stroke-linecap="round"/><path d="M190 84 Q232 82 226 118 Q220 146 192 140" fill="none" stroke="#F7F6EE" stroke-width="5" stroke-linecap="round"/>
+ <path d="M58 100 Q30 96 14 70 L8 62 Q30 66 40 88" fill="#F7F6EE" stroke="${INK}" stroke-width="2"/>
+ <path d="M60 80 Q60 60 80 58 L170 58 Q190 60 190 80 L196 150 Q196 178 125 180 Q54 178 54 150Z" fill="#F7F6EE" stroke="${INK}" stroke-width="2"/>
+ <rect class="liquid" clip-path="url(#potc)" x="40" y="${top}" width="170" height="${190-top}" fill="${col}" opacity="${n?.85:0}"/>
+ <path d="M80 58 Q90 40 125 40 Q160 40 170 58Z" fill="#F7F6EE" stroke="${INK}" stroke-width="2"/><circle cx="125" cy="34" r="7" fill="${INK}"/>
+ <path d="M54 150 Q54 178 125 180 Q196 178 196 150" fill="none" stroke="${INK}" stroke-width="2"/><ellipse cx="125" cy="190" rx="70" ry="6" fill="${INK}" opacity=".1"/></svg>`}
+function vBrew(){
+ setGround('#F4E2C1','#E3B76F');const n=ui.brew.length;const b=ui.brewed;
+ return `<div class="vh"><div class="num" ${rise(0)}><span>Brew lab</span><span>煎藥</span></div><h1 ${rise(1)}>Pick three. <em class="hl">Brew.</em></h1><p ${rise(2)}>Drop up to three herbs in the pot. We’ll name your blend and tell you how it would taste. A game, not a prescription.</p></div>
+ <div class="pot${n?' hot':''}" id="pot" ${rise(3)}>${potSVG()}</div>
+ <div class="slots" ${rise(4)}>${[0,1,2].map(k=>{const s=ui.brew[k];return s?`<div class="slot full">${art(BY[s])}<button class="x" data-act="brewrm" data-slug="${s}" aria-label="Remove ${BY[s].en}">×</button><span class="nm">${BY[s].zh}</span></div>`:`<div class="slot">Empty</div>`}).join('')}</div>
+ <div class="actions" ${rise(5)} style="justify-content:center"><button class="pill" data-act="brew" ${n?'':'disabled'}>${n?'Brew it →':'Add an herb first'}</button><button class="pill ghost" data-act="brewclear" ${n?'':'disabled'}>Empty the pot</button></div>
+ <div id="brewout">${b?resultHTML(b):''}</div>
+ <div class="pad" ${rise(6)}><div class="h-label">The shelf — ${n}/3 chosen</div></div>
+ <div class="picker" ${rise(7)}>${H.map(h=>{const on=ui.brew.includes(h.slug);return `<button data-act="brewtoggle" data-slug="${h.slug}" aria-pressed="${on}" ${!on&&n>=3?'disabled':''} aria-label="${h.en}">${art(h)}<b>${h.zh}</b></button>`}).join('')}</div>`+nextBlock('#/quiz','Quiz','Which herb are you?','Quiz');
+}
+function resultHTML(b){const pos=((b.nv+2)/4*100).toFixed(0);const saved=store.blends.some(x=>x.name===b.name&&x.herbs.join()===b.herbs.join());
+ return `<div class="result rise"><div class="mono">Your blend · ${b.herbs.map(s=>BY[s].zh).join(' + ')}</div><h2>${b.name}</h2><p>Expect ${b.fl.map(f=>TASTE[f]).join(', then ').replace(/, then ([^,]*)$/,' and $1')}.</p>
+ <div class="therm" style="padding:6px 0 12px"><div class="track"><div class="knob" style="left:${pos}%;transition:none">${b.nv<0?'涼':b.nv>0?'溫':'平'}</div></div></div>
+ ${b.warn.length?`<p class="small">Heads-up: ${b.warn.join('、')} ${b.warn.length>1?'carry':'carries'} a caution — open ${b.warn.length>1?'their pages':'its page'} before brewing anything real.</p>`:''}
+ <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="pill lime" data-act="saveblend" ${saved?'disabled':''}>${saved?'✓ Saved to jar':'Save blend'}</button><button class="pill ghost" data-act="brewclear">Brew again</button></div></div>`}
+
+/* quiz */
+const QZ=[
+ ['Pick a weather.',[['A thunderstorm finally breaking the heat',2],['Drizzle, and a blanket',1],['The crisp first frost',3],['A clear night, lots of stars',5]]],
+ ['Your ideal Sunday?',[['A long lunch and a slow walk home',4],['A nap that turns into an evening',0],['Re-arranging all the furniture',6],['Reading in bed until very late',5]]],
+ ['Pick a snack.',[['Candied hawthorn on a stick',4],['Red dates straight from the bag',0],['Chilled mung bean soup',2],['Black sesame soup',1]]],
+ ['Friends call you…',[['The steady one',0],['The one who notices',1],['The spark',6],['The first to say “wear a scarf”',3]]],
+ ['Choose a colour.',[['Terracotta',6],['Pale green',2],['Apricot',3],['Dusk blue',5]]],
+];
+function vQuiz(){
+ const s=ui.quiz;setGround('#DCDFE8','#A3A9C4');
+ if(s.i>=QZ.length)return quizResult();
+ const [q,opts]=QZ[s.i];const sel=s.a[s.i];
+ return `<div class="vh" style="padding-bottom:10px"><div class="num" ${rise(0)}><span>Quiz</span><span>你是哪一味？</span></div><h1 ${rise(1)} style="font-size:clamp(34px,9vw,48px)">Which herb <em class="hl">are you?</em></h1></div>
+ <div class="prog" ${rise(2)}><div class="line"><i style="width:${(s.i)/QZ.length*100}%"></i></div><div class="mono"><span>Question</span><span>${s.i+1} / ${QZ.length}</span></div></div>
+ <div class="q" ${rise(3)}><h2>${q}</h2><div class="opts" role="radiogroup">${opts.map(([t],k)=>`<button class="opt" role="radio" aria-checked="${sel===k}" aria-pressed="${sel===k}" data-act="qpick" data-k="${k}">${t}<span>${sel===k?'●':'○'}</span></button>`).join('')}</div></div>
+ <div class="qnav"><button class="pill ghost" data-act="qback" ${s.i?'':'disabled'}>← Back</button><button class="pill" data-act="qnext" ${sel===undefined?'disabled':''}>${s.i===QZ.length-1?'See my herb':'Next'} →</button></div>`;
+}
+function quizResult(){const sc=Array(7).fill(0);ui.quiz.a.forEach((k,i)=>sc[QZ[i][1][k][1]]++);const top=sc.indexOf(Math.max(...sc));const list=H.filter(h=>h.ch===top);const h=list[ui.quiz.a.reduce((a,b)=>a+b,0)%list.length];const c=CH[top];setGround(c.g,c.d);
+ return `<div class="vh"><div class="num" ${rise(0)}><span>Your result</span><span>你是</span></div><h1 ${rise(1)}>You are <em class="hl">${h.en}.</em></h1><p ${rise(2)}>${h.line} You belong in chapter ${c.n}, ${c.en} — ${c.sub.charAt(0).toLowerCase()+c.sub.slice(1)}</p></div>
+ <div class="stage"><div class="blob settle" style="background:${c.d}"><div class="bob">${art(h)}</div></div></div>
+ <div class="title" style="text-align:center"><h1 ${rise(3)}>${h.zh}</h1><p class="py"><span class="pyn">${h.py}</span></p></div>
+ <div class="actions" style="justify-content:center" ${rise(4)}><a class="pill" href="#/herb/${h.slug}">Open my drawer →</a><button class="pill ghost" data-act="qreset">Take it again</button><button class="pill ghost" data-act="share">Share</button></div>`+nextBlock('#/guess','Guess','Guess the herb','Game');
+}
+
+/* guess */
+function newGuess(){const pool=[...H].sort(()=>Math.random()-.5).slice(0,6);ui.guess={i:0,right:0,rounds:pool.map(h=>{const others=H.filter(x=>x!==h).sort(()=>Math.random()-.5).slice(0,2);return {h,opts:[h,...others].sort(()=>Math.random()-.5),pick:null}})}}
+function vGuess(){
+ if(!ui.guess)newGuess();const g=ui.guess;setGround('#D7E3C9','#A0BC8C');
+ if(g.i>=g.rounds.length){const msg=g.right===6?'Every single one. Are you an herbalist?':g.right>=4?'Your nose for herbs is excellent.':g.right>=2?'A good start — the drawers will teach you the rest.':'Plenty of drawers left to open.';
+  return `<div class="vh"><div class="num" ${rise(0)}><span>Guess the herb</span><span>猜一猜</span></div><h1 ${rise(1)}>You knew <em class="hl">${g.right} of 6.</em></h1><p ${rise(2)}>${msg}</p></div>
+  <div class="hlist">${g.rounds.map((r,j)=>`<a href="#/herb/${r.h.slug}" ${rise(3+j)}><div class="blob">${art(r.h)}</div><div><div class="t">${r.h.zh} ${r.pick===r.h?'✓':'✗'}</div><div class="e">${r.h.en}</div><div class="l">${r.pick===r.h?'You got it.':'You guessed '+r.pick.en+'.'}</div></div></a>`).join('')}</div>
+  <div class="actions" style="justify-content:center"><button class="pill" data-act="greset">Play again</button><a class="pill ghost" href="#/drawers">Study the drawers</a></div>`+nextBlock('#/jar','Jar','Visit your jar','Your jar')}
+ const r=g.rounds[g.i];const h=r.h;const [,nz,ne]=NAT[h.nat];
+ return `<div class="vh" style="padding-bottom:10px"><div class="num" ${rise(0)}><span>Guess the herb</span><span>猜一猜</span></div><h1 ${rise(1)} style="font-size:clamp(34px,9vw,48px)">Who’s in <em class="hl">this drawer?</em></h1></div>
+ <div class="prog"><div class="line"><i style="width:${g.i/6*100}%"></i></div><div class="mono"><span>Round</span><span>${g.i+1} / 6</span></div></div>
+ <div class="clue" ${rise(2)}><div class="blob" style="background:${CH[h.ch].d}">${art(h)}</div><div><div class="h-label" style="margin-bottom:6px">Clues</div><div>${h.part} · ${ne} · ${h.fl.map(f=>FLV[f]).join(', ')}</div><div class="small" style="margin-top:6px">Chapter ${CH[h.ch].n}, ${CH[h.ch].en}</div></div></div>
+ <div class="q" ${rise(3)}><div class="opts">${r.opts.map((o,k)=>{const cls=r.pick?(o===h?' right':o===r.pick?' wrong':''):'';return `<button class="opt${cls}" data-act="gpick" data-k="${k}" ${r.pick?'disabled':''}><span><span class="zh" style="font-size:20px">${o.zh}</span> &nbsp;${o.en}</span><span>${r.pick?(o===h?'✓':o===r.pick?'✗':''):''}</span></button>`}).join('')}</div>
+ ${r.pick?`<p style="margin:14px 0 0" class="rise">${r.pick===h?'Yes! ':'Not quite — it’s '+h.en+'. '}${h.line}</p>`:''}</div>
+ <div class="qnav"><a class="pill ghost" href="#/">Quit</a><button class="pill" data-act="gnext" ${r.pick?'':'disabled'}>${g.i===5?'See score':'Next round'} →</button></div>`;
+}
+
+/* jar */
+function vJar(){
+ setGround('#F0DAD0','#DDA992');const hs=store.herbs.map(s=>BY[s]).filter(Boolean);const bs=store.blends;
+ if(!hs.length&&!bs.length)return `<div class="vh"><div class="num" ${rise(0)}><span>Your jar</span><span>藥罐</span></div><h1 ${rise(1)}>Nothing in the <em class="hl">jar</em> yet.</h1></div>
+ <div class="empty" ${rise(2)}><svg width="110" height="130" viewBox="0 0 110 130"><rect x="30" y="6" width="50" height="16" rx="4" fill="#B08A3E" stroke="${INK}" stroke-width="1.8"/><path d="M24 26 Q24 22 30 22 L80 22 Q86 22 86 26 L92 46 Q100 56 100 70 L100 112 Q100 124 88 124 L22 124 Q10 124 10 112 L10 70 Q10 56 18 46Z" fill="#F7F6EE" stroke="${INK}" stroke-width="1.8"/><path d="M30 70 q8 -6 16 0" stroke="${INK}" fill="none" stroke-width="1.5" opacity=".4"/></svg><div class="serif">Empty — which is very 平 of you.</div><p>Save herbs from their drawers, or blends from the brew lab. They’ll wait here, on this device.</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><a class="pill" href="#/drawers">Open the drawers</a><a class="pill ghost" href="#/brew">Brew something</a></div></div>`;
+ return `<div class="vh"><div class="num" ${rise(0)}><span>Your jar</span><span>藥罐</span></div><h1 ${rise(1)}>${hs.length+bs.length} things, <em class="hl">kept.</em></h1><p ${rise(2)}>Saved on this device only.</p></div>
+ ${hs.length?`<div class="h-label pad" ${rise(3)}>Herbs · ${hs.length}</div><div class="jgrid" ${rise(4)}>${hs.map(h=>`<div><a href="#/herb/${h.slug}">${art(h)}<b>${h.zh}</b><small>${h.en}</small></a><button class="x" data-act="unsave" data-slug="${h.slug}" aria-label="Remove ${h.en}">×</button></div>`).join('')}</div>`:''}
+ ${bs.length?`<div class="sec"><div class="h-label" style="margin:0">Blends · ${bs.length}</div></div><div class="blends" style="border-top:1px solid var(--rule)">${bs.map((b,k)=>`<div><div><b>${b.name}</b><div class="small">${b.herbs.map(s=>BY[s].zh).join(' + ')}</div></div><div style="display:flex;gap:6px"><button class="chip" data-act="rebrew" data-k="${k}">Re-brew</button><button class="chip" data-act="rmblend" data-k="${k}" aria-label="Remove blend">×</button></div></div>`).join('')}</div>`:''}
+ <div class="actions"><button class="pill ghost" data-act="emptyjar">${ui.confirmEmpty?'Tap again to empty it all':'Empty the jar'}</button></div>`+nextBlock('#/brew','Brew lab','Brew something new','Brew lab');
+}
+
+function vAbout(){
+ setGround('#E8DFD1','#C2AA88');const on=isRM();
+ return `<div class="vh"><div class="num" ${rise(0)}><span>Small print</span><span>說明</span></div><h1 ${rise(1)}>A note before you <em class="hl">sip.</em></h1></div>
+ <div class="prose" ${rise(2)}><p>This is a playful introduction to fifty plants and fungi used in traditional Chinese medicine. It is for curiosity, not diagnosis. Herbs are real medicine: some interact with drugs, some are unsafe in pregnancy. Talk to a licensed practitioner or doctor before taking any of them.</p>
+ <p>Every herb here comes from a plant or a fungus — no animal or mineral ingredients.</p>
+ <p>Natures and flavours follow standard materia-medica conventions (for example, Bensky, <em>Chinese Herbal Medicine: Materia Medica</em>). Sources sometimes disagree on small details.</p>
+ <p>Illustrations are hand-coded SVG drawings. No photographs, no AI images.</p></div>
+ <div class="h-label pad" ${rise(3)}>Settings</div>
+ <div ${rise(4)}><button class="switch" data-act="rm" aria-pressed="${on}"><span>Reduce motion<br><span class="small">Crossfades only, nothing moves.</span></span><span class="tg"></span></button>
+ <button class="switch" data-act="emptyjar2" ${store.herbs.length+store.blends.length?'':'disabled style="opacity:.35"'}><span>Empty my jar<br><span class="small">${ui.confirmEmpty?'Tap again to confirm.':store.herbs.length+store.blends.length+' saved items'}</span></span><span>→</span></button></div>`+nextBlock('#/','Cover','Back to the cover','Cover');
+}
+function vMissing(){setGround('#E8DFD1','#C2AA88');return `<div class="empty" style="padding-top:80px"><div class="serif">That drawer doesn’t exist.</div><p>Maybe it was never built, or the link is broken.</p><a class="pill" href="#/drawers">Back to the drawers</a></div>`}
+
+/* ---------- router ---------- */
+const ROUTES={'':vCover,drawers:vDrawers,contents:vContents,ch:vChapter,herb:vHerb,brew:vBrew,quiz:vQuiz,guess:vGuess,jar:vJar,about:vAbout};
+let depth=0,first=true;
+function route(){const p=location.hash.replace(/^#\/?/,'').split('/');return {name:p[0]||'',arg:p[1]}}
+function render(){
+ const {name,arg}=route();const fn=ROUTES[name]||vMissing;
+ closeMenu();
+ const paint=()=>{view.innerHTML=fn(arg);view.classList.remove('leaving');window.scrollTo(0,0);after(name);$('#back').disabled=name==='';markMenu();if(!first)view.focus({preventScroll:true});first=false};
+ if(first)paint();else{view.classList.add('leaving');setTimeout(paint,isRM()?120:220)}
+}
+function after(name){
+ const k=$('#knob');if(k)requestAnimationFrame(()=>requestAnimationFrame(()=>k.style.left=k.dataset.pos+'%'));
+ const q=$('#q');if(q){q.oninput=()=>{ui.q=q.value;$('[data-act=clearq]').hidden=!ui.q;$('#wall').innerHTML=wallHTML()};}
+}
+window.addEventListener('hashchange',()=>{depth++;render()});
+$('#back').onclick=()=>{const {name}=route();if(depth>0){depth-=2;history.back()}else location.hash=name==='herb'?'#/drawers':'#/'};
+
+/* menu */
+const MENU=[['Today I’d like to ',null],['open the drawers','#/drawers'],[', ',null],['read by chapter','#/contents'],[', ',null],['brew a pot','#/brew'],[', ',null],['find out which herb I am','#/quiz'],[', ',null],['play a guessing game','#/guess'],[', ',null],['look in my jar','#/jar'],[' — or just ',null],['read the small print','#/about'],[', and then ',null],['go back to the cover','#/'],['.',null]];
+$('#sentence').innerHTML=MENU.map(([t,h],i)=>`<span style="--i:${i}">${h?`<a href="${h}">${t}</a>`:t}</span>`).join('');
+function markMenu(){const h=location.hash||'#/';document.querySelectorAll('#sentence a').forEach(a=>a.classList.toggle('cur',a.getAttribute('href')===h.split('/').slice(0,2).join('/')||(a.getAttribute('href')==='#/'&&(h==='#/'||h===''))))}
+function openMenu(){$('#menu').classList.add('on');$('#menu').setAttribute('aria-hidden','false');$('#menuBtn').setAttribute('aria-expanded','true');setTimeout(()=>$('#menuX').focus(),50)}
+function closeMenu(){if(!$('#menu').classList.contains('on'))return;$('#menu').classList.remove('on');$('#menu').setAttribute('aria-hidden','true');$('#menuBtn').setAttribute('aria-expanded','false')}
+$('#menuBtn').onclick=openMenu;$('#menuX').onclick=()=>{closeMenu();$('#menuBtn').focus()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();const {name,arg}=route();if(name==='herb'&&!$('#menu').classList.contains('on')&&document.activeElement.tagName!=='INPUT'){const h=BY[arg];if(!h)return;if(e.key==='ArrowRight'&&H[h.i+1])location.hash='#/herb/'+H[h.i+1].slug;if(e.key==='ArrowLeft'&&H[h.i-1])location.hash='#/herb/'+H[h.i-1].slug}});
+
+/* swipe on herb pages */
+let tx=null,ty=null;
+view.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+view.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;tx=null;const {name,arg}=route();if(name!=='herb'||Math.abs(dx)<70||Math.abs(dy)>50)return;const h=BY[arg];const t=dx<0?H[h.i+1]:H[h.i-1];if(t)location.hash='#/herb/'+t.slug});
+
+/* clicks */
+document.addEventListener('click',e=>{
+ const nx=e.target.closest('[data-next]');if(nx&&!isRM()){e.preventDefault();nx.classList.add('grow');setTimeout(()=>location.hash=nx.getAttribute('href'),380);return}
+ const go=e.target.closest('[data-go]');if(go){location.hash=go.dataset.go;return}
+ const d=e.target.closest('[data-drawer]');if(d){d.classList.add('open');setTimeout(()=>location.hash='#/herb/'+d.dataset.drawer,isRM()?60:560);return}
+ const cf=e.target.closest('[data-chf]');if(cf){ui.chf=+cf.dataset.chf;document.querySelectorAll('[data-chf]').forEach(b=>b.setAttribute('aria-pressed',b===cf));$('#wall').innerHTML=wallHTML();return}
+ const nf=e.target.closest('[data-natf]');if(nf){ui.natf=nf.dataset.natf;document.querySelectorAll('[data-natf]').forEach(b=>b.setAttribute('aria-pressed',b===nf));$('#wall').innerHTML=wallHTML();return}
+ if(e.target.closest('#poke')){poke();return}
+ const a=e.target.closest('[data-act]');if(!a)return;const act=a.dataset.act,slug=a.dataset.slug;
+ const rerender=()=>{const y=scrollY;view.innerHTML=ROUTES[route().name](route().arg);after(route().name);view.querySelectorAll('.rise').forEach(el=>{el.style.animation='none';el.style.opacity=1;el.style.transform='none'});scrollTo(0,y)};
+ switch(act){
+  case 'clearf':ui.q='';ui.chf=-1;ui.natf='all';rerender();break;
+  case 'clearq':ui.q='';rerender();$('#q').focus();break;
+  case 'save':toggleHerb(slug);{const on=store.herbs.includes(slug);a.setAttribute('aria-pressed',on);a.textContent=on?'✓ In your jar':'＋ Save to jar'}break;
+  case 'unsave':toggleHerb(slug);rerender();break;
+  case 'brewadd':if(ui.brew.includes(slug)){ui.brew=ui.brew.filter(s=>s!==slug);toast('Taken out of the pot.')}else if(ui.brew.length<3){ui.brew.push(slug);ui.brewed=null;toast(`In the pot (${ui.brew.length}/3). Brew it in the lab.`)}rerender();break;
+  case 'share':share();break;
+  case 'brewtoggle':if(ui.brew.includes(slug))ui.brew=ui.brew.filter(s=>s!==slug);else if(ui.brew.length<3)ui.brew.push(slug);ui.brewed=null;rerender();break;
+  case 'brewrm':ui.brew=ui.brew.filter(s=>s!==slug);ui.brewed=null;rerender();break;
+  case 'brewclear':ui.brew=[];ui.brewed=null;rerender();break;
+  case 'brew':{const pot=$('#pot');pot.classList.add('brewing','hot');a.disabled=true;a.textContent='Brewing…';setTimeout(()=>{ui.brewed=blend();rerender();$('#brewout').scrollIntoView({behavior:isRM()?'auto':'smooth',block:'center'})},isRM()?200:1300)}break;
+  case 'saveblend':if(ui.brewed){store.blends.push({name:ui.brewed.name,herbs:ui.brewed.herbs});save();jarCount();toast('Blend saved to your jar.');a.disabled=true;a.textContent='✓ Saved to jar'}break;
+  case 'rebrew':ui.brew=store.blends[+a.dataset.k].herbs.slice();ui.brewed=blend();location.hash='#/brew';break;
+  case 'rmblend':store.blends.splice(+a.dataset.k,1);save();jarCount();rerender();break;
+  case 'emptyjar':case 'emptyjar2':if(!ui.confirmEmpty){ui.confirmEmpty=true;rerender();setTimeout(()=>{if(ui.confirmEmpty){ui.confirmEmpty=false;if(['jar','about'].includes(route().name))rerender()}},4000)}else{store.herbs=[];store.blends=[];ui.confirmEmpty=false;save();jarCount();toast('Jar emptied.');rerender()}break;
+  case 'rm':{const on=!isRM();document.documentElement.classList.toggle('rm',on);store.rm=on;save();a.setAttribute('aria-pressed',on)}break;
+  case 'qpick':ui.quiz.a[ui.quiz.i]=+a.dataset.k;rerender();break;
+  case 'qnext':ui.quiz.i++;render2();break;
+  case 'qback':ui.quiz.i=Math.max(0,ui.quiz.i-1);render2();break;
+  case 'qreset':ui.quiz={i:0,a:[]};render2();break;
+  case 'gpick':{const r=ui.guess.rounds[ui.guess.i];r.pick=r.opts[+a.dataset.k];if(r.pick===r.h)ui.guess.right++;rerender()}break;
+  case 'gnext':ui.guess.i++;render2();break;
+  case 'greset':newGuess();render2();break;
+ }
+});
+function render2(){view.classList.add('leaving');setTimeout(()=>{view.innerHTML=ROUTES[route().name](route().arg);view.classList.remove('leaving');after(route().name);scrollTo(0,0)},isRM()?100:200)}
+let pokeN=0;
+function poke(){const h=BY[route().arg];if(!h)return;const b=$('#poke .bob');b.classList.remove('wiggle');void b.offsetWidth;b.classList.add('wiggle');
+ const lines=[`Hi, I’m ${h.en}. ${NAT[h.nat][2]} by nature.`,h.fact,`Say my name: ${h.py}.`,`On the tongue: ${h.fl.map(f=>TASTE[f]).join(', then ')}.`,`Chapter ${CH[h.ch].n} — ${CH[h.ch].en}. Those are my people.`];
+ const bb=$('#bubble');bb.classList.remove('on');setTimeout(()=>{bb.textContent=lines[pokeN++%lines.length];bb.classList.add('on')},120)}
+async function share(){const url=location.href;try{if(navigator.share&&matchMedia('(pointer:coarse)').matches){await navigator.share({title:document.title,url});return}await navigator.clipboard.writeText(url);toast('Link copied — go tell someone.')}catch(e){if(e&&e.name==='AbortError')return;toast('Couldn’t copy. Here it is: '+url,true)}}
+
+/* boot: short loading state */
+$('#sgrid').innerHTML=Array.from({length:25},(_,i)=>`<i style="--i:${i};background:${CH[i%7].g}"></i>`).join('');
+jarCount();render();
+setTimeout(()=>$('#splash').classList.add('off'),isRM()?150:900);
+</script>
+</body>
+</html>
