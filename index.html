@@ -1040,6 +1040,14 @@ html.has-cur [data-cur] *{cursor:none;}
 .cdl-where{all:unset;cursor:pointer;align-self:flex-start;padding:8px 14px;border-radius:99px;background:#fff;box-shadow:inset 0 0 0 1px #D9CDBB;font:500 13px/1 var(--sf);color:#2b2622;}
 .cdl-where:hover{box-shadow:inset 0 0 0 1px #D97757;}
 .cdl-where:focus-visible{outline:2px solid #D97757;outline-offset:2px;}
+/* Decision Trail: prototype screens */
+.dtg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 20px;margin-top:20px;}
+.dtg figure{margin:0;display:flex;flex-direction:column;gap:10px;}
+.dtg figure.wide{grid-column:1/-1;}
+.dtg img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--rule);background:#fbfbf9;}
+.dtg figcaption{font:400 14px/1.45 var(--sf);color:var(--ink-2);letter-spacing:-.15px;}
+.dtg figcaption b{font-weight:600;color:var(--ink);margin-right:6px;}
+@media (max-width:760px){.dtg{grid-template-columns:1fr;}}
 /* Decision Trail covers: mark moment (tiles) and drift check (hero) */
 .cdl.dt-v{padding:0;}
 .dt-win{width:min(86cqw,calc(80cqh * 1.6));aspect-ratio:16/10;border-radius:1.6cqw;overflow:hidden;background:#fff;box-shadow:0 0 0 1px rgba(60,40,20,.08),0 3cqw 6cqw -2.5cqw rgba(60,40,20,.35);}
@@ -2458,12 +2466,21 @@ document.addEventListener('DOMContentLoaded',function(){
       <div><h3>Who proposed it</h3><p>Claude suggested the gallery a minute before you chose it, so the entry gets a half dot. Your words stay the decision; Claude’s reason folds underneath, quoted whole.</p></div>
       <div><h3>Drift check</h3><p>When a plan would break a call you made, Claude quotes it inside its normal reply and asks. Change it, and the old call stays, struck through.</p></div>
       <div><h3>Reflect</h3><p>When the same kind of call keeps coming up, Reflect drafts a skill from it, each rule linked to the quotes it came from.</p></div>
+    </div>
+    <p class="rp-eye ins-eye">The prototype, scene by scene</p>
+    <div class="dtg">
+      <figure class="wide"><img src="assets/dt/proto-jump.jpg" alt="Prototype: the chat scrolled to the highlighted moment the decision was made, with a bar to go back to the Decisions page" loading="lazy" width="1400" height="798"><figcaption><b>Jump back.</b>One tap from the Decisions page returns you to the exact moment you decided, highlighted in the original chat.</figcaption></figure>
+      <figure><img src="assets/dt/proto-mark.jpg" alt="Prototype: under a message choosing the Chinatown gallery, a quiet offer reads Add to Decisions or Leave in chat" loading="lazy" width="1200" height="809"><figcaption><b>Mark it.</b>After a message that reads like a decision, a quiet offer appears. Nothing saves until you tap.</figcaption></figure>
+      <figure><img src="assets/dt/proto-clash.jpg" alt="Prototype: Claude flags that step 1 of its promotion plan conflicts with the Oct 24 decision, with Keep my call and Change it buttons" loading="lazy" width="1200" height="809"><figcaption><b>Claude checks its plan.</b>Step 1 breaks a call from Oct 24. Claude quotes it inside the reply and asks: keep it, or change it?</figcaption></figure>
+      <figure><img src="assets/dt/proto-decisions.jpg" alt="Prototype: the Decisions page listing calls by week, one opened to show the exact words and Claude’s reason folded underneath" loading="lazy" width="1200" height="724"><figcaption><b>Decisions page.</b>Every call in your own words, grouped by week. Claude’s reason folds underneath.</figcaption></figure>
+      <figure><img src="assets/dt/proto-reflect.jpg" alt="Prototype: the Reflect tab showing 73 decisions across 3 projects, a breakdown by kind and a bar chart of decisions per day" loading="lazy" width="1200" height="724"><figcaption><b>Reflect.</b>Patterns in how you decide, and a habit you can turn into a reusable skill.</figcaption></figure>
     </div></section>
 
     <section class="sec" data-xsec="Testing">
     <h2>Eight sessions, five short scenes.</h2>
     <p>I built a self-paced test: five short scenes inside a clickable Claude mockup, with a story built around each person’s kind of work. Five people ran it on their own, and I moderated three more, Nov 5–11, 2026: designers, a producer and a non-designer. After each scene they rated ease from 1 to 7, then answered open questions at the end.</p>
     <p>The test needed testing too. One person thought it was a quiz, and wondered whether these features already existed in Claude. Another said the instructions disappeared too fast. So I rewrote the intro (“a mockup of new features, not a quiz, no right answers”), kept each task card up until people start, and closed every scene with “Scene N done.”</p>
+    <div class="dtg"><figure class="wide"><img src="assets/dt/proto-test.jpg" alt="The usability test: a dark task card over the mockup reads Scene 1 done, next, scene 2 of 5, with the task and a Start scene 2 button" loading="lazy" width="1440" height="996"><figcaption><b>The test.</b>Each scene opens with a task card, set in a story built around the tester’s own kind of work.</figcaption></figure></div>
     <p class="xnote">A small sample, so I read it for direction, not proof.</p>
     <p class="rp-eye ins-eye">What testing showed</p>
     <h3>1. People quietly trade trust for speed</h3>
