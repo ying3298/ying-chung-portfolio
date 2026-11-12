@@ -336,8 +336,8 @@ body.dark .lk:hover{background:rgba(255,255,255,.1);}
 .neg-tag{font:500 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#b25000;}
 .sec .neg p{margin:0;font:400 16px/1.45 var(--sf);color:var(--ink-2);max-width:none;}
 @media (max-width:760px){.negs{grid-template-columns:1fr;}}
-.talk{position:relative;height:calc(5 * 38vh + 100vh);margin:24px 0;}
-.talk-stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;overflow:hidden;}
+.talk{position:relative;height:calc(5 * 22vh + 300px);margin:8px 0 0;}
+.talk-stage{position:sticky;top:calc(50vh - 150px);height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;overflow:hidden;}
 .talk-track{position:relative;width:min(620px,100%);height:220px;}
 .say{position:absolute;left:0;right:0;top:50%;display:flex;align-items:flex-end;gap:14px;opacity:0;transform:translate(70px,-50%);transition:opacity .45s ease,transform .6s cubic-bezier(.2,.7,.2,1);pointer-events:none;}
 .say.past{transform:translate(-70px,-50%);}
@@ -3117,7 +3117,7 @@ mvs.forEach(function(v){mio.observe(v)});
 <script>(function(){var T=document.querySelector('.talk');if(!T)return;var L=T.querySelectorAll('.say'),P=T.querySelectorAll('.talk-pips i'),cur=-1,tm;
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){T.classList.add('static');return;}
 function go(n){if(n===cur)return;var fwd=n>cur;cur=n;clearTimeout(tm);L.forEach(function(e,i){e.classList.toggle('in',i===n);e.classList.toggle('past',i<n);e.classList.remove('typing');});P.forEach(function(e,i){e.classList.toggle('on',i===n)});if(fwd){L[n].classList.add('typing');tm=setTimeout(function(){L[n].classList.remove('typing')},550);}}
-function onS(){var r=T.getBoundingClientRect(),run=r.height-innerHeight;if(r.bottom<0||r.top>innerHeight)return;var pr=Math.min(.999,Math.max(0,-r.top/run));go(Math.floor(pr*L.length));}
+var S=T.querySelector('.talk-stage');function onS(){var r=T.getBoundingClientRect(),run=r.height-S.offsetHeight,t0=parseFloat(getComputedStyle(S).top)||0;if(r.bottom<0||r.top>innerHeight)return;var pr=Math.min(.999,Math.max(0,(t0-r.top)/run));go(Math.floor(pr*L.length));}
 addEventListener('scroll',onS,{passive:true});document.addEventListener('scroll',onS,{passive:true,capture:true});onS();})();</script>
 <script>(function(){var B=[[2,'<b>Mark it.</b> Your words become a decision.'],[3.85,'<b>Claude keeps it.</b> A new plan clashes, you decide.'],[6,'<b>Find it.</b> One tap back to the moment you decided.'],[99,'']];
 document.querySelectorAll('video.dt-reel').forEach(function(v){var box=v.closest('.cdl')||v.parentNode,c=document.createElement('div'),cur=-1;c.className='dt-cap';c.setAttribute('aria-hidden','true');box.appendChild(c);
