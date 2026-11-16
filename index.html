@@ -336,6 +336,40 @@ body.dark .lk:hover{background:rgba(255,255,255,.1);}
 .neg-tag{font:500 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#b25000;}
 .sec .neg p{margin:0;font:400 16px/1.45 var(--sf);color:var(--ink-2);max-width:none;}
 @media (max-width:760px){.negs{grid-template-columns:1fr;}}
+.talk{position:relative;height:calc(var(--n,5) * 22vh + 300px);margin:8px 0 0;}
+.talk-ph{display:grid;place-items:center;background:var(--a,#8a817c)!important;color:#fff;font:600 clamp(18px,2vw,24px)/1 var(--sf);letter-spacing:-.3px;}
+.talk-t:not(.static){height:calc(var(--n,3) * 26vh + 420px);}.talk-t .talk-stage{top:calc(50vh - 210px);height:420px;}.talk-t .talk-track{height:340px;}
+.talk-t .say-last .talk-b p{font-size:clamp(20px,2.4vw,27px);}
+.talk-t.static{margin-top:20px;}.talk-t.static .talk-track{width:100%;gap:18px;}
+.talk-t.static .say{max-width:680px;}.talk-t.static .say:nth-child(2){margin-left:auto;}
+.talk-stage{position:sticky;top:calc(50vh - 150px);height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;overflow:hidden;}
+.talk-track{position:relative;width:min(620px,100%);height:220px;}
+.say{position:absolute;left:0;right:0;top:50%;display:flex;align-items:flex-end;gap:14px;opacity:0;transform:translate(70px,-50%);transition:opacity .45s ease,transform .6s cubic-bezier(.2,.7,.2,1);pointer-events:none;}
+.say.past{transform:translate(-70px,-50%);}
+.say.in{opacity:1;transform:translate(0,-50%);pointer-events:auto;}
+.talk-av{flex:none;width:clamp(76px,8vw,110px);height:clamp(76px,8vw,110px);object-fit:contain;object-position:50% 100%;background:transparent;}
+.talk-b{position:relative;background:#f5f5f7;border-radius:24px 24px 24px 6px;padding:18px 22px;}
+.talk-b p{margin:0;font:500 clamp(19px,2.3vw,24px)/1.4 var(--sf);letter-spacing:-.2px;color:var(--ink);}
+.talk-note{display:block;margin-top:12px;padding-top:10px;border-top:1px dashed #d2d2d7;font:400 13.5px/1.45 var(--sf);color:#A9502F;}
+.say.typing .talk-note{display:none;}
+.talk-who{display:block;margin-bottom:6px;font:400 12.5px/1.3 var(--sf);color:var(--ink-2);}
+.talk-e{display:inline-block;font-size:1.15em;transform-origin:50% 80%;}
+.say.in:not(.typing) .talk-e{animation:talk-pop .6s cubic-bezier(.3,1.6,.5,1) .1s both;}
+@keyframes talk-pop{0%{transform:scale(0) rotate(-20deg);}100%{transform:none;}}
+.talk-dots{display:none;gap:5px;padding:8px 2px;}
+.talk-dots i{width:7px;height:7px;border-radius:50%;background:#a1a1a6;animation:talk-dot 1s infinite;}
+.talk-dots i:nth-child(2){animation-delay:.15s}.talk-dots i:nth-child(3){animation-delay:.3s}
+@keyframes talk-dot{0%,60%,100%{opacity:.35;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+.say.typing .talk-dots{display:flex;}.say.typing .talk-b p,.say.typing .talk-who{display:none;}
+.say-last .talk-b{background:var(--ink);}
+.say-last .talk-b p{color:#fff;font-size:clamp(22px,3vw,32px);}
+.say-last .talk-who{color:#a1a1a6;}.say-last .talk-note{color:#F2B08F;border-top-color:rgba(255,255,255,.18);}
+.talk-pips{display:flex;gap:8px;}
+.talk-pips i{width:7px;height:7px;border-radius:99px;background:#d2d2d7;transition:width .3s,background .3s;}
+.talk-pips i.on{width:22px;background:var(--ink);}
+.talk.static{height:auto;}.talk.static .talk-stage{position:static;height:auto;overflow:visible;}.talk.static .talk-track{height:auto;display:flex;flex-direction:column;gap:24px;}.talk.static .say{position:static;opacity:1;transform:none;}.talk.static .talk-pips{display:none;}
+@media (max-width:760px){.talk-t:not(.static){height:calc(var(--n,3) * 26vh + 520px);}.talk-t .talk-stage{top:calc(50vh - 260px);height:520px;}.talk-t .talk-track{height:460px;}
+.talk{height:calc(var(--n,5) * 22vh + 400px);}.talk-stage{top:calc(50vh - 200px);height:400px;}.talk-track{height:340px;}}
 .voices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 30px;margin-top:36px;padding-top:10px;}
 .voice{--tilt:-1.6deg;--tint:#FBF1C8;position:relative;margin:0;padding:26px 22px 22px;border-radius:26px;background:var(--tint);
   display:flex;flex-direction:column;gap:16px;transform:rotate(var(--tilt));
@@ -1057,6 +1091,20 @@ html.has-cur [data-cur] *{cursor:none;}
 .dt-vid{display:block;width:100%;height:100%;object-fit:cover;}
 .h-ss a .cv-cdl .cdl.dt-v{padding-bottom:9cqw;}
 .cdl-herobox .dt-win{width:min(96cqw,calc(94cqh * 1.6));}
+.dt-reel{width:100%;height:100%;object-fit:contain;background:#EFE9DE;}
+.dt-hero{margin:28px 0 8px;}.dt-hero img{display:block;width:100%;height:auto;border-radius:18px;box-shadow:0 0 0 1px rgba(60,40,20,.08);}
+.dt-ov{margin:28px 0 8px;border-radius:18px;overflow:hidden;aspect-ratio:16/9;background:#EFE9DE;box-shadow:0 0 0 1px rgba(60,40,20,.08);}
+.dt-ov .dt-vid{object-fit:cover;}
+.dt-sync>div{transition:opacity .35s ease;position:relative;}
+.dt-sync>div::before{content:"";position:absolute;left:0;right:0;top:-1px;height:2px;background:#D97757;transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1);}
+.dt-sync.live>div{opacity:.4;}
+.dt-sync.live>div.on{opacity:1;}
+.dt-sync.live>div.on::before{transform:none;}
+.dt-cap{position:absolute;left:50%;bottom:4cqw;transform:translate(-50%,6px);max-width:84cqw;padding:.7em 1.1em;border-radius:999px;background:rgba(31,30,29,.92);color:#FAF9F5;font:500 max(12px,1.9cqw)/1.35 "Inter",-apple-system,sans-serif;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;white-space:nowrap;}
+.dt-cap b{color:#F0B79C;font-weight:600;}
+.dt-cap.on{opacity:1;transform:translate(-50%,0);}
+.h-ss a .cv-cdl .dt-cap{bottom:12cqw;}
+
 .cdl.dt{text-align:left;gap:3cqw;padding:5cqw 5cqw;align-items:stretch;}
 .dt-chat{flex:1.5;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2cqw;padding:3.6cqw;border-radius:3.4cqw;background:#FAF8F3;box-shadow:0 2cqw 5cqw -2cqw rgba(60,40,20,.25);}
 .dt-top{font-size:1.9cqw;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:#8a7b6c;}
@@ -1329,7 +1377,7 @@ html.has-cur [data-cur] *{cursor:none;}
         <span class="lb">Steeped</span>
       </a>
       <a href="#claude" data-cur="Draft">
-        <div class="cv cv-cdl"><div class="cdl dt-v" aria-hidden="true"><div class="dt-win"><video class="dt-vid" src="assets/dt/dt-sign.mp4" poster="assets/dt/dt-sign.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Prototype: marking a decision"></video></div></div></div>
+        <div class="cv cv-cdl"><div class="cdl dt-v" aria-hidden="true"><video class="dt-vid dt-reel" src="assets/dt/dt-cover.mp4" poster="assets/dt/dt-cover.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Decision Trail feature reel: mark a decision, Claude flags a clash, find it on the Decisions page"></video></div></div>
         <span class="lb">Decision Trail</span>
       </a>
     </div>
@@ -1380,7 +1428,7 @@ html.has-cur [data-cur] *{cursor:none;}
           <span class="go">View case study</span>
         </a>
         <a class="h-card" href="#claude" data-cur="Draft">
-          <div class="img media cv-cdl" style="background:#EFE9DE;"><div class="cdl dt-v" aria-hidden="true"><div class="dt-win"><video class="dt-vid" src="assets/dt/dt-sign.mp4" poster="assets/dt/dt-sign.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Prototype: marking a decision"></video></div></div></div>
+          <div class="img media cv-cdl" style="background:#EFE9DE;"><div class="cdl dt-v" aria-hidden="true"><video class="dt-vid dt-reel" src="assets/dt/dt-cover.mp4" poster="assets/dt/dt-cover.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Decision Trail feature reel: mark a decision, Claude flags a clash, find it on the Decisions page"></video></div></div>
           <div class="top"><h3>Decision Trail</h3><span class="dur">In progress</span></div>
           <p class="cat">AI Product Concept for Claude · Conversation Design</p>
           <span class="go">Draft case study</span>
@@ -2410,21 +2458,19 @@ document.addEventListener('DOMContentLoaded',function(){
     <section class="sec" data-xsec="Overview">
     <h2>A month in, the plan forgets what you decided.</h2>
     <p>A month into producing a Fashion Week pop-up, you ask Claude for the promotion plan. Step 1 sends gifting bags to 30 influencers, the opposite of what you decided on Oct 24. The next morning, in a new chat, you explain everything again.</p>
-    <div class="three">
-      <div><h3>Mark it in your words</h3><p>After you send a message that reads like a decision, a quiet prompt offers to add it. Nothing saves until you tap.</p></div>
-      <div><h3>Claude checks its plans</h3><p>When a plan conflicts with a call you made, Claude says so inside its reply and asks: keep it, or change it?</p></div>
-      <div><h3>Find the why, anytime</h3><p>Every decision links back to the moment you made it, one tap away.</p></div>
-    </div></section>
+    <figure class="dt-hero"><img src="assets/dt/dt-overview-hero.jpg" alt="Decision Trail at a glance. 1, Kept in your words: a chat message marked Added to Decisions, your exact words. 2, Claude checks, you decide: asked for a promotion plan, Claude flags that step 1 clashes with your Oct 24 decision, No influencer gifting bags, and offers Keep my call or Change it. 3, One tap back: tapping the quote on the Decisions page opens the chat at the moment you decided. Jump back was rated 7 out of 7 for ease by all 5 testers." width="3200" height="1800" loading="lazy"></figure>
+</section>
 
     <section class="sec" data-xsec="Problem">
-    <h2>“It makes me feel like I’m super forgetful.”</h2>
-    <p>That’s how a designer who builds his own AI tools, and runs long projects in Claude every day, described working with AI. (Quotes translated from Chinese.)</p>
-    <div class="negs">
-      <figure class="neg"><blockquote>“The conversation might already be thirty thousand words. You don’t fully remember what you talked about.”</blockquote><figcaption>— on long chats</figcaption></figure>
-      <figure class="neg"><blockquote>“I give it four things to remember. Somewhere in the conversation, it keeps three.”</blockquote><figcaption>— on what gets lost</figcaption></figure>
-      <figure class="neg"><blockquote>“There’s a piece in the middle you lost. Go back and find it for me.”</blockquote><figcaption>— on asking for a recap</figcaption></figure>
-      <figure class="neg"><blockquote>“I keep checking by hand whether our roadmap is still on the same track, whether we’re aligned.”</blockquote><figcaption>— on staying aligned</figcaption></figure>
-    </div>
+    <h2>“It makes me feel like I’m super forgetful.” <span aria-hidden="true">🤷🏻</span></h2>
+    <p>That’s how a designer who builds his own AI tools, and runs long projects in Claude every day, described working with AI.</p>
+    <div class="talk" aria-label="Interview quotes"><div class="talk-stage"><div class="talk-track">
+      <div class="say"><img class="talk-av" src="assets/dt/mj-dizzy.png" alt="Memoji, dizzy with birds circling" width="56" height="56" loading="lazy"><div class="talk-b"><span class="talk-who">Designer · runs long projects in Claude</span><span class="talk-dots" aria-hidden="true"><i></i><i></i><i></i></span><p>“The conversation might already be thirty thousand words. You don’t fully remember what you talked about.” <span class="talk-e" aria-hidden="true">😵‍💫</span></p></div></div>
+      <div class="say"><img class="talk-av" src="assets/dt/mj-peek.png" alt="Memoji, peeking through his hands" width="56" height="56" loading="lazy"><div class="talk-b"><span class="talk-dots" aria-hidden="true"><i></i><i></i><i></i></span><p>“I give it four things to remember. Somewhere in the conversation, it keeps three.” <span class="talk-e" aria-hidden="true">🙈</span></p></div></div>
+      <div class="say"><img class="talk-av" src="assets/dt/mj-facepalm.png" alt="Memoji, facepalming" width="56" height="56" loading="lazy"><div class="talk-b"><span class="talk-dots" aria-hidden="true"><i></i><i></i><i></i></span><p>“There’s a piece in the middle you lost. Go back and find it for me.” <span class="talk-e" aria-hidden="true">🤦🏻‍♂️</span></p><span class="talk-note">↳ His exact words to Claude when he lost track of progress. He also told me he finds it hard to fully trust what the AI tells him back.</span></div></div>
+      <div class="say"><img class="talk-av" src="assets/dt/mj-zen.png" alt="Memoji, meditating calmly" width="56" height="56" loading="lazy"><div class="talk-b"><span class="talk-dots" aria-hidden="true"><i></i><i></i><i></i></span><p>“I keep checking by hand whether our roadmap is still on the same track, whether we’re aligned.” <span class="talk-e" aria-hidden="true">🧘🏻‍♂️</span></p></div></div>
+      <div class="say say-last"><img class="talk-av" src="assets/dt/mj-peek.png" alt="Memoji, hiding behind his hands" width="56" height="56" loading="lazy"><div class="talk-b"><span class="talk-dots" aria-hidden="true"><i></i><i></i><i></i></span><p>“It makes me feel like I’m super forgetful.” <span class="talk-e" aria-hidden="true">🤷🏻</span></p></div></div>
+    </div><div class="talk-pips" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div></div>
     <p style="margin-top:32px">The AI drops context, and the person quietly absorbs the cost, even blaming themselves. He isn’t alone. In my test, 4 of 5 people scroll back or ask the AI to recap, and they don’t fully trust what comes back.</p>
     <p><b>We’re quietly trading trust for efficiency.</b> Design should make decision-making transparent, so people can claim that trust back, in their own words.</p>
     <p class="hmw"><b>HOW MIGHT WE</b><br>Help people on long projects with AI keep every decision visible, with its why and where it came from, <em>so they can move fast without giving up trust</em>?</p>
@@ -2452,6 +2498,12 @@ document.addEventListener('DOMContentLoaded',function(){
 
     <section class="sec" data-xsec="Concept">
     <h2>Mark, check, find your place.</h2>
+    <figure class="dt-ov" style="margin-top:20px"><video class="dt-vid dt-ovv" src="assets/dt/dt-overview.mp4" poster="assets/dt/dt-overview.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Decision Trail in 12 seconds: a month in, mark a decision in your words, Claude checks its plan against it, find the why from the Decisions page"></video></figure>
+    <div class="three dt-sync">
+      <div><h3>Mark it in your words</h3><p>After you send a message that reads like a decision, a quiet prompt offers to add it. Nothing saves until you tap.</p></div>
+      <div><h3>Claude checks its plans</h3><p>When a plan conflicts with a call you made, Claude says so inside its reply and asks: keep it, or change it?</p></div>
+      <div><h3>Find the why, anytime</h3><p>Every decision links back to the moment you made it, one tap away.</p></div>
+    </div>
     <p>Here’s the prototype as it runs: a decision gets marked in the chat, then Claude checks a later plan against it.</p>
     <div class="dtg"><figure class="wide"><video src="assets/dt/dt-sign.mp4" poster="assets/dt/dt-sign.jpg" muted loop playsinline autoplay preload="metadata" style="display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--rule)" aria-label="Prototype recording: marking a decision in the chat"></video><figcaption><b>Mark it.</b>After a message that reads like a decision, a quiet line appears under it: Add to Decisions, or leave it in chat.</figcaption></figure>
     <figure class="wide"><video src="assets/dt/dt-drift.mp4" poster="assets/dt/dt-drift.jpg" muted loop playsinline autoplay preload="metadata" style="display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--rule)" aria-label="Prototype recording: Claude flags a plan step that conflicts with a decision"></video><figcaption><b>Claude checks its plan.</b>Step 1 breaks a call from Oct 24. Claude quotes it inside the reply and asks: keep it, or change it?</figcaption></figure></div>
@@ -2477,20 +2529,23 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="dtg"><figure class="wide"><img src="assets/dt/proto-test.jpg" alt="The usability test: a dark task card over the mockup reads Scene 1 done, next, scene 2 of 5, with the task and a Start scene 2 button" loading="lazy" width="1440" height="996"><figcaption><b>The test.</b>Each scene opens with a task card, set in a story built around the tester’s own kind of work.</figcaption></figure></div>
     <p class="xnote">A small sample, so I read it for direction, not proof.</p>
     <p class="rp-eye ins-eye">What testing showed</p>
-    <h3>1. People quietly trade trust for speed</h3>
-    <p>The recap is fast, so they take it, even though they doubt it. Efficiency wins by default, and the cost shows up later. 4 of 5 ask the AI to recap today.</p>
-    <figure class="neg" style="margin-top:16px"><blockquote>“It may be wrong, easily mixed together.”</blockquote><figcaption>— P1, producer, on asking the AI to recap</figcaption></figure>
-    <h3 style="margin-top:40px">2. A decision without its why can’t be trusted or reopened</h3>
-    <p>The reason fades first, and it’s exactly what you need when plans change. Without it, a past call is either followed blindly or redone.</p>
-    <figure class="neg" style="margin-top:16px"><blockquote>“I usually will not forget my decision but forget the reason of making it.”</blockquote><figcaption>— P4, designer</figcaption></figure>
-    <h3 style="margin-top:40px">3. Seeing where a decision came from is what restores trust</h3>
-    <p>A summary asks you to believe it. The original moment shows you. Jumping back scored 7 out of 7 on ease from all 5 testers, and 3 of 5 named it the part that stood out most.</p>
-    <figure class="neg" style="margin-top:16px"><blockquote>“It’s useful to know what direct decision I made, instead of having the AI do a summary of the decision I made.”</blockquote><figcaption>— P3, designer</figcaption></figure>
+    <div class="talk talk-t" style="--n:3" aria-label="Tester quotes"><div class="talk-stage"><div class="talk-track">
+      <div class="say"><img class="talk-av" src="assets/dt/mj-p1.png" alt="P1, producer: Memoji covering her face, peeking through her fingers" width="56" height="56" loading="lazy"><div class="talk-b"><span class="talk-who">P1 · producer, on asking the AI to recap</span><span class="talk-dots" aria-hidden="true"><i></i><i></i><i></i></span><p>“It may be wrong, easily mixed together.” <span class="talk-e" aria-hidden="true">🤨</span></p><span class="talk-note">↳ 4 of 5 testers ask the AI to recap today. It’s fast, so they take it, even though they doubt it.</span></div></div>
+      <div class="say"><img class="talk-av" src="assets/dt/mj-p4.png" alt="P4, designer: Memoji biting her nails, worried" width="56" height="56" loading="lazy"><div class="talk-b"><span class="talk-who">P4 · designer</span><span class="talk-dots" aria-hidden="true"><i></i><i></i><i></i></span><p>“I usually will not forget my decision but forget the reason of making it.” <span class="talk-e" aria-hidden="true">🤔</span></p><span class="talk-note">↳ The why fades first, and it’s what you need when plans change.</span></div></div>
+      <div class="say say-last"><img class="talk-av" src="assets/dt/mj-p3.png" alt="P3, designer: Memoji smiling and presenting with one hand" width="56" height="56" loading="lazy"><div class="talk-b"><span class="talk-who">P3 · designer, after jumping back</span><span class="talk-dots" aria-hidden="true"><i></i><i></i><i></i></span><p>“It’s useful to know what direct decision I made, instead of having the AI do a summary of the decision I made.” <span class="talk-e" aria-hidden="true">💡</span></p><span class="talk-note">↳ Jumping back scored 7 of 7 on ease from all 5 testers. 3 of 5 named it the part that stood out.</span></div></div>
+    </div><div class="talk-pips" aria-hidden="true"><i></i><i></i><i></i></div></div></div>
+    <div class="three ins">
+      <div><span class="ins-n">01</span><h3>People quietly trade trust for speed</h3><p>The recap is fast, so they take it. Efficiency wins by default, and the cost shows up later.</p></div>
+      <div><span class="ins-n">02</span><h3>A decision without its why can’t be trusted or reopened</h3><p>Without the reason, a past call is either followed blindly or redone.</p></div>
+      <div><span class="ins-n">03</span><h3>Seeing where a decision came from restores trust</h3><p>A summary asks you to believe it. The original moment shows you.</p></div>
+    </div>
     <p class="rp-eye ins-eye">What challenged the design</p>
     <h3>Decisions happen outside the chat</h3>
     <p>P1 decides with PR and production teams, not alone. Another participant asks Claude which souvenir to bring home, but never says which one they picked. Marking only works when there’s a moment to mark, so the scope is long, multi-chat projects. Capturing decisions from meetings is a future direction.</p>
-    <figure class="neg" style="margin-top:16px"><blockquote>“After a meeting, I have to go back and report to my AI what happened, what we decided, and what options we have now.”</blockquote><figcaption>— P1, producer (translated)</figcaption></figure>
-    <p style="margin-top:24px">P1 also saw Reflect as a review for after the project: “I will never look at this during production.” (translated)</p></section>
+    <div class="talk talk-t static" aria-label="Pushback from P1"><div class="talk-stage"><div class="talk-track">
+      <div class="say"><img class="talk-av" src="assets/dt/mj-yawn.png" alt="P1, producer: Memoji yawning" width="56" height="56" loading="lazy"><div class="talk-b"><span class="talk-who">P1 · producer (translated)</span><p>“After a meeting, I have to go back and report to my AI what happened, what we decided, and what options we have now.” <span class="talk-e" aria-hidden="true">📝</span></p></div></div>
+      <div class="say"><img class="talk-av" src="assets/dt/mj-laptop.png" alt="P1, producer: Memoji peeking over a laptop" width="56" height="56" loading="lazy"><div class="talk-b"><span class="talk-who">P1 · on Reflect (translated)</span><p>“I will never look at this during production.” <span class="talk-e" aria-hidden="true">🙅🏻‍♂️</span></p><span class="talk-note">↳ So Reflect moves to the end of a project, as a review.</span></div></div>
+    </div></div></div></section>
 
     <section class="sec" data-xsec="Next">
     <h2>What’s next.</h2>
@@ -3082,6 +3137,22 @@ mvs.forEach(function(v){mio.observe(v)});
   window.addEventListener('resize',fit); new MutationObserver(fit).observe(document.body,{attributes:true,subtree:true,attributeFilter:['hidden']}); fit(); setTimeout(fit,600);
 })();
 </script>
+<script>document.querySelectorAll('.talk:not(.static)').forEach(function(T){(function(){var L=T.querySelectorAll('.say'),P=T.querySelectorAll('.talk-pips i'),cur=-1,tm;
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){T.classList.add('static');return;}
+function go(n){if(n===cur)return;var fwd=n>cur;cur=n;clearTimeout(tm);L.forEach(function(e,i){e.classList.toggle('in',i===n);e.classList.toggle('past',i<n);e.classList.remove('typing');});P.forEach(function(e,i){e.classList.toggle('on',i===n)});if(fwd){L[n].classList.add('typing');tm=setTimeout(function(){L[n].classList.remove('typing')},550);}}
+var S=T.querySelector('.talk-stage');function onS(){var r=T.getBoundingClientRect(),run=r.height-S.offsetHeight,t0=parseFloat(getComputedStyle(S).top)||0;if(r.bottom<0||r.top>innerHeight)return;var pr=Math.min(.999,Math.max(0,(t0-r.top)/run));go(Math.floor(pr*L.length));}
+addEventListener('scroll',onS,{passive:true});document.addEventListener('scroll',onS,{passive:true,capture:true});onS();})();});</script>
+<script>(function(){var v=document.querySelector('video.dt-ovv'),T=document.querySelector('.three.dt-sync');if(!v||!T)return;var C=T.children,B=[[2.9,-1],[5.45,0],[8.5,1],[11.6,2],[99,-1]],cur=-2;
+function sync(){var t=v.currentTime,i=0;while(t>=B[i][0])i++;var n=B[i][1];if(n===cur)return;cur=n;T.classList.toggle('live',n>=0);for(var j=0;j<C.length;j++)C[j].classList.toggle('on',j===n);}
+if(v.requestVideoFrameCallback){(function f(){sync();v.requestVideoFrameCallback(f);})();}else v.addEventListener('timeupdate',sync);v.addEventListener('seeked',sync);})();</script>
+<script>(function(){var B=[[2,'<b>Mark it.</b> Your words become a decision.'],[3.85,'<b>Claude keeps it.</b> A new plan clashes, you decide.'],[6,'<b>Find it.</b> One tap back to the moment you decided.'],[99,'']];
+document.querySelectorAll('video.dt-reel').forEach(function(v){var box=v.closest('.cdl')||v.parentNode,c=document.createElement('div'),cur=-1;c.className='dt-cap';c.setAttribute('aria-hidden','true');box.appendChild(c);
+function sync(){var t=v.currentTime,i=0;while(t>=B[i][0])i++;if(i!==cur){cur=i;if(B[i][1]){c.innerHTML=B[i][1];c.classList.add('on');}else c.classList.remove('on');}}
+if(v.requestVideoFrameCallback){(function f(){sync();v.requestVideoFrameCallback(f);})();}else{v.addEventListener('timeupdate',sync);}
+v.addEventListener('seeked',sync);v.addEventListener('loadeddata',sync);
+var host=v.closest('a')||v.closest('.cv-cdl')||box;
+host.addEventListener('mouseenter',function(){v.pause();});
+host.addEventListener('mouseleave',function(){if(!matchMedia('(prefers-reduced-motion: reduce)').matches)v.play().catch(function(){});});});})();</script>
 <script>(function(){var r=matchMedia('(prefers-reduced-motion: reduce)').matches;document.querySelectorAll('.dt-vid').forEach(function(v){if(r){v.removeAttribute('autoplay');v.pause();return;}if('IntersectionObserver' in window){new IntersectionObserver(function(e){e.forEach(function(x){x.isIntersecting?v.play().catch(function(){}):v.pause();});}).observe(v);}});})();</script>
 <style>
 /* ── About draft v2 · simple, scannable ─────────────────── */
