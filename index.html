@@ -1102,7 +1102,7 @@ html.has-cur [data-cur] *{cursor:none;}
 .dt-sync.live>div.on{opacity:1;}
 .dt-sync.live>div.on::before{transform:none;}
 .dt-cap{position:absolute;left:50%;bottom:4cqw;transform:translate(-50%,6px);max-width:84cqw;padding:.7em 1.1em;border-radius:999px;background:rgba(31,30,29,.92);color:#FAF9F5;font:500 max(12px,1.9cqw)/1.35 "Inter",-apple-system,sans-serif;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;white-space:nowrap;}
-.dt-cap b{color:#F0B79C;font-weight:600;}
+.dt-cap b,.h-card .img .dt-cap b{font:inherit;font-weight:600;letter-spacing:inherit;color:#F0B79C;transform:none;}
 .dt-cap.on{opacity:1;transform:translate(-50%,0);}
 .h-ss a .cv-cdl .dt-cap{bottom:12cqw;}
 
@@ -2154,7 +2154,6 @@ document.addEventListener('DOMContentLoaded',function(){
 <div class="body">
   <div class="railcol"><nav class="rail xrail" aria-label="Sections"><button class="back xback" type="button">← Back</button><ol><span class="mark xmark"><span class="glyph"></span></span><li><button type="button" data-x="Overview" aria-label="Jump to Overview"><span class="bar"><i></i></span><span class="nm">Overview</span></button></li><li><button type="button" data-x="Problem" aria-label="Jump to Problem"><span class="bar"><i></i></span><span class="nm">Problem</span></button></li><li><button type="button" data-x="Solution" aria-label="Jump to Solution"><span class="bar"><i></i></span><span class="nm">Solution</span></button></li><li><button type="button" data-x="Impact" aria-label="Jump to Impact"><span class="bar"><i></i></span><span class="nm">Impact</span></button></li><li><button type="button" data-x="Reflection" aria-label="Jump to Reflection"><span class="bar"><i></i></span><span class="nm">Reflection</span></button></li></ol></nav></div>
   <div class="content">
-    <span class="xdraft">Draft · copy and images in progress</span>
     <div class="eyebrow"><span aria-hidden="true" style="flex:none;display:block;width:40px;height:40px;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px rgba(89,82,71,.12),0 4px 10px -6px rgba(50,35,15,.3);"><img src="assets/steeped-ring-icon.svg" alt="" style="display:block;width:100%;height:100%"></span><span><b>Steeped</b><span>Phygital Service &amp; Interaction Design · Team project</span></span></div>
     <h2 class="display">Support that lasts as long as her cup of tea.</h2>
     <p class="lead">Steeped is a <b>smart coaster and app</b> for <b>moms in the months around birth</b>. Support here asks for time she has little of, so Steeped lives inside <b>a cup of tea</b>: it opens as she settles in and winds down as the cup empties. On a team of four, I led the app design and ran our roadmap.</p>
@@ -2572,7 +2571,6 @@ document.addEventListener('DOMContentLoaded',function(){
 <div class="body">
   <div class="railcol"><nav class="rail xrail" aria-label="Sections"><button class="back xback" type="button">← Back</button><ol><span class="mark xmark"><span class="glyph"></span></span><li><button type="button" data-x="Overview" aria-label="Jump to Overview"><span class="bar"><i></i></span><span class="nm">Overview</span></button></li><li><button type="button" data-x="Problem" aria-label="Jump to Problem"><span class="bar"><i></i></span><span class="nm">Problem</span></button></li><li><button type="button" data-x="Solution" aria-label="Jump to Solution"><span class="bar"><i></i></span><span class="nm">Solution</span></button></li><li><button type="button" data-x="Impact" aria-label="Jump to Impact"><span class="bar"><i></i></span><span class="nm">Impact</span></button></li><li><button type="button" data-x="Reflection" aria-label="Jump to Reflection"><span class="bar"><i></i></span><span class="nm">Reflection</span></button></li></ol></nav></div>
   <div class="content">
-    <span class="xdraft">Draft · copy and images in progress</span>
     <div class="eyebrow"><span aria-hidden="true" style="flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:#2E6B39;color:#fff;font:600 13px/1 var(--sf);">MC</span><span><b>MisCast</b><span>Multi-Agent AI Entertainment · Self-initiated</span></span></div>
     <h2 class="display">Cast two AI characters into one scene, and watch them improvise.</h2>
     <p class="lead">I designed and built MisCast over six months, from the first prototype to a live web app. You pick two characters and a scene, like a sweet grandma playing therapist to an awkward tech CEO, and they play it out. <b>You’re the audience, not the user.</b> Your part comes after the scene: react, throw in a plot twist, or share it.</p>
