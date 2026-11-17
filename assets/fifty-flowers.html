@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fifty Flowers</title>
+<meta name="description" content="A playful field guide to fifty flowers. Pluck petals, build bouquets, find your flower.">
+<meta name="theme-color" content="#F0EFEA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121211" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Fifty Flowers">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iI0YwRUZFQSIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiAyNTYpIHNjYWxlKDEuNykiIHN0cm9rZT0iIzFFMUUxRSIgc3Ryb2tlLXdpZHRoPSIxLjYiPjxnIGZpbGw9IiNDODMyM0MiPjxwYXRoIHRyYW5zZm9ybT0icm90YXRlKDApIiBkPSJNMCAwQzI0LjIgLTE1LjUgMjIgLTYyIDAgLTYyQy0yMiAtNjIgLTI0LjIgLTE1LjUgMCAwWiIvPjxwYXRoIHRyYW5zZm9ybT0icm90YXRlKDcyKSIgZD0iTTAgMEMyNC4yIC0xNS41IDIyIC02MiAwIC02MkMtMjIgLTYyIC0yNC4yIC0xNS41IDAgMFoiLz48cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSgxNDQpIiBkPSJNMCAwQzI0LjIgLTE1LjUgMjIgLTYyIDAgLTYyQy0yMiAtNjIgLTI0LjIgLTE1LjUgMCAwWiIvPjxwYXRoIHRyYW5zZm9ybT0icm90YXRlKDIxNikiIGQ9Ik0wIDBDMjQuMiAtMTUuNSAyMiAtNjIgMCAtNjJDLTIyIC02MiAtMjQuMiAtMTUuNSAwIDBaIi8+PHBhdGggdHJhbnNmb3JtPSJyb3RhdGUoMjg4KSIgZD0iTTAgMEMyNC4yIC0xNS41IDIyIC02MiAwIC02MkMtMjIgLTYyIC0yNC4yIC0xNS41IDAgMFoiLz48L2c+PGNpcmNsZSByPSIxMSIgZmlsbD0iIzFFMUUxRSIvPjwvZz48L3N2Zz4K" type="image/svg+xml">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAAQAElEQVR4nOzdB3xUVcKG8TO9ZdIDCCjNCioqFlDEhrqI69p17frZsLdV14pr7yBF3bWLva6LYlewggpYQFSahJqQMpNkevlO7s2MEZSENO6d8/zF/M6kXmbCee/p9tqaCgEAUI9VAACURAAAgKIIAABQFAEAAIoiAABAUQQAACiKAAAARREAAKAoAgAAFEUAAICiCAAAUBQBAACKIgAAQFEEAAAoigAAAEURAACgKAIAABRFAACAoggAAFAUAQAAiiIAAEBRBAAAKIoAAABFEQAAoCgCAAAURQAAgKIIAABQFAEAAIoiAABAUQQAACiKAAAARREAAKAoAgAAFEUAAICiCAAAUBQBAACKIgAAQFEEAAAoigAAAEURAACgKAIAABRFAACAoggAAFAUAQAAiiIAAEBRBAAAKIoAAABFEQAAoCgCAAAURQAAgKIIAABQFAEAAIoiAABAUQQAACiKAAAARREAAKAoAgAAFEUAAICiCAAAUBQBAACKIgAAQFEEAAAoigAAAEURAACgKAIAABRFAACAoggAAFAUAQAAiiIAAEBRBAAAKIoAAABFEQAAoCgCAAAURQAAgKIIAABQFAEAAIoiAABAUQQAACiKAAAARREAAKAoAgAAFEUAAICiCAAAUBQBAACKIgAAQFEEAAAoigAAAEURAACgKAIAABRFAACAoggAAFAUAQAAiiIAAEBRBAAAKIoAAABFEQAAoCgCAAAURQAAgKIIAABQFAEAAIoiAABAUQQAACiKAAAARREAAKAoAgAAFEUAAICiCAAAUBQBAACKIgAAQFEEAAAoigAAAEURAACgKAIAABRFAACAoggAAFAUAQAAiiIAAEBRBAAAKIoAAABFEQAAoCgCAAAURQAAgKIIAABQFAEAAIoiAABAUQQAACiKAAAARREAAKAoAgAAFEUAAICiCAAAUBQBAACKIgAAQFEEAAAoigAAAEURAACgKAIAABRFAACAoggAAFAUAQAAiiIAAEBRBAAAKIoAAABFEQAAoCgCAAAURQAAgKIIAABQFAEAAIqyC0ANkUhkyZKlS5f+uqy8vKa6prY2UFFR4XK7CvILCgsLioqLtth88759+/Tv38/lcglAAQQAclwqlfrk089efulV+VaWW/x8q9U6Yu/h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AgAAFEUAAICiCAAAUBQBAACKIgAAQFEEAAAoigAAAEURAACgKAIAABRFAACAoggAAFAUAQAAiiIAAEBRBAAAKIoAAABFEQAAoCgCAAAURQAAgKIIAABQFAEAAIoiAABAUQQAACiKAAAARREAAKAoAgAAFEUAAICiCAAAUBQBAACKIgAAQFEEAAAoigAAAEURAACgKAIAABRFAACAoggAAFAUAQAAiiIAAEBRBAAAKIoAAABFEQAAoCgCAAAURQAAgKIIAABQFAEAAIoiAABAUQQAACiKAAAARREAAKAoAgAAFEUAAICiCAAAUBQBAACKIgAAQFEEAAAoigAAAEURAACgKAIAABRFAACAoggAAFAUAQAAiiIAAEBRBAAAKIoAAABFEQAAoCgCAAAURQAAgKIIAABQFAEAAIoiAABAUQQAACiKAAAARREAAKAoAgAAFEUAAICiCAAAUBQBAACKIgAAQFEEAAAoigAAAEURAACgKAIAABRFAACAoggAAFAUAQAAiiIAAEBRBAAAKIoAAABFEQAAoCgCAAAURQAAgKL+HwAA///UpEbXAAAABklEQVQDAOBooAZhvakSAAAAAElFTkSuQmCC">
+<style>
+:root{
+  --ink:#1E1E1E;--paper:#F0EFEA;--sheet:#D3D2CE;--tint:#E4E2DC;--rule:#1E1E1E;--mut:#5E5B57;--signal:#C8323C;
+  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace;--serif:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --ease:cubic-bezier(.45,0,.55,1);--pad:clamp(16px,4vw,40px)
+}
+@media (prefers-color-scheme:dark){:root{--ink:#F2F0EA;--paper:#121211;--sheet:#2A2926;--tint:#1F1E1C;--rule:#F2F0EA;--mut:#A8A49C;--signal:#F0625A}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 var(--sans);letter-spacing:-.005em;min-height:100vh;overflow-x:hidden}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+button{background:none;border:0;padding:0;cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.38}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+[tabindex="-1"]:focus{outline:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:8px;top:-60px;background:var(--ink);color:var(--paper);padding:10px 14px;z-index:99;text-decoration:none}
+.skip:focus{top:8px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.mut{color:var(--mut)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 var(--pad)}
+
+/* ── hairlines that draw in ── */
+.draw{background:linear-gradient(var(--rule),var(--rule)) no-repeat 0 0/0 1px;animation:draw .8s var(--ease) forwards;animation-delay:calc(var(--i,0)*40ms)}
+.draw2{background:linear-gradient(var(--rule),var(--rule)) no-repeat 0 100%/0 2px;animation:draw2 .8s var(--ease) forwards}
+@keyframes draw{to{background-size:100% 1px}}
+@keyframes draw2{to{background-size:100% 2px}}
+.fu{animation:fu .6s var(--ease) both;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}}
+@keyframes fade{from{opacity:0}}
+
+/* ── top bar ── */
+.bar{position:sticky;top:0;z-index:20;background:var(--paper)}
+.bar .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:56px;gap:12px}
+.mark{font:600 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:8px;min-height:44px}
+.mark svg{width:22px;height:22px}
+.crumb{font:12px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:42vw}
+.crumb a{text-decoration:none;color:var(--mut)}.crumb a:hover{color:var(--ink)}
+.bar-r{justify-self:end;display:flex;align-items:center;gap:18px}
+.clock{font:12px/1 var(--mono);color:var(--mut);font-variant-numeric:tabular-nums}
+.chip{font:600 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:0 14px;min-height:36px;display:inline-flex;align-items:center;gap:8px}
+.chip:hover{background:var(--signal)}
+@media(max-width:640px){.crumb,.clock{display:none}.bar .wrap{grid-template-columns:1fr auto}}
+
+main{outline:none;min-height:70vh}
+.page{animation:fade .5s var(--ease) both}
+
+/* ── type ── */
+.giant{font-weight:600;font-size:clamp(56px,14.5vw,200px);line-height:.84;letter-spacing:-.055em;margin:0}
+.h1{font-weight:500;font-size:clamp(48px,9vw,128px);line-height:.88;letter-spacing:-.05em;margin:0}
+.h2{font:600 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;margin:0 0 14px}
+.lede{font-size:17px;max-width:46ch;margin:0}
+sup{font:11px/1 var(--mono);vertical-align:super;margin-left:4px;letter-spacing:0}
+.tag{font:12px/1 var(--mono);background:var(--ink);color:var(--paper);padding:5px 8px;display:inline-block;letter-spacing:.04em}
+.circ{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border:1px solid currentColor;border-radius:11px;font:11px/1 var(--mono);margin-left:8px;vertical-align:middle;letter-spacing:0}
+
+/* ── links & buttons ── */
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border:1px solid var(--rule);font:600 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .4s var(--ease),color .4s var(--ease)}
+.btn:hover:not(:disabled),.btn:active:not(:disabled){background:var(--ink);color:var(--paper)}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn.solid:hover:not(:disabled){background:var(--signal);border-color:var(--signal)}
+.btn[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.ul{background:none;border:0;padding:0;min-height:44px;font:12px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.ul[aria-pressed=true],.ul[aria-current=true]{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
+.ul:hover{color:var(--signal)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+
+/* ── flower drawing ── */
+.fl{display:block;overflow:visible}
+.fl .p,.fl .c{fill:var(--f);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke;transform-box:fill-box;transition:fill .6s var(--ease),transform .7s var(--ease),opacity .7s var(--ease)}
+.fl .p *{vector-effect:non-scaling-stroke}
+.fl .st{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.fl .d{fill:var(--paper);opacity:.55;stroke:none}
+.pr{transform-origin:50% 100%}.pc{transform-origin:50% 50%}.pt{transform-origin:50% 0}
+.fl.ink .p,.fl.ink .p *{fill:var(--paper)}
+.fl.ink .c{fill:var(--ink)}
+.colour .fl.ink .p,.colour .fl.ink .p *{fill:var(--f)}
+.colour .fl.ink .c{fill:var(--f)}
+.bloom .p,.bloom .c{animation:bloom .7s var(--ease) both;animation-delay:calc(var(--i,0)*24ms)}
+@keyframes bloom{from{transform:scale(0) rotate(-12deg);opacity:0}}
+.p.gone{transform:translateY(-38px) rotate(28deg) scale(.4);opacity:0;pointer-events:none}
+.sway{animation:sway 7s var(--ease) infinite alternate}
+@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+
+/* ── home ── */
+.hero{padding-top:clamp(20px,4vw,40px)}
+.hero-top{display:flex;justify-content:space-between;gap:20px;padding-bottom:14px}
+.split{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:0 4vw;padding-bottom:18px}
+.split .giant:last-child{text-align:right}
+.stage{position:relative;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);border-top:2px solid var(--rule);border-bottom:1px solid var(--rule);min-height:min(78vh,620px);cursor:crosshair;overflow:hidden;touch-action:manipulation}
+.stage-l{border-right:1px solid var(--rule);padding:22px 22px 22px 0;display:flex;flex-direction:column;justify-content:space-between;gap:24px;cursor:auto}
+.stage-r{position:relative;display:grid;place-items:center;padding:24px}
+.hero-fl{width:min(78%,440px);aspect-ratio:1;position:relative;z-index:2;cursor:pointer;border-radius:50%}
+.hero-fl .fl{width:100%;height:100%}
+.planted{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;pointer-events:none;z-index:1;transition:opacity 1.2s var(--ease)}
+.planted.out{opacity:0}
+.cap{font:12px/1.5 var(--mono);letter-spacing:.04em;text-transform:uppercase}
+.cap b{display:block;font:500 clamp(28px,4vw,44px)/1 var(--sans);letter-spacing:-.03em;text-transform:none;margin:6px 0 4px}
+.cap a{text-decoration:none}.cap a:hover b{color:var(--signal)}
+.hint{position:absolute;right:16px;bottom:12px;font:12px/1 var(--mono);color:var(--mut);letter-spacing:.04em;text-transform:uppercase;z-index:3}
+@media(max-width:820px){.stage{grid-template-columns:1fr}.stage-l{border-right:0;border-bottom:1px solid var(--rule);padding:18px 0;order:2}.stage-r{min-height:62vw}}
+
+/* G14-style situation rows */
+.paths{list-style:none;margin:0;padding:0}
+.paths a,.paths button{display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:12px;width:100%;text-align:left;text-decoration:none;padding:18px 0;min-height:64px;transition:background .4s var(--ease),padding .4s var(--ease)}
+.paths a:hover,.paths button:hover,.paths a:focus-visible,.paths button:focus-visible{background:var(--tint);padding-left:10px}
+.paths .n{font:12px/1 var(--mono);color:var(--mut)}
+.paths .t{font-size:clamp(20px,2.6vw,28px);letter-spacing:-.02em;line-height:1.1}
+.paths .ar{font:16px/1 var(--mono);transition:transform .4s var(--ease)}
+.paths a:hover .ar,.paths button:hover .ar{transform:translateX(6px)}
+.sec{padding-block:clamp(28px,5vw,56px)}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:8px}
+.today{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:28px;align-items:center}
+.today .fl{width:min(100%,260px);margin:0 auto}
+@media(max-width:820px){.today{grid-template-columns:1fr}}
+
+/* ── index ── */
+.ix-head{padding:clamp(20px,4vw,40px) 0 18px}
+.ctrl{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 24px;padding:6px 0}
+.ctrl .grp{display:flex;flex-wrap:wrap;align-items:center;gap:0 18px}
+.showing{font:12px/1.4 var(--mono);letter-spacing:.04em;text-transform:uppercase}
+.showing b{font-weight:600}
+.acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s var(--ease)}
+.acc-body>div{overflow:hidden;min-height:0}
+.acc-body.open{grid-template-rows:1fr}
+.filters{padding:8px 0 20px;display:grid;gap:16px}
+.frow{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center;padding-top:10px}
+.frow>span{font:12px/1 var(--mono);text-transform:uppercase;letter-spacing:.04em}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{min-height:36px;padding:0 12px;border:1px solid var(--rule);font:12px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;transition:background .4s var(--ease),color .4s var(--ease)}
+.opt:hover{background:var(--tint)}
+.opt[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.sw{width:12px;height:12px;border:1px solid var(--ink);display:inline-block;flex:none}
+.field{border:0;border-bottom:1px solid var(--rule);background:transparent;padding:10px 0;min-height:44px;width:100%;max-width:420px;font-size:16px;border-radius:0}
+.field:focus{outline:none;border-bottom:2px solid var(--signal)}
+.ix-body{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:0 36px;border-top:2px solid var(--rule)}
+.ix-body.full{grid-template-columns:1fr}
+.peek{position:sticky;top:72px;align-self:start;padding:24px 0;min-height:60vh;display:flex;flex-direction:column;gap:14px}
+.peek .fl{width:100%;max-width:420px;aspect-ratio:1;margin:0 auto}
+@media(max-width:900px){.ix-body{grid-template-columns:1fr}.peek{display:none}}
+.list{list-style:none;margin:0;padding:0}
+.list a{display:grid;grid-template-columns:42px minmax(0,1fr) auto 40px;align-items:center;gap:12px;padding:10px 0;min-height:60px;text-decoration:none;transition:background .4s var(--ease),padding .4s var(--ease)}
+.list a:hover,.list a:focus-visible{background:var(--tint);padding-left:8px}
+.list .n{font:12px/1 var(--mono);color:var(--mut)}
+.list .nm{font-size:clamp(19px,2.2vw,24px);letter-spacing:-.02em;line-height:1.1}
+.list .lat{display:block;font:italic 14px/1.3 var(--serif);color:var(--mut);letter-spacing:0;margin-top:2px}
+.list .rt{font:12px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.04em;text-align:right;color:var(--mut)}
+.list .th{width:40px;height:40px}
+@media(max-width:560px){.list .rt{display:none}.list a{grid-template-columns:34px 1fr 40px}}
+.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));border-left:1px solid var(--rule)}
+.grid li{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.grid a{display:flex;flex-direction:column;gap:10px;padding:14px;text-decoration:none;height:100%;transition:background .4s var(--ease)}
+.grid a:hover,.grid a:focus-visible{background:var(--tint)}
+.grid .fl{width:100%;aspect-ratio:1;transition:transform .7s var(--ease)}
+.grid a:hover .fl{transform:rotate(18deg) scale(1.04)}
+.grid a:hover .fl.ink .p,.grid a:hover .fl.ink .p *,.grid a:focus-visible .fl.ink .p,.grid a:focus-visible .fl.ink .p *{fill:var(--f)}
+.grid a:hover .fl.ink .c,.grid a:focus-visible .fl.ink .c{fill:var(--f)}
+.grid .meta{display:flex;justify-content:space-between;font:12px/1 var(--mono);color:var(--mut)}
+.grid b{font-weight:500;font-size:17px;letter-spacing:-.01em;line-height:1.15}
+.strip-wrap{position:relative;padding:28px 0 8px}
+.strip{display:flex;gap:28px;overflow-x:auto;scroll-snap-type:x mandatory;padding:20px calc(50% - 90px);scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+.strip a{flex:0 0 180px;scroll-snap-align:center;text-decoration:none;opacity:.45;transition:opacity .5s var(--ease)}
+.strip a.on{opacity:1}
+.strip .fl{width:180px;height:180px}
+.brk{position:absolute;top:28px;bottom:8px;left:50%;width:236px;margin-left:-118px;pointer-events:none;display:flex;justify-content:space-between}
+.brk i{width:22px;border:2px solid var(--ink);border-right:0;border-radius:110px 0 0 110px}
+.brk i+i{border:2px solid var(--ink);border-left:0;border-radius:0 110px 110px 0}
+.strip-cap{text-align:center;padding:10px 0 28px;min-height:120px}
+.strip-cap b{display:block;font:500 clamp(28px,4vw,44px)/1 var(--sans);letter-spacing:-.03em}
+.empty{padding:56px 0;display:grid;gap:16px;justify-items:start}
+.empty p{font-size:clamp(22px,3vw,32px);letter-spacing:-.02em;line-height:1.15;margin:0;max-width:22ch}
+
+/* ── detail ── */
+.det{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:0 40px;border-top:2px solid var(--rule)}
+.det-fig{position:sticky;top:56px;align-self:start;padding:24px 0;display:flex;flex-direction:column;gap:14px}
+.spinner{width:100%;aspect-ratio:1;max-width:520px;margin:0 auto;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.spinner:active{cursor:grabbing}
+.spinner>div{width:100%;height:100%;transition:transform .7s var(--ease)}
+.spinner .fl{width:100%;height:100%}
+.spinner .p{cursor:pointer}
+.status{font:12px/1.5 var(--mono);text-transform:uppercase;letter-spacing:.04em;min-height:20px;text-align:center}
+.status b{color:var(--signal);font-weight:600}
+.det-text{padding:28px 0 40px}
+.det-text .latin{font:italic clamp(18px,2vw,22px)/1.3 var(--serif);color:var(--mut);margin:12px 0 22px}
+dl{margin:0}
+.row{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:10px 0}
+.row dt{font:12px/1.5 var(--mono);text-transform:uppercase;letter-spacing:.04em}
+.row dd{margin:0}
+.acc{border-bottom:1px solid var(--rule);margin-top:24px}
+.acc-h{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;min-height:56px;padding:12px 0;font-size:clamp(18px,2vw,22px);letter-spacing:-.015em}
+.acc-h:hover{color:var(--signal)}
+.acc-h .pl{font:300 26px/1 var(--sans);transition:transform .6s var(--ease);display:inline-block}
+.acc-h[aria-expanded=true] .pl{transform:rotate(45deg)}
+.acc-in{padding:0 0 18px;max-width:56ch}
+.acc-in p{margin:0 0 10px}
+.alike{display:flex;flex-wrap:wrap;gap:6px}
+.pn{display:grid;grid-template-columns:1fr 1fr;margin-top:32px;border-top:1px solid var(--rule)}
+.pn a{text-decoration:none;padding:16px 0;min-height:64px;display:flex;flex-direction:column;gap:6px}
+.pn a+a{text-align:right;border-left:1px solid var(--rule);padding-left:16px}
+.pn a:hover b{color:var(--signal)}
+.pn b{font-weight:500;font-size:20px;letter-spacing:-.02em}
+@media(max-width:820px){.det{grid-template-columns:1fr}.det-fig{position:static}}
+
+/* ── play: horizontal accordion ── */
+.hz{display:flex;border-top:2px solid var(--rule);border-bottom:1px solid var(--rule);min-height:640px}
+.hz-i{display:flex;flex:0 0 72px;border-right:1px solid var(--rule);transition:flex .7s var(--ease);min-width:0}
+.hz-i:last-child{border-right:0}
+.hz-i.open{flex:1 1 auto}
+.spine{flex:0 0 72px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:18px 0;gap:18px;border-right:1px solid transparent;transition:background .4s var(--ease)}
+.spine:hover{background:var(--tint)}
+.hz-i.open .spine{border-right-color:var(--rule)}
+.spine .n{font:500 34px/1 var(--sans);letter-spacing:-.04em}
+.hz-i.open .spine .n{color:var(--signal)}
+.spine .lbl{writing-mode:vertical-rl;transform:rotate(180deg);font:12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.pane{flex:1;min-width:0;padding:24px clamp(16px,3vw,36px) 32px;overflow:hidden}
+.pane[hidden]{display:none}
+.pane-in{animation:fu .6s var(--ease) both;animation-delay:.2s;max-width:860px}
+@media(max-width:820px){.hz{flex-direction:column;min-height:0;border-bottom:0}.hz-i{flex:none;flex-direction:column;border-right:0;border-bottom:1px solid var(--rule)}.hz-i.open{flex:none}.spine{flex-direction:row;justify-content:flex-start;padding:14px 0;min-height:64px;border-right:0}.spine .lbl{writing-mode:horizontal-tb;transform:none;font-size:13px}.spine .n{font-size:26px;width:44px}.pane{padding:6px 0 28px}}
+.qa{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:28px;align-items:start}
+.qa .fl{width:100%;max-width:360px;aspect-ratio:1;margin:0 auto}
+@media(max-width:820px){.qa{grid-template-columns:1fr}}
+.choices{list-style:none;margin:0;padding:0}
+.choices button{display:grid;grid-template-columns:44px 1fr auto;align-items:center;width:100%;text-align:left;min-height:56px;padding:12px 0;font-size:20px;letter-spacing:-.015em;transition:background .4s var(--ease),padding .4s var(--ease)}
+.choices button:hover:not(:disabled){background:var(--tint);padding-left:8px}
+.choices .n{font:12px/1 var(--mono);color:var(--mut)}
+.choices button.right{color:var(--signal)}
+.choices button.right .mk::after{content:"✓ Correct"}
+.choices button.wrong{text-decoration:line-through}
+.choices button.wrong .mk::after{content:"✕"}
+.choices button:disabled{opacity:1;cursor:default}
+.choices .mk{font:12px/1 var(--mono);text-transform:uppercase;letter-spacing:.04em}
+.score{display:flex;gap:24px;font:12px/1 var(--mono);text-transform:uppercase;letter-spacing:.04em;margin:0 0 16px}
+.score b{font:500 28px/1 var(--sans);letter-spacing:-.03em;display:block;margin-top:6px}
+.bq{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:28px}
+.bq-pick{display:flex;flex-wrap:wrap;gap:6px;max-height:340px;overflow:auto;padding:2px}
+.bq-fig .fl{width:100%;max-width:400px;aspect-ratio:1/1.1;margin:0 auto}
+@media(max-width:820px){.bq{grid-template-columns:1fr}.bq-fig{order:-1}}
+
+/* ── garden ── */
+.bqs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));border-left:1px solid var(--rule);border-top:1px solid var(--rule)}
+.bqs li{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:14px;display:flex;flex-direction:column;gap:8px}
+.bqs .fl{width:100%;aspect-ratio:1/1.1}
+.bqs b{font-weight:500;font-size:18px}
+.saved li{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px}
+.saved li a{grid-template-columns:42px minmax(0,1fr) 40px}
+
+/* ── switch ── */
+.sw-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;padding:14px 0;min-height:64px}
+.sw-row small{display:block;color:var(--mut);font-size:14px}
+.switch{width:52px;height:30px;border:1px solid var(--rule);position:relative;flex:none;transition:background .4s var(--ease)}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;background:var(--ink);transition:transform .4s var(--ease),background .4s var(--ease)}
+.switch[aria-checked=true]{background:var(--ink)}
+.switch[aria-checked=true]::after{transform:translateX(22px);background:var(--paper)}
+
+/* ── menu sheet ── */
+.menu{position:fixed;inset:0;z-index:50;background:var(--sheet);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility 0s .5s}
+.menu.open{opacity:1;visibility:visible;transition:opacity .5s var(--ease)}
+.menu .wrap{width:100%}
+.menu-top{display:flex;justify-content:space-between;align-items:center;min-height:56px}
+.menu-top .lbl{font:600 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--signal)}
+.menu ol{list-style:none;margin:8px 0 0;padding:0}
+.menu li{opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:calc(var(--i)*40ms)}
+.menu.open li{opacity:1;transform:none}
+.menu ol a{display:flex;align-items:baseline;gap:10px;text-decoration:none;font:400 clamp(34px,7vw,72px)/1.05 var(--serif);letter-spacing:-.02em;padding:10px 0;border-bottom:1px solid var(--rule);min-height:56px}
+.menu ol a sup{font-size:12px}
+.menu ol a:hover{padding-left:10px;transition:padding .4s var(--ease)}
+.menu ol a[aria-current=page]{color:var(--signal)}
+.menu-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:20px;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:12px 16px;font:12px/1.4 var(--mono);letter-spacing:.04em;text-transform:uppercase;opacity:0;transition:opacity .5s var(--ease),transform .5s var(--ease);z-index:60;max-width:calc(100vw - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.drift{position:fixed;width:14px;height:20px;pointer-events:none;z-index:70;animation:drift 1.6s var(--ease) forwards}
+@keyframes drift{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+footer{padding:36px 0 calc(60px + env(safe-area-inset-bottom));font:12px/1.6 var(--mono);color:var(--mut);letter-spacing:.03em;text-transform:uppercase}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--rule);padding-top:16px}
+
+/* ── calm mode: crossfades only ── */
+.calm *,.calm *::before,.calm *::after{transition-property:opacity,background-color,color,fill!important;scroll-behavior:auto!important}
+.calm .fu,.calm .bloom .p,.calm .bloom .c,.calm .pane-in{animation-name:fade!important}
+.calm .draw{animation:none;background-size:100% 1px}
+.calm .draw2{animation:none;background-size:100% 2px}
+.calm .sway{animation:none}
+.calm .p.gone{transform:none}
+.calm .drift{display:none}
+.calm .menu li{transform:none}
+</style>
+</head>
+<body>
+<a class="skip" href="#app">Skip to content</a>
+<header class="bar draw2" id="bar">
+  <div class="wrap">
+    <a class="mark" href="#/" aria-label="Fifty Flowers, home"><svg viewBox="-100 -100 200 200" aria-hidden="true" class="fl" id="markfl"></svg><span>Fifty Flowers</span></a>
+    <nav class="crumb" aria-label="Breadcrumb" id="crumb"></nav>
+    <div class="bar-r"><span class="clock" id="clock" aria-hidden="true"></span><button class="chip" id="menuBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu">Menu</button></div>
+  </div>
+</header>
+<main id="app" tabindex="-1"></main>
+<footer><div class="wrap"><span>Fifty Flowers · a field guide you can touch</span><span>Drawings made in code · no photographs</span></div></footer>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="wrap menu-top"><span class="lbl">Menu</span><button class="chip" id="menuClose">Close ×</button></div>
+  <nav class="wrap" aria-label="Main"><ol id="menuList"></ol></nav>
+  <div class="wrap menu-foot"><span class="mono mut" id="menuTime"></span><button class="btn solid" id="menuRandom">Surprise me →</button></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="sr" id="say" aria-live="polite"></div>
+
+<script>
+'use strict';
+/* ═════════ DATA — 50 flowers ═════════
+   name, latin, family, colour, centre colour, colour group, season, native to, drawing shape, petals drawn, meaning, surprising fact, sun, water */
+const RAW=[
+['Rose','Rosa','Rosaceae','#C8323C','#8E1F2A','red','Summer','Asia, Europe & North America','frill',6,'Love','Wild roses have just five petals. The full, many-petalled garden rose is centuries of breeding.','Full sun','Regular'],
+['Tulip','Tulipa','Liliaceae','#E85D75','#3A2A2A','pink','Spring','Central Asia','cup',6,'Perfect love','In 1630s Holland a single rare tulip bulb could sell for more than a skilled craftsman earned in a year.','Full sun','Light'],
+['Sunflower','Helianthus annuus','Asteraceae','#F2B705','#5A3B1E','yellow','Summer','North America','ray',24,'Adoration','Young sunflower heads follow the sun from east to west. Once mature, most stay facing east.','Full sun','Regular'],
+['Lavender','Lavandula angustifolia','Lamiaceae','#8E7CC3','#6B5AA6','purple','Summer','Mediterranean','spike',14,'Devotion','The name is often traced to the Latin lavare, “to wash”. It scented Roman baths.','Full sun','Light'],
+['Daisy','Bellis perennis','Asteraceae','#FFFFFF','#F2C12E','white','Spring','Europe','ray',26,'Innocence','“Daisy” comes from “day’s eye”: the flower opens at dawn and closes at dusk.','Sun to part shade','Regular'],
+['Lily','Lilium','Liliaceae','#F4EFE6','#D98E4A','white','Summer','Northern Hemisphere','pointed',6,'Purity','Lilies are highly toxic to cats. Even a little pollen licked from fur can cause kidney failure.','Full sun','Regular'],
+['Orchid','Phalaenopsis','Orchidaceae','#D86FB0','#F2D24B','pink','Year-round','Southeast Asia','orchid',5,'Refinement','Orchids are one of the largest plant families on Earth, with around 28,000 species.','Bright shade','Light'],
+['Peony','Paeonia lactiflora','Paeoniaceae','#F2A1B5','#F7D46B','pink','Spring','East Asia','frill',8,'Prosperity','A happy peony can keep flowering in the same spot for decades.','Full sun','Regular'],
+['Hydrangea','Hydrangea macrophylla','Hydrangeaceae','#6C8EBF','#4A6FA5','blue','Summer','Japan','cluster',22,'Gratitude','In acidic soil, where aluminium is free to move, bigleaf hydrangeas turn blue. In alkaline soil they turn pink.','Part shade','High'],
+['Cherry blossom','Prunus serrulata','Rosaceae','#F6C9D0','#C8323C','pink','Spring','Japan','heart',5,'Transience','Japan forecasts the “sakura front” as the bloom moves north each spring.','Full sun','Regular'],
+['Lotus','Nelumbo nucifera','Nelumbonaceae','#F3B6C8','#F2D24B','pink','Summer','Asia','cup',12,'Rebirth','Its leaves shed water so well that self-cleaning surfaces are said to have the “lotus effect”.','Full sun','Aquatic'],
+['Marigold','Tagetes erecta','Asteraceae','#F28C28','#C25E10','orange','Autumn','Mexico & Central America','frill',10,'Remembrance','As cempasúchil, marigolds line Día de Muertos altars to guide spirits home.','Full sun','Light'],
+['Poppy','Papaver rhoeas','Papaveraceae','#D7261E','#1E1E1E','red','Spring','Europe & North Africa','cup',4,'Remembrance','Poppy seeds can wait in the soil for years and bloom when the ground is disturbed, as on the fields of Flanders.','Full sun','Light'],
+['Daffodil','Narcissus pseudonarcissus','Amaryllidaceae','#F5D547','#F28C28','yellow','Spring','Western Europe','trumpet',6,'New beginnings','Freshly cut daffodils leak a sap that shortens the life of other flowers in the same vase.','Full sun','Regular'],
+['Iris','Iris germanica','Iridaceae','#5B4B9E','#F2C12E','purple','Spring','Europe','round',6,'Hope','Named for Iris, the Greek goddess of the rainbow.','Full sun','Light'],
+['Carnation','Dianthus caryophyllus','Caryophyllaceae','#E8798F','#B84860','pink','Summer','Mediterranean','frill',10,'Admiration','Dianthus is usually read as Greek for “divine flower”.','Full sun','Light'],
+['Chrysanthemum','Chrysanthemum morifolium','Asteraceae','#E9A23B','#B9741A','orange','Autumn','China','ray',36,'Long life','A sixteen-petalled chrysanthemum is the emblem of Japan’s imperial family.','Full sun','Regular'],
+['Dahlia','Dahlia pinnata','Asteraceae','#B5234A','#F2C12E','red','Summer','Mexico','frillp',12,'Dignity','The dahlia is Mexico’s national flower.','Full sun','Regular'],
+['Magnolia','Magnolia × soulangeana','Magnoliaceae','#EFD9E3','#B85C88','pink','Spring','East Asia & the Americas','cup',9,'Perseverance','Magnolias are so ancient they evolved before bees. Beetles pollinate them.','Sun to part shade','Regular'],
+['Jasmine','Jasminum officinale','Oleaceae','#FFFFFF','#F2D24B','white','Summer','Himalayas & China','round',5,'Grace','Many jasmines save their strongest scent for the night.','Full sun','Regular'],
+['Gardenia','Gardenia jasminoides','Rubiaceae','#F7F3E3','#E9D79A','white','Summer','East Asia','frill',6,'Secret love','Gardenias belong to the same family as coffee.','Bright shade','High'],
+['Camellia','Camellia japonica','Theaceae','#C93A4D','#F2C12E','red','Winter','East Asia','frill',7,'Longing','Tea comes from a camellia: every cup is brewed from Camellia sinensis leaves.','Part shade','Regular'],
+['Hibiscus','Hibiscus rosa-sinensis','Malvaceae','#E0303A','#7A0E1A','red','Summer','East Asia','round',5,'Delicate beauty','The hibiscus is Malaysia’s national flower, the bunga raya.','Full sun','High'],
+['Bird of paradise','Strelitzia reginae','Strelitziaceae','#F57C1F','#3F51B5','orange','Year-round','South Africa','bird',3,'Freedom','When a sunbird lands on its blue “tongue”, the flower dusts the bird’s feet with pollen.','Full sun','Regular'],
+['Snapdragon','Antirrhinum majus','Plantaginaceae','#E8607A','#F2C12E','pink','Summer','Mediterranean','spike',10,'Graciousness','Squeeze the sides of a flower and its “mouth” snaps open.','Full sun','Regular'],
+['Foxglove','Digitalis purpurea','Plantaginaceae','#A04F9B','#F0E0EE','purple','Summer','Western Europe','bells',9,'Healing','It is poisonous, yet it gave medicine digitalis, still used for heart conditions.','Part shade','Regular'],
+['Bluebell','Hyacinthoides non-scripta','Asparagaceae','#4A5FC1','#2E3E91','blue','Spring','Britain & Western Europe','bells',7,'Constancy','Around half of the world’s common bluebells grow in the UK, where they are protected by law.','Shade','Regular'],
+['Forget-me-not','Myosotis sylvatica','Boraginaceae','#6FA8DC','#F2D24B','blue','Spring','Europe','round',5,'True love','Myosotis is Greek for “mouse’s ear”, after the small fuzzy leaves.','Part shade','High'],
+['Violet','Viola odorata','Violaceae','#6A4C9C','#F2D24B','purple','Spring','Europe & Asia','round',5,'Modesty','Its scent contains ionones that briefly switch off your sense of smell, so the perfume seems to come and go.','Shade','Regular'],
+['Pansy','Viola × wittrockiana','Violaceae','#4B3F8F','#F2C12E','purple','Spring','Europe (garden hybrid)','round',5,'Thoughts','The name comes from the French pensée, “thought”.','Sun to part shade','Regular'],
+['Zinnia','Zinnia elegans','Asteraceae','#E5446D','#F2C12E','pink','Summer','Mexico','frillp',12,'Lasting friendship','In 2016 a zinnia became one of the first flowers to bloom on the International Space Station.','Full sun','Light'],
+['Cosmos','Cosmos bipinnatus','Asteraceae','#E58FB4','#F2C12E','pink','Summer','Mexico','round',8,'Harmony','Spanish priests named it after the Greek kosmos, “ordered world”, for its evenly spaced petals.','Full sun','Light'],
+['Aster','Symphyotrichum novae-angliae','Asteraceae','#8C7AC8','#F2C12E','purple','Autumn','North America','ray',30,'Patience','Aster is Greek for “star”.','Full sun','Regular'],
+['Anemone','Anemone coronaria','Ranunculaceae','#C2185B','#1E1E1E','red','Spring','Mediterranean','round',6,'Anticipation','The windflower has no true petals. Its colour comes from petal-like sepals.','Full sun','Regular'],
+['Ranunculus','Ranunculus asiaticus','Ranunculaceae','#F4845F','#6B8E23','orange','Spring','Middle East','frill',9,'Radiant charm','Ranunculus is Latin for “little frog”: many of its relatives grow near water.','Full sun','Regular'],
+['Gerbera','Gerbera jamesonii','Asteraceae','#F25C54','#3A2A1E','orange','Summer','South Africa','ray',22,'Cheerfulness','Each “flower” is really a head of hundreds of tiny flowers packed together.','Full sun','Regular'],
+['Freesia','Freesia refracta','Iridaceae','#F7D35C','#E09A2A','yellow','Spring','South Africa','spike',7,'Trust','Its flowers all open along one side of the stem, from the bottom up.','Full sun','Regular'],
+['Gladiolus','Gladiolus × hortulanus','Iridaceae','#EF6F6C','#C84A48','red','Summer','Africa','spike',9,'Strength','Named from the Latin gladius, “sword”, for its blade-like leaves.','Full sun','Regular'],
+['Hyacinth','Hyacinthus orientalis','Asparagaceae','#7B68C8','#5A48A8','purple','Spring','Eastern Mediterranean','cluster',19,'Play','Named for Hyacinthus, a youth in Greek myth from whose blood the flower was said to grow.','Full sun','Regular'],
+['Crocus','Crocus sativus','Iridaceae','#9B7FD4','#E0302A','purple','Autumn','Southwest Asia','cup',6,'Cheer','Saffron is its three red stigmas, picked by hand. Around 150,000 flowers make one kilo.','Full sun','Light'],
+['Edelweiss','Leontopodium nivale','Asteraceae','#EDEDE6','#D9D6C4','white','Summer','The Alps','pointed',10,'Courage','Dense woolly hairs shield it from cold and strong mountain sunlight.','Full sun','Light'],
+['Lilac','Syringa vulgaris','Oleaceae','#B497D6','#8E6FB8','purple','Spring','The Balkans','cluster',24,'First love','Lilac is a relative of the olive tree.','Full sun','Regular'],
+['Wisteria','Wisteria sinensis','Fabaceae','#9D8FD6','#6E5FB0','purple','Spring','China','hang',11,'Endurance','It belongs to the pea family, and some vines have lived for well over a century.','Full sun','Regular'],
+['Plumeria','Plumeria rubra','Apocynaceae','#FBE7A1','#F2B705','yellow','Summer','Central America','round',5,'Welcome','At night its scent lures sphinx moths, but it offers them no nectar.','Full sun','Light'],
+['Protea','Protea cynaroides','Proteaceae','#D88C9A','#F3E3D3','pink','Winter','South Africa','protea',16,'Change','The king protea is South Africa’s national flower, with heads up to 30 cm across.','Full sun','Light'],
+['Bougainvillea','Bougainvillea glabra','Nyctaginaceae','#C2187A','#FFFFFF','pink','Summer','South America','bract',3,'Passion','Its bright “petals” are papery bracts. The true flowers are the tiny white tubes inside.','Full sun','Light'],
+['Morning glory','Ipomoea purpurea','Convolvulaceae','#5C6BC0','#FFFFFF','blue','Summer','Mexico','cup',5,'Affection','Each flower opens in the morning and lasts a single day.','Full sun','Regular'],
+['Sweet pea','Lathyrus odoratus','Fabaceae','#E7A6C9','#B565A0','pink','Spring','Sicily & southern Italy','heart',5,'Blissful pleasure','Unlike garden peas, its seeds are poisonous to eat.','Full sun','Regular'],
+['Water lily','Nymphaea','Nymphaeaceae','#F7F7F2','#F2C12E','white','Summer','Worldwide','frillp',14,'Enlightenment','Monet painted around 250 canvases of the water lilies in his garden at Giverny.','Full sun','Aquatic'],
+['Calla lily','Zantedeschia aethiopica','Araceae','#F4F4EE','#F2C12E','white','Spring','Southern Africa','spathe',1,'Magnificence','Not a true lily: the white “petal” is a spathe wrapped around a spike of tiny flowers.','Part shade','High']
+];
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const F=RAW.map((a,i)=>({n:i+1,name:a[0],latin:a[1],family:a[2],hex:a[3],c2:a[4],colour:a[5],season:a[6],origin:a[7],shape:a[8],petals:a[9],meaning:a[10],fact:a[11],sun:a[12],water:a[13],slug:slug(a[0])}));
+const BY=Object.fromEntries(F.map(f=>[f.slug,f]));
+const COLOURS=[['red','#C8323C'],['pink','#E58FB4'],['orange','#F28C28'],['yellow','#F2C12E'],['white','#FFFFFF'],['purple','#8E7CC3'],['blue','#6C8EBF']];
+const SEASONS=['Spring','Summer','Autumn','Winter','Year-round'];
+const pad=n=>String(n).padStart(2,'0');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const rand=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* ═════════ DRAWING — every flower is generated from its data ═════════ */
+const r1=n=>Math.round(n*10)/10;
+function shade(hex,amt){const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const t=amt<0?0:255,p=Math.abs(amt);r=Math.round(r+(t-r)*p);g=Math.round(g+(t-g)*p);b=Math.round(b+(t-b)*p);return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
+function petal(k,L,W){L=r1(L);W=r1(W);
+  if(k==='pointed')return `M0 0C${W} ${r1(-L*.35)} ${r1(W*.45)} ${r1(-L*.85)} 0 ${-L}C${r1(-W*.45)} ${r1(-L*.85)} ${-W} ${r1(-L*.35)} 0 0Z`;
+  if(k==='heart')return `M0 0C${W} ${r1(-L*.3)} ${r1(W*1.05)} ${-L} ${r1(W*.3)} ${-L}Q0 ${r1(-L*.84)} ${r1(-W*.3)} ${-L}C${r1(-W*1.05)} ${-L} ${-W} ${r1(-L*.3)} 0 0Z`;
+  return `M0 0C${r1(W*1.1)} ${r1(-L*.25)} ${W} ${-L} 0 ${-L}C${-W} ${-L} ${r1(-W*1.1)} ${r1(-L*.25)} 0 0Z`}
+function drawInner(f){
+  let i=0,s='';const H=f.hex,C=f.c2,n=f.petals;
+  const ring=(m,L,W,k,fill,off=0)=>{let o='';for(let j=0;j<m;j++)o+=`<g transform="rotate(${r1(off+j*360/m)})"><path class="p pr" style="--f:${fill};--i:${i++}" d="${petal(k,L,W)}"/></g>`;return o};
+  const ctr=(r,fill)=>`<circle class="c" r="${r}" style="--f:${fill};--i:${i++}"/>`;
+  const seeds=r=>{let o='';for(let k=0;k<34;k++){const rr=r*.9*Math.sqrt((k+.5)/34),a=k*2.39996;o+=`<circle class="d" cx="${r1(Math.cos(a)*rr)}" cy="${r1(Math.sin(a)*rr)}" r="1.6"/>`}return o};
+  switch(f.shape){
+    case 'round':s=ring(n,74,n>6?22:30,'round',H)+ctr(12,C);break;
+    case 'pointed':s=ring(n,84,n>8?15:24,'pointed',H)+ring(n,50,9,'pointed',shade(H,-.08),180/n)+ctr(9,C);break;
+    case 'heart':s=ring(5,70,34,'heart',H);for(let k=0;k<8;k++){const a=k*45*Math.PI/180;s+=`<circle class="c" cx="${r1(Math.cos(a)*17)}" cy="${r1(Math.sin(a)*17)}" r="3" style="--f:${C};--i:${i++}"/>`}s+=ctr(7,shade(C,.3));break;
+    case 'ray':{const cr=n>=24?30:22;s=ring(n,84,Math.max(5,150/n),'round',H)+(n>28?ring(n,62,Math.max(4,120/n),'round',shade(H,-.1),180/n):'')+ctr(cr,C)+(cr>=30?seeds(cr):'');break}
+    case 'frill':s=ring(n,82,34,'round',H)+ring(n,64,30,'round',shade(H,-.1),180/n)+ring(n,45,24,'round',shade(H,-.18))+ring(Math.max(4,n-2),26,14,'round',shade(H,-.26),90/n)+ctr(6,C);break;
+    case 'frillp':s=ring(n,84,18,'pointed',H)+ring(n,66,16,'pointed',shade(H,-.1),180/n)+ring(n,46,13,'pointed',shade(H,-.18))+ring(8,26,9,'pointed',shade(H,-.26),22)+ctr(7,C);break;
+    case 'cup':s=ring(n,78,Math.min(46,320/n),'round',shade(H,-.08))+ring(n,58,Math.min(36,240/n),'round',H,180/n)+ctr(14,C);break;
+    case 'trumpet':s=ring(6,82,26,'pointed',H)+`<circle class="p pc" r="34" style="--f:${C};--i:${i++}"/><circle class="p pc" r="24" style="--f:${shade(C,-.12)};--i:${i++}"/>`+ctr(6,shade(C,-.35));break;
+    case 'orchid':[[0,80,18,'pointed',H],[150,76,18,'pointed',H],[210,76,18,'pointed',H],[72,70,40,'round',H],[288,70,40,'round',H]].forEach(([a,L,W,k,fl])=>{s+=`<g transform="rotate(${a})"><path class="p pr" style="--f:${fl};--i:${i++}" d="${petal(k,L,W)}"/></g>`});s+=`<g transform="rotate(180)"><path class="p pr" style="--f:${shade(H,-.25)};--i:${i++}" d="${petal('heart',52,26)}"/></g>`+ctr(8,C);break;
+    case 'cluster':for(let k=0;k<n;k++){const rr=78*Math.sqrt((k+.5)/n),a=k*2.39996,x=r1(Math.cos(a)*rr),y=r1(Math.sin(a)*rr);let fl='';for(let q=0;q<4;q++)fl+=`<path transform="rotate(${q*90})" d="${petal('round',14,8)}"/>`;s+=`<g transform="translate(${x} ${y}) rotate(${(k*37)%90})"><g class="p pc" style="--f:${shade(H,-(k%3)*.08)};--i:${i++}">${fl}<circle r="2.4" style="fill:${C}"/></g></g>`}break;
+    case 'spike':s='<path class="st" d="M0 96L0 -92"/>';for(let j=0;j<n;j++){const y=r1(80-j*(168/n)),sd=j%2?1:-1,z=22-j*(11/n);s+=`<g transform="translate(${r1(sd*2)} ${y}) rotate(${sd*42})"><path class="p pr" style="--f:${j%3?H:shade(H,-.08)};--i:${i++}" d="${petal('round',z*1.7,z*.75)}"/></g>`}s+=`<g transform="translate(0 -88)"><path class="p pr" style="--f:${shade(H,.2)};--i:${i++}" d="${petal('round',12,5)}"/></g>`;break;
+    case 'bells':{s='<path class="st" d="M-30 96Q-30 -40 50 -88"/>';const pt=t=>[(1-t)*(1-t)*-30+2*(1-t)*t*-30+t*t*50,(1-t)*(1-t)*96+2*(1-t)*t*-40+t*t*-88];for(let j=0;j<n;j++){const t=.12+j*(.8/n),[x,y]=pt(t),z=1.15-j*(.45/n);s+=`<g transform="translate(${r1(x+4)} ${r1(y)}) scale(${r1(z*10)/10}) rotate(-14)"><path class="p pt" style="--f:${j%2?H:shade(H,-.08)};--i:${i++}" d="M0 0C12 2 14 16 15 28Q11 25 7 29Q3 25 0 29Q-3 25 -7 29Q-11 25 -15 28C-14 16 -12 2 0 0Z"/></g>`}break}
+    case 'hang':s='<path class="st" d="M-90 -86L90 -86"/><path class="st" d="M0 -86L0 84"/>';for(let j=0;j<n;j++){const y=-72+j*14.5,w=34-j*2.6;for(const x of[-w/2,0,w/2]){if(j>n-3&&x)continue;s+=`<g transform="translate(${r1(x)} ${r1(y)}) rotate(180)"><path class="p pr" style="--f:${(j+(x>0))%2?H:shade(H,-.12)};--i:${i++}" d="${petal('round',13,7)}"/></g>`}}break;
+    case 'bird':s=`<path class="p pc" style="--f:#5E8A57;--i:${i++}" d="M-88 34Q0 10 64 18L74 26Q0 40 -88 46Z"/>`;[[-38,92,13,H],[-18,98,12,shade(H,.08)],[2,86,12,H]].forEach(([a,L,W,fl])=>{s+=`<g transform="translate(46 20) rotate(${a})"><path class="p pr" style="--f:${fl};--i:${i++}" d="${petal('pointed',L,W)}"/></g>`});s+=`<g transform="translate(46 20) rotate(-62)"><path class="p pr" style="--f:${C};--i:${i++}" d="${petal('pointed',74,7)}"/></g><path class="st" d="M-60 40L-60 98"/>`;break;
+    case 'protea':s=ring(n,86,16,'pointed',H)+ring(n,62,14,'pointed',shade(H,-.12),180/n)+ctr(34,C)+seeds(34);break;
+    case 'bract':s=ring(3,80,52,'heart',H)+ring(3,60,36,'heart',shade(H,-.12),60)+ring(5,14,5,'pointed',C,36)+ctr(3,'#F2C12E');break;
+    case 'spathe':s=`<path class="st" d="M4 86L4 100"/><path class="p pc" style="--f:${H};--i:${i++}" d="M4 88C-6 40 -78 -6 -46 -70C-26 -100 42 -98 58 -60C30 -40 12 4 4 88Z"/><path class="p pc" style="--f:${shade(H,-.1)};--i:${i++}" d="M4 88C2 40 26 -10 58 -60C40 -30 24 20 4 88Z"/><rect class="c" x="-5" y="-48" width="11" height="74" rx="5.5" transform="rotate(14)" style="--f:${C};--i:${i++}"/>`;break;
+  }
+  return s;
+}
+function flowerSVG(f,o={}){
+  const cls=['fl',o.ink?'ink':'',o.bloom?'bloom':'',o.cls||''].join(' ');
+  return `<svg class="${cls}" viewBox="-100 -100 200 200" ${o.label===false?'aria-hidden="true" focusable="false"':`role="img" aria-label="Drawing of ${esc(f.name)}"`}>${drawInner(f)}</svg>`}
+function bouquetSVG(list,label){
+  const m=list.length;if(!m)return `<svg class="fl" viewBox="-150 -140 300 330" aria-hidden="true"><path class="st" d="M-40 170L40 170" stroke-dasharray="3 5"/></svg>`;
+  let stems='',heads='';const tie=[0,120];
+  list.forEach((f,k)=>{const t=m===1?0:(k/(m-1))-.5,a=t*(m>3?84:60)*Math.PI/180,d=m===1?120:(k%2?118:142),x=r1(Math.sin(a)*d),y=r1(tie[1]-Math.cos(a)*d-10);
+    stems+=`<path class="st" d="M${tie[0]} ${tie[1]+60}Q${r1(x*.2)} ${tie[1]-10} ${x} ${y}"/>`;
+    heads+=`<g transform="translate(${x} ${y}) scale(.4)">${drawInner(f)}</g>`});
+  return `<svg class="fl" viewBox="-150 -140 300 330" role="img" aria-label="${esc(label||'Bouquet')}: ${esc(list.map(f=>f.name).join(', '))}">${stems}<path class="c" style="--f:var(--ink)" d="M-14 128L14 128L10 146L-10 146Z"/>${heads}</svg>`}
+
+/* ═════════ STATE ═════════ */
+const store={get(k,d){try{return JSON.parse(localStorage.getItem('ff.'+k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem('ff.'+k,JSON.stringify(v))}catch(e){}}};
+const S={garden:store.get('garden',[]),bouquets:store.get('bouquets',[]),prefs:Object.assign({calm:null,colour:false,cycle:true,view:'list'},store.get('prefs',{})),best:store.get('best',0),
+  filt:{colour:new Set(),season:new Set(),q:''},filtOpen:false,timers:[],cleanup:[]};
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+const isCalm=()=>S.prefs.calm===null?RM.matches:S.prefs.calm;
+function applyPrefs(){document.documentElement.classList.toggle('calm',isCalm());document.documentElement.classList.toggle('colour',!!S.prefs.colour)}
+RM.addEventListener?.('change',applyPrefs);
+const savePrefs=()=>{store.set('prefs',S.prefs);applyPrefs()};
+const inGarden=s=>S.garden.includes(s);
+function toggleGarden(s,el){const on=!inGarden(s);S.garden=on?[...S.garden,s]:S.garden.filter(x=>x!==s);store.set('garden',S.garden);toast(on?`${BY[s].name} saved to your garden`:`${BY[s].name} removed from your garden`);if(on&&el)drift(el,BY[s].hex);renderMenu();return on}
+function later(fn,ms){const t=setTimeout(fn,ms);S.timers.push(t);return t}
+function every(fn,ms){const t=setInterval(fn,ms);S.timers.push(t);return t}
+
+/* ═════════ UI helpers ═════════ */
+let toastT;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2600)}
+function say(msg){const s=$('#say');s.textContent='';setTimeout(()=>s.textContent=msg,30)}
+function drift(el,col){if(isCalm())return;const r=el.getBoundingClientRect();for(let k=0;k<7;k++){const d=document.createElement('div');d.className='drift';d.innerHTML=`<svg viewBox="-10 -16 20 16" width="14" height="20" aria-hidden="true"><path d="${petal('round',15,7)}" fill="${col}" stroke="currentColor" stroke-width=".6"/></svg>`;d.style.left=r.left+r.width/2+'px';d.style.top=r.top+'px';d.style.setProperty('--dx',(Math.random()*160-80)+'px');d.style.setProperty('--dy',(-60-Math.random()*90)+'px');d.style.setProperty('--r',(Math.random()*360)+'deg');document.body.appendChild(d);setTimeout(()=>d.remove(),1700)}}
+function unbloomLater(svg){const n=$$('.p,.c',svg).length;later(()=>svg.classList.remove('bloom'),n*24+800)}
+function todayFlower(){const d=new Date();return F[(d.getFullYear()*372+d.getMonth()*31+d.getDate())%50]}
+function bindAccordion(root){$$('.acc-h',root).forEach(b=>b.addEventListener('click',()=>{const open=b.getAttribute('aria-expanded')!=='true';$$('.acc-h',root).forEach(o=>{o.setAttribute('aria-expanded','false');$('#'+o.getAttribute('aria-controls')).classList.remove('open')});if(open){b.setAttribute('aria-expanded','true');$('#'+b.getAttribute('aria-controls')).classList.add('open')}}))}
+
+/* ═════════ ROUTER ═════════ */
+const NAV=[['00','Home','#/'],['01','Index','#/index',()=>50],['02','Play','#/play',()=>3],['03','Garden','#/garden',()=>S.garden.length+S.bouquets.length],['04','About & settings','#/about']];
+function route(){
+  S.timers.forEach(t=>{clearTimeout(t);clearInterval(t)});S.timers=[];S.cleanup.forEach(fn=>fn());S.cleanup=[];
+  const h=location.hash.replace(/^#/,'')||'/';const parts=h.split('/').filter(Boolean);const app=$('#app');
+  let title='Fifty Flowers',crumb=[['Home','#/']],r;
+  if(!parts.length){r=home()}
+  else if(parts[0]==='index'){r=indexPage();crumb.push(['Index'])}
+  else if(parts[0]==='f'&&BY[parts[1]]){const f=BY[parts[1]];r=detail(f);crumb.push(['Index','#/index'],[f.name]);title=f.name+' · Fifty Flowers'}
+  else if(parts[0]==='play'){r=play(parts[1]);crumb.push(['Play'])}
+  else if(parts[0]==='garden'){r=garden();crumb.push(['Garden'])}
+  else if(parts[0]==='about'){r=about();crumb.push(['About'])}
+  else if(parts[0]==='random'){location.replace('#/f/'+rand(F).slug);return}
+  else{r=notFound();crumb.push(['Not found'])}
+  if(parts.length&&title==='Fifty Flowers')title=crumb[crumb.length-1][0]+' · Fifty Flowers';
+  app.innerHTML=`<div class="page">${r.html}</div>`;r.bind&&r.bind(app);
+  document.title=title;
+  $('#crumb').innerHTML=crumb.map(([t,u],k)=>u&&k<crumb.length-1?`<a href="${u}">${esc(t)}</a>`:`<span aria-current="page">${esc(t)}</span>`).join(' / ');
+  renderMenu();closeMenu(false);
+  const h1=$('h1',app);if(h1){h1.setAttribute('tabindex','-1');if(route.n++)h1.focus({preventScroll:true})}
+  window.scrollTo({top:0,behavior:'instant'});
+}
+route.n=0;
+
+/* ═════════ HOME ═════════ */
+function home(){
+  let cur=todayFlower();
+  const cap=f=>`<a href="#/f/${f.slug}"><span class="mut">No. ${pad(f.n)} / 50 · ${esc(f.family)}</span><b>${esc(f.name)}</b><span class="mut" style="text-transform:none;font:italic 15px/1.3 var(--serif)">${esc(f.latin)}</span></a>`;
+  const html=`
+  <section class="hero wrap" aria-labelledby="h">
+    <div class="hero-top mono"><span>A field guide you can touch</span><span class="mut">Showing: Everything · 50 flowers</span></div>
+    <h1 id="h" class="split"><span class="giant fu">Fifty</span><span class="giant fu" style="--i:3">Flowers</span></h1>
+    <div class="stage" id="stage">
+      <div class="stage-l">
+        <div class="cap" id="cap" aria-live="polite">${cap(cur)}</div>
+        <div>
+          <p class="lede" style="margin-bottom:14px">Every flower here is drawn from its own numbers: petal count, shape, colour. Tap one to make it bloom again. Tap the ground to plant another.</p>
+          <div class="btns"><button class="btn" id="cycleBtn" aria-pressed="${!S.prefs.cycle||isCalm()?'true':'false'}">${!S.prefs.cycle||isCalm()?'▶ Play':'❚❚ Pause'}</button><button class="btn" id="plantBtn">Plant one</button><button class="btn" id="nextBtn">Next flower →</button></div>
+        </div>
+      </div>
+      <div class="stage-r" id="ground"><button class="hero-fl" id="heroFl" aria-label="Bloom again">${flowerSVG(cur,{bloom:true,label:false,cls:'sway'})}</button><span class="hint" aria-hidden="true">Tap the ground</span></div>
+    </div>
+  </section>
+  <section class="sec wrap" aria-labelledby="hw">
+    <h2 class="h2" id="hw">How would you like to explore?</h2>
+    <ul class="paths">${[['01','Browse all fifty, one by one','#/index'],['02','Guess a flower from its outline','#/play/guess'],['03','Build a bouquet of up to seven','#/play/bouquet'],['04','Find the flower that matches you','#/play/quiz'],['05','Surprise me','#/random']].map(([n,t,u],k)=>`<li class="draw" style="--i:${k+4}"><a href="${u}"><span class="n">${n}</span><span class="t">${t}</span><span class="ar" aria-hidden="true">→</span></a></li>`).join('')}</ul>
+  </section>
+  <section class="sec wrap" aria-labelledby="td" style="border-top:1px solid var(--rule)">
+    <div class="sec-head"><h2 class="h2" id="td">Today’s flower</h2><span class="mono mut">${new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})}</span></div>
+    <div class="today">${flowerSVG(todayFlower(),{})}<div><p class="mono mut" style="margin:0 0 6px">Means “${esc(todayFlower().meaning)}”</p><p style="font-size:clamp(22px,2.8vw,30px);letter-spacing:-.02em;line-height:1.2;margin:0 0 18px;max-width:28ch">${esc(todayFlower().fact)}</p><a class="btn solid" href="#/f/${todayFlower().slug}">Meet the ${esc(todayFlower().name.toLowerCase())} →</a></div></div>
+  </section>`;
+  return {html,bind(app){
+    const stage=$('#stage'),ground=$('#ground'),heroFl=$('#heroFl'),capEl=$('#cap'),cb=$('#cycleBtn');
+    const show=f=>{cur=f;heroFl.innerHTML=flowerSVG(f,{bloom:true,label:false,cls:'sway'});unbloomLater($('svg',heroFl));capEl.innerHTML=cap(f);heroFl.setAttribute('aria-label',`Bloom the ${f.name} again`)};
+    const next=()=>{let f;do f=rand(F);while(f===cur);show(f)};
+    let cyc=null;const setCycle=on=>{clearInterval(cyc);cyc=null;if(on)cyc=every(next,3200);cb.setAttribute('aria-pressed',on?'false':'true');cb.textContent=on?'❚❚ Pause':'▶ Play'};
+    setCycle(S.prefs.cycle&&!isCalm());
+    cb.onclick=()=>{const on=!cyc;setCycle(on);say(on?'Flowers changing every three seconds':'Paused')};
+    $('#nextBtn').onclick=next;
+    heroFl.onclick=e=>{e.stopPropagation();show(cur)};
+    const plant=(x,y)=>{const r=ground.getBoundingClientRect();if(x==null){x=20+Math.random()*(r.width-40);y=20+Math.random()*(r.height-40)}const f=rand(F),d=document.createElement('div');d.className='planted';d.style.left=x+'px';d.style.top=y+'px';d.style.transform=`rotate(${Math.random()*360}deg)`;d.innerHTML=flowerSVG(f,{bloom:true,label:false});ground.appendChild(d);const all=$$('.planted',ground);if(all.length>14)all[0].remove();setTimeout(()=>d.classList.add('out'),6000);setTimeout(()=>d.remove(),7400);say(`Planted a ${f.name.toLowerCase()}`)};
+    ground.addEventListener('click',e=>{if(e.target.closest('.hero-fl'))return;const r=ground.getBoundingClientRect();plant(e.clientX-r.left,e.clientY-r.top)});
+    $('#plantBtn').onclick=()=>plant();
+    unbloomLater($('svg',heroFl));
+  }}
+}
+
+/* ═════════ INDEX ═════════ */
+function filtered(){const {colour,season,q}=S.filt,qq=q.trim().toLowerCase();return F.filter(f=>(!colour.size||colour.has(f.colour))&&(!season.size||season.has(f.season))&&(!qq||(f.name+' '+f.latin+' '+f.family+' '+f.meaning).toLowerCase().includes(qq)))}
+function showingText(list){const {colour,season,q}=S.filt,bits=[...colour,...season].map(s=>s.toLowerCase());if(q.trim())bits.push(`“${q.trim()}”`);return `Showing: <b>${bits.length?esc(bits.join(' + ')):'Everything'}</b> · ${list.length} of 50`}
+function indexPage(){
+  const v=S.prefs.view;
+  const html=`
+  <section class="wrap">
+    <div class="ix-head"><h1 class="h1 fu">Index<sup>50</sup></h1></div>
+    <div class="ctrl">
+      <div class="grp"><span class="showing" id="showing" aria-live="polite"></span><button class="ul" id="fBtn" aria-expanded="${S.filtOpen}" aria-controls="fPanel">Filters <span aria-hidden="true">${S.filtOpen?'−':'+'}</span></button><button class="ul" id="reset">Reset</button></div>
+      <div class="grp" role="group" aria-label="View">${['list','grid','strip'].map(x=>`<button class="ul" data-view="${x}" aria-pressed="${v===x}">${x}</button>`).join('')}</div>
+    </div>
+    <div class="acc-body ${S.filtOpen?'open':''}" id="fPanel"><div><div class="filters">
+      <label class="frow"><span>Search</span><input class="field" id="q" type="search" placeholder="Name, family or meaning" value="${esc(S.filt.q)}" autocomplete="off"></label>
+      <div class="frow" role="group" aria-label="Colour"><span>Colour</span><div class="opts">${COLOURS.map(([c,h])=>`<button class="opt" data-colour="${c}" aria-pressed="${S.filt.colour.has(c)}"><i class="sw" style="background:${h}"></i>${c}</button>`).join('')}</div></div>
+      <div class="frow" role="group" aria-label="Season"><span>Season</span><div class="opts">${SEASONS.map(s=>`<button class="opt" data-season="${s}" aria-pressed="${S.filt.season.has(s)}">${s}</button>`).join('')}</div></div>
+    </div></div></div>
+    <div id="ixBody"></div>
+  </section>`;
+  return {html,bind(app){
+    const body=$('#ixBody'),fBtn=$('#fBtn');
+    const draw=()=>{
+      const list=filtered(),view=S.prefs.view;$('#showing').innerHTML=showingText(list);$('#reset').disabled=!(S.filt.colour.size||S.filt.season.size||S.filt.q.trim());
+      if(!list.length){body.innerHTML=`<div class="empty" style="border-top:2px solid var(--rule)"><p>Nothing blooms here. Try fewer filters.</p><button class="btn solid" id="reset2">Show everything</button></div>`;$('#reset2').onclick=resetF;return}
+      if(view==='grid'){body.innerHTML=`<ul class="grid" style="border-top:2px solid var(--rule)">${list.map((f,k)=>`<li class="fu" style="--i:${Math.min(k,16)}"><a href="#/f/${f.slug}"><span class="meta"><span>${pad(f.n)}</span><span>${f.season}</span></span>${flowerSVG(f,{ink:true,label:false})}<b>${esc(f.name)}</b></a></li>`).join('')}</ul>`;return}
+      if(view==='strip'){body.innerHTML=`<div class="strip-wrap" style="border-top:2px solid var(--rule)"><div class="brk" aria-hidden="true"><i></i><i></i></div><div class="strip" id="strip">${list.map(f=>`<a href="#/f/${f.slug}" data-s="${f.slug}" aria-label="${esc(f.name)}">${flowerSVG(f,{label:false})}</a>`).join('')}</div></div><div class="strip-cap" id="stripCap" aria-live="polite"></div><p class="mono mut" style="text-align:center;margin:0 0 24px">Scroll sideways · ← → keys · tap the framed flower to open</p>`;bindStrip();return}
+      body.innerHTML=`<div class="ix-body"><ol class="list" aria-label="Flowers">${list.map((f,k)=>`<li class="draw" style="--i:${Math.min(k,20)}"><a href="#/f/${f.slug}" data-s="${f.slug}"><span class="n">${pad(f.n)}</span><span><span class="nm">${esc(f.name)}</span><span class="lat">${esc(f.latin)}</span></span><span class="rt">${esc(f.family)}<br>${f.season}</span><span class="th">${flowerSVG(f,{ink:true,label:false})}</span></a></li>`).join('')}</ol><aside class="peek" id="peek" aria-hidden="true"></aside></div>`;
+      const peek=$('#peek');let pk=null;const setPeek=f=>{if(pk===f)return;pk=f;peek.innerHTML=`${flowerSVG(f,{bloom:true,label:false})}<div class="cap"><span class="mut">No. ${pad(f.n)} · ${f.colour} · ${f.season}</span><b>${esc(f.name)}</b><span class="mut" style="text-transform:none">Means “${esc(f.meaning)}”</span></div>`};
+      setPeek(list[0]);$$('.list a',body).forEach(a=>{const f=BY[a.dataset.s];a.addEventListener('mouseenter',()=>setPeek(f));a.addEventListener('focus',()=>setPeek(f))});
+    };
+    const bindStrip=()=>{const st=$('#strip'),cap=$('#stripCap');let on=null;const upd=()=>{const mid=st.getBoundingClientRect().left+st.clientWidth/2;let best,bd=1e9;$$('a',st).forEach(a=>{const r=a.getBoundingClientRect(),d=Math.abs(r.left+r.width/2-mid);if(d<bd){bd=d;best=a}});if(best&&best!==on){on&&on.classList.remove('on');on=best;on.classList.add('on');const f=BY[on.dataset.s];cap.innerHTML=`<span class="mono mut">No. ${pad(f.n)} / 50</span><b>${esc(f.name)}</b><span class="mut" style="font:italic 15px var(--serif)">${esc(f.latin)} · means “${esc(f.meaning)}”</span>`}};
+      let raf;st.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(upd)},{passive:true});upd();
+      st.addEventListener('keydown',e=>{if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;e.preventDefault();const as=$$('a',st),i=as.indexOf(on),n=as[Math.max(0,Math.min(as.length-1,i+(e.key==='ArrowRight'?1:-1)))];n.focus({preventScroll:true});n.scrollIntoView({inline:'center',block:'nearest',behavior:isCalm()?'auto':'smooth'})});
+      $$('a',st).forEach(a=>a.addEventListener('focus',()=>a.scrollIntoView({inline:'center',block:'nearest',behavior:isCalm()?'auto':'smooth'})));
+      $$('a',st).forEach(a=>a.addEventListener('click',e=>{if(a!==on){e.preventDefault();a.scrollIntoView({inline:'center',block:'nearest',behavior:isCalm()?'auto':'smooth'})}}))};
+    const resetF=()=>{S.filt={colour:new Set(),season:new Set(),q:''};$('#q').value='';$$('[data-colour],[data-season]').forEach(b=>b.setAttribute('aria-pressed','false'));draw();say('Filters cleared. Showing all 50 flowers')};
+    fBtn.onclick=()=>{S.filtOpen=!S.filtOpen;fBtn.setAttribute('aria-expanded',S.filtOpen);fBtn.lastElementChild.textContent=S.filtOpen?'−':'+';$('#fPanel').classList.toggle('open',S.filtOpen);if(S.filtOpen)later(()=>$('#q').focus(),300)};
+    $('#reset').onclick=resetF;
+    $$('[data-colour]').forEach(b=>b.onclick=()=>{const c=b.dataset.colour,s=S.filt.colour;s.has(c)?s.delete(c):s.add(c);b.setAttribute('aria-pressed',s.has(c));draw()});
+    $$('[data-season]').forEach(b=>b.onclick=()=>{const c=b.dataset.season,s=S.filt.season;s.has(c)?s.delete(c):s.add(c);b.setAttribute('aria-pressed',s.has(c));draw()});
+    $('#q').addEventListener('input',e=>{S.filt.q=e.target.value;draw()});
+    $$('[data-view]').forEach(b=>b.onclick=()=>{S.prefs.view=b.dataset.view;store.set('prefs',S.prefs);$$('[data-view]').forEach(x=>x.setAttribute('aria-pressed',x===b));draw();say(b.dataset.view+' view')});
+    draw();
+  }}
+}
+
+/* ═════════ DETAIL ═════════ */
+function detail(f){
+  const prev=F[(f.n+48)%50],next=F[f.n%50],alike=F.filter(x=>x.family===f.family&&x!==f),sameC=F.filter(x=>x.colour===f.colour&&x!==f).slice(0,4);
+  const grow=f.water==='Aquatic'?`Lives in still water, in ${f.sun.toLowerCase()}.`:`Grows best in ${f.sun.toLowerCase()} with ${f.water.toLowerCase()} watering.`;
+  const html=`
+  <section class="wrap">
+    <div style="padding:clamp(20px,4vw,40px) 0 18px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px"><span class="tag">No. ${pad(f.n)} / 50</span><div class="btns"><button class="btn" id="save" aria-pressed="${inGarden(f.slug)}">${inGarden(f.slug)?'♥ Saved':'♡ Save'}</button><button class="btn" id="share">Share</button></div></div>
+    <div class="det">
+      <div class="det-fig">
+        <div class="spinner" id="spinner" aria-label="${esc(f.name)} drawing. Tap a petal to pluck it; drag to spin."><div id="spinIn">${flowerSVG(f,{bloom:true,cls:'sway'})}</div></div>
+        <p class="status" id="status" aria-live="polite">Tap a petal. Loves me, loves me not?</p>
+        <div class="btns" style="justify-content:center"><button class="btn" id="pluck">Pluck a petal</button><button class="btn" id="spin">Spin ↻</button><button class="btn" id="rebloom">Rebloom</button></div>
+      </div>
+      <div class="det-text">
+        <h1 class="h1 fu">${esc(f.name)}</h1>
+        <p class="latin fu" style="--i:2">${esc(f.latin)}</p>
+        <dl>${[['Means',esc(f.meaning)],['Family',esc(f.family)],['Colour',`<span style="display:inline-flex;align-items:center;gap:8px"><i class="sw" style="background:${f.hex}"></i>${f.colour} <span class="mut mono">${f.hex}</span></span>`],['Blooms',f.season],['Native to',esc(f.origin)],['Sun',f.sun],['Water',f.water]].map(([k,v],i)=>`<div class="row draw" style="--i:${i+2}"><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
+        <div class="acc">${[['Something surprising',`<p>${esc(f.fact)}</p>`],['How it grows',`<p>${grow}</p><p class="mut">Flowers in ${f.season==='Year-round'?'every season, given warmth':f.season.toLowerCase()}. Native to ${esc(f.origin)}.</p>`],['Family & look-alikes',alike.length?`<p>Also in ${esc(f.family)}:</p><div class="alike">${alike.map(x=>`<a class="opt" href="#/f/${x.slug}">${esc(x.name)}</a>`).join('')}</div>`:`<p>The only ${esc(f.family)} among the fifty. Other ${f.colour} flowers:</p><div class="alike">${sameC.map(x=>`<a class="opt" href="#/f/${x.slug}"><i class="sw" style="background:${x.hex}"></i>${esc(x.name)}</a>`).join('')}</div>`],['Put it in a bouquet',`<p>Start a bouquet with the ${esc(f.name.toLowerCase())} and add up to six more.</p><a class="btn" href="#/play/bouquet?with=${f.slug}">Start a bouquet →</a>`]].map(([t,b],k)=>`<div class="draw" style="--i:${k+9}"><button class="acc-h" aria-expanded="${k===0}" aria-controls="a${k}">${t}<span class="pl" aria-hidden="true">+</span></button><div class="acc-body ${k===0?'open':''}" id="a${k}" role="region"><div><div class="acc-in">${b}</div></div></div></div>`).join('')}</div>
+        <nav class="pn" aria-label="Previous and next flower"><a href="#/f/${prev.slug}" rel="prev"><span class="mono mut">← ${pad(prev.n)}</span><b>${esc(prev.name)}</b></a><a href="#/f/${next.slug}" rel="next"><span class="mono mut">${pad(next.n)} →</span><b>${esc(next.name)}</b></a></nav>
+      </div>
+    </div>
+  </section>`;
+  return {html,bind(app){
+    bindAccordion(app);
+    const spinner=$('#spinner'),inner=$('#spinIn'),status=$('#status');let rot=0,plucked=0;
+    const setRot=d=>{rot=d;inner.style.transform=`rotate(${rot}deg)`};
+    const remaining=()=>$$('.p:not(.gone)',inner);
+    const doPluck=p=>{const left=remaining();if(!left.length)return;p=p||left[left.length-1];p.classList.add('gone');plucked++;const loves=plucked%2===1,n=left.length-1;
+      if(n===0){status.innerHTML=`Last petal: <b>${loves?'loves me!':'loves me not'}</b> ${loves?'♥':'— rebloom and try again'}`;$('#pluck').disabled=true;if(loves)drift(spinner,f.hex)}
+      else status.innerHTML=`<b>${loves?'Loves me':'Loves me not'}</b> · ${n} petal${n>1?'s':''} left`};
+    inner.addEventListener('click',e=>{const p=e.target.closest('.p');if(p&&!moved)doPluck(p)});
+    $('#pluck').onclick=()=>doPluck();
+    $('#spin').onclick=()=>setRot(rot+60);
+    $('#rebloom').onclick=()=>{inner.innerHTML=flowerSVG(f,{bloom:true,cls:'sway'});plucked=0;$('#pluck').disabled=false;status.textContent='Fresh petals. Loves me, loves me not?';unbloomLater($('svg',inner))};
+    let drag=null,moved=false;
+    spinner.addEventListener('pointerdown',e=>{const r=spinner.getBoundingClientRect();drag={cx:r.left+r.width/2,cy:r.top+r.height/2,a:Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2)),start:rot};moved=false;inner.style.transition='none'});
+    window.addEventListener('pointermove',onMove);function onMove(e){if(!drag)return;const a=Math.atan2(e.clientY-drag.cy,e.clientX-drag.cx),d=(a-drag.a)*180/Math.PI;if(Math.abs(d)>4){moved=true;spinner.setPointerCapture?.(e.pointerId)}if(moved)setRot(drag.start+d)}
+    const up=()=>{if(!drag)return;drag=null;inner.style.transition='';setTimeout(()=>moved=false,0)};window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up);
+    S.cleanup.push(()=>{window.removeEventListener('pointermove',onMove);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);document.removeEventListener('keydown',keys)});
+    const keys=e=>{if(e.target.closest('input,textarea')||e.metaKey||e.ctrlKey||e.altKey)return;if(e.key==='j'||e.key==='ArrowRight'&&e.shiftKey)location.hash='#/f/'+next.slug;if(e.key==='k'||e.key==='ArrowLeft'&&e.shiftKey)location.hash='#/f/'+prev.slug};document.addEventListener('keydown',keys);
+    $('#save').onclick=e=>{const on=toggleGarden(f.slug,e.currentTarget);e.currentTarget.setAttribute('aria-pressed',on);e.currentTarget.textContent=on?'♥ Saved':'♡ Save'};
+    $('#share').onclick=async()=>{const url=location.href,data={title:f.name+' · Fifty Flowers',text:`${f.name}: ${f.fact}`,url};try{if(navigator.share){await navigator.share(data);return}await navigator.clipboard.writeText(url);toast('Link copied')}catch(err){if(err&&err.name==='AbortError')return;toast('Could not share. Copy the address bar instead.')}};
+    unbloomLater($('svg',inner));
+  }}
+}
+
+/* ═════════ PLAY ═════════ */
+const QUIZ=[
+  {q:'When do you feel most like yourself?',k:'season',a:[['In spring, when everything starts','Spring'],['Long summer evenings','Summer'],['Crisp autumn mornings','Autumn'],['A quiet winter afternoon','Winter']]},
+  {q:'Pick a colour for your front door.',k:'colour',a:[['Red','red'],['Soft pink','pink'],['Sunny yellow or orange','yellow|orange'],['White','white'],['Violet or blue','purple|blue']]},
+  {q:'A free afternoon. What do you do?',k:'shape',a:[['Gather everyone I love','cluster|hang|spike|bells'],['Wander somewhere alone','ray|pointed|trumpet|protea'],['Make something by hand','frill|frillp|orchid'],['Sit by the water','cup|round|heart|spathe|bract|bird']]}
+];
+function play(sub){
+  const which=(sub||'guess').split('?')[0],open={guess:0,bouquet:1,quiz:2}[which]??0;
+  const params=new URLSearchParams((location.hash.split('?')[1])||'');
+  const items=[['1','Name that bloom'],['2','Make a bouquet'],['3','Which flower are you?']];
+  const html=`<section class="wrap"><div class="ix-head"><h1 class="h1 fu">Play<sup>3</sup></h1></div>
+  <div class="hz" id="hz">${items.map(([n,t],k)=>`<div class="hz-i ${k===open?'open':''}"><button class="spine" aria-expanded="${k===open}" aria-controls="pane${k}" data-k="${k}"><span class="n">${n}</span><span class="lbl">${t}</span></button><div class="pane" id="pane${k}" ${k===open?'':'hidden'} role="region" aria-label="${t}"></div></div>`).join('')}</div></section>`;
+  return {html,bind(app){
+    const panes=[guessGame,bouquetGame,quizGame];
+    const openK=k=>{$$('.hz-i',app).forEach((el,j)=>{el.classList.toggle('open',j===k);$('.spine',el).setAttribute('aria-expanded',j===k);const p=$('.pane',el);p.hidden=j!==k;if(j===k){p.innerHTML='';panes[j](p,params)}});history.replaceState(null,'','#/play/'+['guess','bouquet','quiz'][k])};
+    $$('.spine',app).forEach(b=>b.onclick=()=>openK(+b.dataset.k));
+    panes[open]($('#pane'+open),params);
+  }}
+}
+function guessGame(p){
+  let ans,opts,streak=0,answered=false;
+  const round=()=>{answered=false;ans=rand(F);opts=shuffle([ans,...shuffle(F.filter(x=>x!==ans)).slice(0,3)]);
+    p.innerHTML=`<div class="pane-in"><div class="score"><span>Streak<b id="stk">${streak}</b></span><span>Best<b>${S.best}</b></span></div><div class="qa"><div id="gfig">${flowerSVG(ans,{ink:true,bloom:true,label:false})}</div><div><h2 style="font-weight:500;font-size:clamp(24px,3vw,34px);letter-spacing:-.03em;margin:0 0 6px;line-height:1.1">Which flower is this?</h2><p class="mut" style="margin:0 0 14px">The colour arrives when you answer.</p><ol class="choices">${opts.map((o,k)=>`<li class="draw" style="--i:${k}"><button data-s="${o.slug}"><span class="n">${pad(k+1)}</span><span>${esc(o.name)}</span><span class="mk"></span></button></li>`).join('')}</ol><div id="after" style="margin-top:16px;min-height:52px"></div></div></div></div>`;
+    $$('.choices button',p).forEach(b=>b.onclick=()=>{if(answered)return;answered=true;const ok=b.dataset.s===ans.slug;$$('.choices button',p).forEach(x=>{x.disabled=true;if(x.dataset.s===ans.slug)x.classList.add('right')});if(!ok)b.classList.add('wrong');
+      $('#gfig .fl',p).classList.remove('ink');streak=ok?streak+1:0;if(streak>S.best){S.best=streak;store.set('best',S.best)}$('#stk',p).textContent=streak;
+      $('#after',p).innerHTML=`<p style="margin:0 0 12px">${ok?'Yes!':'Not quite.'} It’s the <a href="#/f/${ans.slug}">${esc(ans.name.toLowerCase())}</a>. ${esc(ans.fact)}</p><button class="btn solid" id="again">Next bloom →</button>`;say(ok?`Correct, ${ans.name}. Streak ${streak}`:`Not quite. It was ${ans.name}`);if(ok)drift(b,ans.hex);$('#again',p).onclick=round;$('#again',p).focus()})};
+  round();
+}
+function bouquetGame(p,params){
+  const MAX=7;let pick=[];const w=params&&params.get('with');if(w&&BY[w])pick=[w];
+  p.innerHTML=`<div class="pane-in"><div class="bq"><div><h2 style="font-weight:500;font-size:clamp(24px,3vw,34px);letter-spacing:-.03em;margin:0 0 6px;line-height:1.1">Pick up to seven</h2><p class="mut" style="margin:0 0 14px" id="bqc" aria-live="polite"></p><div class="bq-pick" role="group" aria-label="Flowers">${F.map(f=>`<button class="opt" data-s="${f.slug}" aria-pressed="false"><i class="sw" style="background:${f.hex}"></i>${esc(f.name)}</button>`).join('')}</div>
+  <label class="frow" style="grid-template-columns:110px 1fr;margin-top:14px"><span>Name it</span><input class="field" id="bqn" maxlength="40" placeholder="Sunday table"></label>
+  <div class="btns" style="margin-top:16px"><button class="btn solid" id="bqs">Save to garden</button><button class="btn" id="bqr">Random seven</button><button class="btn" id="bqx">Clear</button></div></div><div class="bq-fig" id="bqf"></div></div></div>`;
+  const draw=()=>{const fs=pick.map(s=>BY[s]);$('#bqf',p).innerHTML=bouquetSVG(fs,$('#bqn',p).value||'Bouquet');$('#bqc',p).textContent=pick.length?`${pick.length} of ${MAX} chosen${pick.length===MAX?' · bouquet is full':''}`:'Nothing chosen yet. Tap names to add them.';
+    $$('.bq-pick .opt',p).forEach(b=>{const on=pick.includes(b.dataset.s);b.setAttribute('aria-pressed',on);b.disabled=!on&&pick.length>=MAX});$('#bqs',p).disabled=!pick.length;$('#bqx',p).disabled=!pick.length};
+  $$('.bq-pick .opt',p).forEach(b=>b.onclick=()=>{const s=b.dataset.s;pick=pick.includes(s)?pick.filter(x=>x!==s):[...pick,s].slice(0,MAX);draw()});
+  $('#bqn',p).addEventListener('input',draw);
+  $('#bqr',p).onclick=()=>{pick=shuffle(F).slice(0,MAX).map(f=>f.slug);draw();say('Seven random flowers chosen')};
+  $('#bqx',p).onclick=()=>{pick=[];draw()};
+  $('#bqs',p).onclick=e=>{const name=$('#bqn',p).value.trim()||`Bouquet ${S.bouquets.length+1}`;S.bouquets=[{id:Date.now(),name,slugs:pick.slice(),date:new Date().toISOString()},...S.bouquets];store.set('bouquets',S.bouquets);drift(e.currentTarget,BY[pick[0]].hex);toast(`“${name}” saved to your garden`);renderMenu();pick=[];$('#bqn',p).value='';draw()};
+  draw();
+}
+function quizGame(p){
+  let step=0,ans=[];
+  const show=()=>{if(step>=QUIZ.length)return result();const Q=QUIZ[step];
+    p.innerHTML=`<div class="pane-in"><p class="mono mut" style="margin:0 0 10px">Question ${step+1} of ${QUIZ.length}</p><h2 style="font-weight:500;font-size:clamp(26px,3.4vw,40px);letter-spacing:-.03em;margin:0 0 16px;line-height:1.05">${Q.q}</h2><ol class="choices">${Q.a.map(([t],k)=>`<li class="draw" style="--i:${k}"><button data-k="${k}"><span class="n">${pad(k+1)}</span><span>${t}</span><span class="mk" aria-hidden="true">→</span></button></li>`).join('')}</ol><div class="btns" style="margin-top:16px"><button class="btn" id="qb" ${step?'':'disabled'}>← Back</button></div></div>`;
+    $$('.choices button',p).forEach(b=>b.onclick=()=>{ans[step]=Q.a[+b.dataset.k][1];step++;show();$('.choices button,#again',p)?.focus()});
+    $('#qb',p).onclick=()=>{step--;show()}};
+  const result=()=>{const [se,co,sh]=ans;let best=null,bs=-1;const seed=ans.join('').length;
+    F.forEach((f,k)=>{const sc=(f.season===se?2:0)+(co.split('|').includes(f.colour)?2:0)+(sh.split('|').includes(f.shape)?1.5:0)+((k*7+seed)%11)/100;if(sc>bs){bs=sc;best=f}});
+    const why=[best.season===se&&`blooms in ${se.toLowerCase()}`,co.split('|').includes(best.colour)&&`wears ${best.colour}`].filter(Boolean);
+    p.innerHTML=`<div class="pane-in"><div class="qa"><div>${flowerSVG(best,{bloom:true})}</div><div><p class="mono mut" style="margin:0 0 8px">You are the</p><h2 class="h1" style="font-size:clamp(44px,7vw,88px)">${esc(best.name)}</h2><p class="latin" style="font:italic 18px var(--serif);color:var(--mut);margin:10px 0 16px">${esc(best.latin)}</p><p style="font-size:19px;margin:0 0 18px;max-width:40ch">It means “${esc(best.meaning.toLowerCase())}”${why.length?` and, like you, it ${why.join(' and ')}`:''}.</p><div class="btns"><a class="btn solid" href="#/f/${best.slug}">Meet your flower →</a><button class="btn" id="qs" aria-pressed="${inGarden(best.slug)}">${inGarden(best.slug)?'♥ Saved':'♡ Save'}</button><button class="btn" id="again">Take it again</button></div></div></div></div>`;
+    say(`You are the ${best.name}`);drift($('.qa',p),best.hex);
+    $('#again',p).onclick=()=>{step=0;ans=[];show()};
+    $('#qs',p).onclick=e=>{const on=toggleGarden(best.slug,e.currentTarget);e.currentTarget.setAttribute('aria-pressed',on);e.currentTarget.textContent=on?'♥ Saved':'♡ Save'}};
+  show();
+}
+
+/* ═════════ GARDEN ═════════ */
+function garden(){
+  const g=S.garden.filter(s=>BY[s]).map(s=>BY[s]),b=S.bouquets;
+  const html=`<section class="wrap"><div class="ix-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><h1 class="h1 fu">Garden<sup>${g.length+b.length}</sup></h1><div id="clr"></div></div>
+  <section class="sec" style="border-top:2px solid var(--rule);padding-top:18px" aria-labelledby="gs"><div class="sec-head"><h2 class="h2" id="gs">Saved flowers <span class="circ">${g.length}</span></h2></div>
+  ${g.length?`<ol class="list saved">${g.map((f,k)=>`<li class="draw" style="--i:${k}"><a href="#/f/${f.slug}"><span class="n">${pad(f.n)}</span><span><span class="nm">${esc(f.name)}</span><span class="lat">${esc(f.latin)}</span></span><span class="th">${flowerSVG(f,{label:false})}</span></a><button class="ul" data-rm="${f.slug}" aria-label="Remove ${esc(f.name)}">Remove</button></li>`).join('')}</ol>`:`<div class="empty" style="padding:28px 0"><p>Nothing planted yet.</p><span class="mut">Tap ♡ Save on any flower and it will grow here.</span><a class="btn solid" href="#/index">Browse the index →</a></div>`}</section>
+  <section class="sec" style="border-top:1px solid var(--rule);padding-top:18px" aria-labelledby="gb"><div class="sec-head"><h2 class="h2" id="gb">Bouquets <span class="circ">${b.length}</span></h2></div>
+  ${b.length?`<ul class="bqs">${b.map(x=>{const fs=x.slugs.filter(s=>BY[s]).map(s=>BY[s]);return `<li>${bouquetSVG(fs,x.name)}<b>${esc(x.name)}</b><span class="mono mut">${fs.length} flowers · ${new Date(x.date).toLocaleDateString()}</span><span class="mut" style="font-size:14px">${esc(fs.map(f=>f.name).join(', '))}</span><button class="ul" data-rmb="${x.id}" aria-label="Delete bouquet ${esc(x.name)}">Delete</button></li>`}).join('')}</ul>`:`<div class="empty" style="padding:28px 0"><p>No bouquets yet.</p><a class="btn" href="#/play/bouquet">Make a bouquet →</a></div>`}</section></section>`;
+  return {html,bind(app){
+    $$('[data-rm]',app).forEach(x=>x.onclick=()=>{toggleGarden(x.dataset.rm);route()});
+    $$('[data-rmb]',app).forEach(x=>x.onclick=()=>{S.bouquets=S.bouquets.filter(q=>String(q.id)!==x.dataset.rmb);store.set('bouquets',S.bouquets);toast('Bouquet deleted');route()});
+    const clr=$('#clr',app);if(g.length+b.length){const base=()=>{clr.innerHTML='<button class="btn" id="c1">Clear garden</button>';$('#c1').onclick=()=>{clr.innerHTML='<div class="btns"><span class="mono" style="align-self:center">Clear everything?</span><button class="btn solid" id="c2">Yes, clear</button><button class="btn" id="c3">Keep it</button></div>';$('#c3').focus();$('#c3').onclick=base;$('#c2').onclick=()=>{S.garden=[];S.bouquets=[];store.set('garden',[]);store.set('bouquets',[]);toast('Garden cleared');route()}}};base()}
+  }}
+}
+
+/* ═════════ ABOUT ═════════ */
+function about(){
+  const sw=(id,t,d,on)=>`<div class="sw-row draw"><div><span id="${id}-l">${t}</span><small>${d}</small></div><button class="switch" role="switch" id="${id}" aria-checked="${on}" aria-labelledby="${id}-l"></button></div>`;
+  const html=`<section class="wrap"><div class="ix-head"><h1 class="h1 fu">About</h1></div>
+  <div class="det" style="padding-top:8px"><div class="det-text" style="padding-top:20px"><p style="font-size:clamp(22px,2.8vw,30px);letter-spacing:-.02em;line-height:1.2;margin:0 0 20px;max-width:30ch">Fifty Flowers is a field guide you can touch. Every drawing is made in code from the flower’s own numbers, so no two visits bloom quite the same.</p>
+  <dl>${[['Made of','One page of HTML, CSS and JavaScript. Works offline once installed.'],['Drawings','Generated from petal count, shape and colour. Not botanical illustrations.'],['Facts','Common botanical and cultural facts. Spot an error? Tell us and we will fix it.'],['Your data','Saved flowers, bouquets and settings stay on this device only.']].map(([k,v])=>`<div class="row draw"><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl></div>
+  <div class="det-text" style="padding-top:20px"><h2 class="h2">Settings</h2>
+  ${sw('sCalm','Calm motion','Crossfades only. Follows your device setting until you change it here.',isCalm())}
+  ${sw('sColour','Colour everywhere','Show flowers in colour in the index, not just outlines.',!!S.prefs.colour)}
+  ${sw('sCycle','Changing flower on Home','A new flower every three seconds. You can also pause it on Home.',!!S.prefs.cycle)}
+  <h2 class="h2" style="margin-top:28px">Keyboard</h2><dl>${[['Tab','Move between links and buttons'],['Enter / Space','Open, pluck, choose'],['Shift + ← →','Previous / next flower on a flower page'],['← →','Move through the strip view'],['Esc','Close the menu']].map(([k,v])=>`<div class="row draw"><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl></div></div></section>`;
+  return {html,bind(){
+    const t=(id,fn)=>{const b=$('#'+id);b.onclick=()=>{const on=b.getAttribute('aria-checked')!=='true';b.setAttribute('aria-checked',on);fn(on);savePrefs()}};
+    t('sCalm',on=>S.prefs.calm=on);t('sColour',on=>S.prefs.colour=on);t('sCycle',on=>S.prefs.cycle=on);
+  }}
+}
+function notFound(){return {html:`<section class="wrap"><div class="empty"><h1 class="h1">Not found</h1><p>This page has wilted. The other fifty are still here.</p><div class="btns"><a class="btn solid" href="#/index">Go to the index →</a><a class="btn" href="#/">Home</a></div></div></section>`}}
+
+/* ═════════ MENU ═════════ */
+let lastFocus=null;
+function renderMenu(){const cur='#/'+(location.hash.replace(/^#\/?/,'').split(/[/?]/)[0]||'');
+  $('#menuList').innerHTML=NAV.map(([n,t,u,c],k)=>{const active=(u==='#/'?cur==='#/':cur.startsWith(u))||(u==='#/index'&&cur==='#/f');return `<li style="--i:${k}"><a href="${u}" ${active?'aria-current="page"':''}><sup>${n}</sup>${t}${c?`<span class="circ" aria-label="${c()} items">${c()}</span>`:''}</a></li>`}).join('')}
+function openMenu(){lastFocus=document.activeElement;const m=$('#menu');m.classList.add('open');$('#menuBtn').setAttribute('aria-expanded','true');document.body.style.overflow='hidden';$('#app').inert=true;setTimeout(()=>$('#menuClose').focus(),60)}
+function closeMenu(restore=true){const m=$('#menu');if(!m.classList.contains('open'))return;m.classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false');document.body.style.overflow='';$('#app').inert=false;if(restore&&lastFocus)lastFocus.focus()}
+$('#menuBtn').onclick=openMenu;$('#menuClose').onclick=()=>closeMenu();
+$('#menuRandom').onclick=()=>{location.hash='#/f/'+rand(F).slug};
+$('#menuList').addEventListener('click',e=>{const a=e.target.closest('a');if(a&&a.getAttribute('href')===location.hash)closeMenu()});
+document.addEventListener('keydown',e=>{const m=$('#menu');if(!m.classList.contains('open'))return;if(e.key==='Escape'){e.preventDefault();closeMenu()}if(e.key==='Tab'){const f=$$('button,a',m),first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+
+/* ═════════ BOOT ═════════ */
+const tick=()=>{const t=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});$('#clock').textContent='Local '+t;$('#menuTime').textContent='Local time '+t};
+tick();setInterval(tick,1000);
+let mi=0;const markF=[BY['daisy'],BY['poppy'],BY['cosmos'],BY['forget-me-not'],BY['cherry-blossom']];const markTick=()=>{$('#markfl').innerHTML=drawInner(markF[mi++%markF.length])};markTick();setInterval(()=>{if(!isCalm())markTick()},4000);
+applyPrefs();
+addEventListener('hashchange',route);route();
+
+</script>
+</body>
+</html>
