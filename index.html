@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Ying Chung is a product designer in New York who designs AI products people can steer and care products that ask for little attention."><meta property="og:type" content="website"><meta property="og:title" content="Ying Chung · Product Designer"><meta property="og:description" content="Case studies: MiMo, Steeped and Decision Trail."><meta property="og:url" content="https://www.ychungworks.com/"><meta property="og:image" content="https://www.ychungworks.com/assets/mimo-cover-poster.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" sizes="32x32" href="assets/icon/ying-32.png"><link rel="icon" type="image/png" sizes="512x512" href="assets/icon/ying-512.png"><link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Ying Chung is a product designer in New York who designs AI products people can steer and care products that ask for little attention."><meta property="og:type" content="website"><meta property="og:title" content="Ying Chung · Product Designer"><meta property="og:description" content="Case studies: MiMo, Steeped and Decision Trail."><meta property="og:url" content="https://www.ychungworks.com/"><meta property="og:image" content="https://www.ychungworks.com/assets/mimo-cover-poster.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" sizes="32x32" href="assets/icon/ying-32.png"><link rel="icon" type="image/png" sizes="512x512" href="assets/icon/ying-512.png"><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext x=%2250%22 y=%22.9em%22 font-size=%2290%22 text-anchor=%22middle%22%3E%F0%9F%A7%98%F0%9F%8F%BB%3C/text%3E%3C/svg%3E"><link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Ying Chung · Product Designer</title>
 <style>
 :root{
@@ -1017,6 +1017,21 @@ html.has-cur [data-cur] *{cursor:none;}
 .pr-ic .ac{fill:#D97757;}
 .three > div:hover .pr-ic{transform:translateY(-4px);}
 @media (prefers-reduced-motion:reduce){.pr-ic{transition:none;}}
+
+/* Playground: photo pieces (physical builds) */
+.pg-photos{gap:12px;}
+.pg-photo{margin:0;width:100%;aspect-ratio:4/3;border-radius:22px;overflow:hidden;background:#fff;
+  border:1px solid #e4e2d2;box-shadow:0 24px 50px -30px rgba(40,28,20,.45);}
+.pg-photo img{display:block;width:100%;height:100%;object-fit:cover;transition:opacity .25s var(--ease);}
+.pg-photo[data-fit="contain"] img{object-fit:contain;padding:4%;}
+.pg-photo.swap img{opacity:0;}
+.pg-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;}
+.pg-th{aspect-ratio:4/3;border-radius:10px;overflow:hidden;padding:0;border:1px solid #e4e2d2;background:#fff;cursor:pointer;
+  opacity:.62;transition:opacity .2s,transform .35s var(--spring,ease);}
+.pg-th img{width:100%;height:100%;object-fit:cover;display:block;}
+.pg-th:hover{opacity:1;transform:translateY(-2px);}
+.pg-th[aria-pressed="true"]{opacity:1;border-color:#262311;box-shadow:0 0 0 1px #262311;}
+.pg-th:focus-visible{outline:2px solid #262311;outline-offset:2px;}
 /* Playground: expand a live build in place */
 .pg-dev{position:relative;}
 .pg-close{display:none;}
@@ -1032,6 +1047,209 @@ html.pg-lock,html.pg-lock body{overflow:hidden;}
 @media (max-width:700px){
   .pg-dev.is-full{box-sizing:border-box;padding-top:calc(48px + env(safe-area-inset-top,0px));background:#262311;}
   .pg-dev.is-full .pg-close{top:calc(8px + env(safe-area-inset-top,0px));right:10px;background:#F1F1EA;color:#262311;padding:10px 14px;box-shadow:none;}
+}
+
+
+/* Playground: thumbnail carousel, each card opens its full view */
+.pg-car{position:relative;}
+.pg-rail{--pg-h:clamp(280px,30vw,440px);display:flex;align-items:flex-start;gap:clamp(14px,1.6vw,24px);
+  overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:2px;padding:4px 2px 18px;scrollbar-width:none;}
+.pg-rail::-webkit-scrollbar{display:none;}
+.pg-card{flex:none;scroll-snap-align:start;display:flex;flex-direction:column;gap:14px;text-align:left;padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;}
+.pg-thumb{position:relative;display:block;height:var(--pg-h);aspect-ratio:4/3;border-radius:clamp(14px,1.3vw,22px);overflow:hidden;background:#F7F6EE;border:1px solid #e4e2d2;
+  transition:transform .45s var(--spring,cubic-bezier(.34,1.56,.64,1)),box-shadow .35s var(--ease);}
+.pg-thumb img,.pg-thumb video{display:block;width:100%;height:100%;object-fit:cover;}
+.pg-card:hover .pg-thumb{transform:translateY(-4px);box-shadow:0 22px 40px -26px rgba(40,28,20,.5);}
+.pg-card:focus-visible{outline:none;}
+.pg-card:focus-visible .pg-thumb{outline:2px solid #262311;outline-offset:3px;}
+.pg-badge{position:absolute;left:12px;top:12px;font:500 10.5px/1 var(--h-font);letter-spacing:.08em;text-transform:uppercase;
+  background:rgba(247,246,238,.92);color:#262311;border-radius:999px;padding:7px 10px;display:flex;align-items:center;gap:6px;}
+.pg-badge.live::before{content:"";width:6px;height:6px;border-radius:50%;background:#5BB25F;box-shadow:0 0 0 3px rgba(91,178,95,.22);}
+.pg-cap{display:flex;flex-direction:column;gap:4px;}
+.pg-cap .pg-tag{align-self:flex-start;margin-bottom:4px;}
+.pg-cap b{font:600 19px/1.2 var(--h-font);letter-spacing:-.02em;}
+.pg-cap em{font:400 15px/1.35 var(--h-font);font-style:normal;color:var(--h-ink-2);}
+.pg-card.is-live{cursor:default;}
+.is-live .pg-thumb{aspect-ratio:3/4;background:#EDEFC2;box-shadow:0 18px 40px -28px rgba(38,35,17,.45);}
+.is-live .pg-thumb iframe{display:block;width:100%;height:100%;border:0;}
+.pg-card.is-live:hover .pg-thumb{transform:none;}
+button.pg-cap{padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;}
+button.pg-cap:hover b{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}
+button.pg-cap:focus-visible{outline:2px solid #262311;outline-offset:4px;border-radius:6px;}
+.pg-tags{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px;}
+.pg-tags .pg-tag{margin:0;}
+.pg-live{display:inline-flex;align-items:center;gap:6px;font:500 10.5px/1 var(--h-font);letter-spacing:.08em;text-transform:uppercase;color:var(--h-ink-2);}
+.pg-live::before{content:"";width:6px;height:6px;border-radius:50%;background:#5BB25F;box-shadow:0 0 0 3px rgba(91,178,95,.22);}
+.pg-reel video{display:block;width:100%;height:100%;object-fit:cover;}
+.pg-reel img{position:absolute;inset:0;opacity:0;transition:opacity .9s var(--ease,ease);}
+.pg-reel img[data-fit="contain"]{object-fit:contain;padding:5%;box-sizing:border-box;}
+.pg-reel img.on{opacity:1;}
+.pg-dots{position:absolute;right:12px;bottom:12px;display:flex;gap:5px;padding:6px 8px;border-radius:999px;background:rgba(247,246,238,.92);}
+.pg-dots i{width:5px;height:5px;border-radius:50%;background:#262311;opacity:.25;transition:opacity .3s;}
+.pg-dots i.on{opacity:1;}
+@media (max-width:700px){
+  .pg-thumb{height:auto;width:82vw;}
+  .is-live .pg-thumb{width:74vw;}
+}
+.pg-nav{display:flex;justify-content:flex-end;gap:10px;margin-top:6px;}
+.pg-arw{width:44px;height:44px;border-radius:50%;border:1px solid var(--h-line,#ddd);background:transparent;color:var(--h-ink,#111);display:grid;place-items:center;cursor:pointer;transition:background .2s,opacity .2s;}
+.pg-arw svg{width:16px;height:16px;}
+.pg-arw.pg-fwd svg{transform:scaleX(-1);}
+.pg-arw:hover:not(:disabled){background:var(--h-card,#f2f2f2);}
+.pg-arw:disabled{opacity:.3;cursor:default;}
+.pg-arw:focus-visible{outline:2px solid #262311;outline-offset:2px;}
+.pg-dlg{width:min(1180px,calc(100vw - 32px));max-width:none;max-height:calc(100dvh - 32px);padding:0;border:0;background:transparent;overflow:visible;}
+.pg-dlg[open]{animation:pgdlg .4s var(--ease-out,ease) both;}
+.pg-dlg::backdrop{background:rgba(24,22,12,.55);backdrop-filter:blur(4px);}
+.pg-dlg .pg-item{max-height:calc(100dvh - 32px);overflow:auto;box-shadow:0 40px 90px -30px rgba(0,0,0,.45);}
+.pg-x{position:absolute;top:14px;right:14px;z-index:3;font:500 12px/1 var(--h-font);letter-spacing:.08em;text-transform:uppercase;
+  color:#F1F1EA;background:#262311;border:0;border-radius:999px;padding:11px 16px;cursor:pointer;}
+.pg-x:focus-visible{outline:2px solid #E4F25A;outline-offset:3px;}
+.pg-dlg .pg-dev{max-height:calc(100dvh - 160px);width:auto;height:min(760px,calc(100dvh - 160px));}
+.pg-dlg .pg-dev.is-full{position:fixed;inset:0;width:100vw;height:100dvh;max-height:none;}
+.pg-dlg:has(.is-full) .pg-x{display:none;}
+@keyframes pgdlg{from{opacity:0;}to{opacity:1;}}
+@media (prefers-reduced-motion:reduce){.pg-dlg[open]{animation:none;}.pg-thumb{transition:none;}}
+@media (max-width:700px){
+  .pg-dlg{width:100vw;max-height:100dvh;height:100dvh;margin:0;}
+  .pg-dlg .pg-item{max-height:100dvh;height:100dvh;border-radius:0;border:0;padding:60px 18px 28px;align-items:start;}
+  .pg-dlg .pg-dev{height:auto;max-height:none;width:100%;}
+}
+
+
+/* Playground: index + stage. Pick a name, the piece takes the stage */
+.pg-ix{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,4vw,72px);align-items:start;}
+.pg-list{display:flex;flex-direction:column;border-top:1px solid var(--h-line,#e6e6e6);}
+.pg-li{display:grid;grid-template-columns:2.4em 1fr auto;align-items:baseline;gap:12px;padding:20px 4px;border:0;border-bottom:1px solid var(--h-line,#e6e6e6);
+  background:none;color:var(--h-ink-2,#666);font:inherit;text-align:left;cursor:pointer;transition:color .25s,padding .45s var(--spring,cubic-bezier(.34,1.56,.64,1));}
+.pg-li .pg-n{font:500 12px/1 var(--h-font);letter-spacing:.06em;font-variant-numeric:tabular-nums;}
+.pg-li .pg-nm{display:flex;flex-direction:column;gap:4px;}
+.pg-li b{font:600 clamp(20px,1.9vw,28px)/1.1 var(--h-font);letter-spacing:-.03em;color:inherit;}
+.pg-li em{font:400 14px/1.3 var(--h-font);font-style:normal;max-height:0;opacity:0;overflow:hidden;transition:max-height .35s var(--ease),opacity .3s;}
+.pg-li .pg-st{display:inline-flex;align-items:center;gap:6px;font:500 10.5px/1 var(--h-font);letter-spacing:.08em;text-transform:uppercase;color:var(--h-ink-2,#777);}
+.pg-li.is-live .pg-st::before{content:"";width:6px;height:6px;border-radius:50%;background:#5BB25F;box-shadow:0 0 0 3px rgba(91,178,95,.22);}
+.pg-li:hover{color:var(--h-ink,#111);padding-left:12px;}
+.pg-li[aria-selected="true"]{color:var(--h-ink,#111);padding-left:12px;}
+.pg-li[aria-selected="true"] em{max-height:3em;opacity:1;color:var(--h-ink-2,#666);}
+.pg-li .pg-n{position:relative;}
+.pg-li[aria-selected="true"] .pg-n::before{content:"";position:absolute;left:-14px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:#D97757;animation:pgpop .5s var(--spring,ease) both;}
+.pg-li:focus-visible{outline:2px solid #262311;outline-offset:-2px;border-radius:6px;}
+.pg-stage2{position:relative;}
+.pg-panel{display:flex;flex-direction:column;align-items:center;gap:16px;}
+.pg-panel:not([hidden]) .pg-frame{animation:pgin .55s var(--spring,cubic-bezier(.34,1.56,.64,1)) both;}
+.pg-frame{position:relative;height:clamp(400px,38vw,580px);max-width:100%;border-radius:clamp(16px,1.5vw,26px);overflow:hidden;
+  background:#F7F6EE;border:1px solid #e4e2d2;box-shadow:0 30px 60px -36px rgba(40,28,20,.45);}
+.pg-k-video .pg-frame{aspect-ratio:4/3;}
+.pg-k-live .pg-frame{aspect-ratio:3/5;background:#EDEFC2;}
+.pg-frame video,.pg-frame iframe{display:block;width:100%;height:100%;border:0;object-fit:cover;}
+.pg-under{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;max-width:min(100%,calc(clamp(400px,38vw,580px)*4/3));}
+.pg-k-live .pg-under{max-width:min(100%,calc(clamp(400px,38vw,580px)*3/5 + 120px));}
+.pg-under p{font:400 15px/1.4 var(--h-font);color:var(--h-ink-2,#666);}
+.pg-more{flex:none;padding:10px 16px;border-radius:999px;border:1px solid var(--h-ink,#111);background:none;color:var(--h-ink,#111);
+  font:500 12px/1 var(--h-font);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s;}
+.pg-more span{display:inline-block;transition:transform .35s var(--spring,ease);}
+.pg-more:hover{background:var(--h-ink,#111);color:#fff;}
+.pg-more:hover span{transform:translateX(3px);}
+.pg-more:focus-visible{outline:2px solid #262311;outline-offset:2px;}
+@keyframes pgin{from{opacity:0;transform:translateY(10px) scale(.97) rotate(-.6deg);}to{opacity:1;transform:none;}}
+@keyframes pgpop{from{transform:scale(0);}to{transform:scale(1);}}
+@media (prefers-reduced-motion:reduce){.pg-panel:not([hidden]) .pg-frame,.pg-li[aria-selected="true"] .pg-n::before{animation:none;}.pg-li{transition:color .2s;}}
+@media (max-width:900px){
+  .pg-ix{grid-template-columns:1fr;gap:22px;}
+  .pg-list{flex-direction:row;flex-wrap:wrap;gap:8px;border:0;}
+  .pg-li{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--h-line,#ddd);border-radius:999px;}
+  .pg-li:hover,.pg-li[aria-selected="true"]{padding-left:14px;}
+  .pg-li[aria-selected="true"]{background:var(--h-ink,#111);border-color:var(--h-ink,#111);color:#fff;}
+  .pg-li .pg-n,.pg-li em{display:none;}
+  .pg-li b{font-size:15px;letter-spacing:-.01em;}
+  .pg-li .pg-st{display:none;}
+  .pg-li.is-live b::after{content:"";display:inline-block;width:6px;height:6px;margin-left:7px;vertical-align:middle;border-radius:50%;background:#5BB25F;}
+  .pg-frame{height:auto;width:100%;}
+  .pg-k-live .pg-frame{width:min(100%,400px);}
+  .pg-under,.pg-k-live .pg-under{max-width:100%;}
+}
+
+
+/* Playground: everything at once. Live builds bracket the films; a note sits in the middle */
+.pg-bento{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.92fr);grid-template-rows:auto auto;
+  grid-template-areas:"hc a n fc" "hc b c fc";gap:clamp(14px,1.4vw,22px);align-items:stretch;}
+.pg-tile{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0;}
+.pg-tile:nth-of-type(1){grid-area:hc;}.pg-tile.pg-a{grid-area:a;}.pg-note{grid-area:n;}.pg-tile:nth-of-type(3){grid-area:fc;}.pg-tile.pg-b{grid-area:b;}.pg-tile.pg-c{grid-area:c;}
+.pg-tf{position:relative;overflow:hidden;border-radius:clamp(14px,1.2vw,20px);background:#F7F6EE;border:1px solid #e4e2d2;
+  transition:transform .55s var(--spring,cubic-bezier(.34,1.56,.64,1)),box-shadow .45s var(--ease);}
+.pg-tile:not(.pg-tall) .pg-tf{aspect-ratio:4/3;}
+.pg-tall .pg-tf{flex:1;min-height:420px;background:#EDEFC2;}
+.pg-tf video,.pg-tf iframe{position:absolute;inset:0;display:block;width:100%;height:100%;border:0;object-fit:cover;}
+.pg-tile:not(.pg-tall):hover .pg-tf{transform:translateY(-4px) rotate(-.4deg);box-shadow:0 24px 40px -28px rgba(40,28,20,.5);}
+.pg-tile:not(.pg-tall):nth-of-type(even):hover .pg-tf{transform:translateY(-4px) rotate(.4deg);}
+.pg-tile figcaption{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;}
+.pg-tt{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.pg-tt b{font:600 15px/1.2 var(--h-font);letter-spacing:-.01em;}
+.pg-tt span{font:400 13px/1.25 var(--h-font);color:var(--h-ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pg-go{flex:none;display:inline-flex;align-items:center;gap:8px;padding:7px 8px 7px 12px;border:1px solid var(--h-line,#e2e2e2);border-radius:999px;background:#fff;cursor:pointer;
+  font:500 10.5px/1 var(--h-font);letter-spacing:.08em;text-transform:uppercase;color:var(--h-ink-2);transition:background .2s,color .2s,border-color .2s;}
+.pg-go .pg-st{display:inline-flex;align-items:center;gap:6px;}
+.pg-ar{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--h-ink,#111);color:#fff;font-size:11px;letter-spacing:0;transition:transform .45s var(--spring,ease);}
+.pg-go:hover{border-color:var(--h-ink,#111);color:var(--h-ink,#111);}
+.pg-go:hover .pg-ar{transform:translateX(2px) rotate(-45deg);}
+.pg-go:focus-visible{outline:2px solid #262311;outline-offset:2px;}
+.pg-bd{width:6px;height:6px;border-radius:50%;background:#5BB25F;box-shadow:0 0 0 0 rgba(91,178,95,.5);animation:pgpulse 2.2s ease-out infinite;}
+@keyframes pgpulse{0%{box-shadow:0 0 0 0 rgba(91,178,95,.5);}70%,100%{box-shadow:0 0 0 7px rgba(91,178,95,0);}}
+.pg-note{display:flex;flex-direction:column;justify-content:center;gap:14px;padding:clamp(18px,2vw,30px);border-radius:clamp(14px,1.2vw,20px);
+  background:#F7F6EE;background-image:radial-gradient(#e4e2d2 1px,transparent 1px);background-size:16px 16px;border:1px dashed #d9d6c4;}
+.pg-hand{font:600 clamp(22px,1.9vw,30px)/1.05 "Caveat",cursive;color:#262311;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.pg-hand .l{animation:pgnudgeL 1.8s var(--ease) infinite;}.pg-hand .r{animation:pgnudgeR 1.8s var(--ease) infinite;}
+@keyframes pgnudgeL{50%{transform:translateX(-5px);}}@keyframes pgnudgeR{50%{transform:translateX(5px);}}
+.pg-sum{font:400 14px/1.45 var(--h-font);color:var(--h-ink-2);}
+.pg-yrs{font:500 11px/1 var(--h-font);letter-spacing:.08em;color:var(--h-ink-2);}
+/* entrance: tiles land one after another */
+.pg-bento.pre>*{opacity:0;transform:translateY(18px) rotate(var(--rr,0deg));}
+.pg-bento.in>*{opacity:1;transform:none;transition:opacity .6s var(--ease) calc(var(--i)*70ms),transform .8s var(--spring,ease) calc(var(--i)*70ms);}
+.pg-bento>*:nth-child(odd){--rr:-1.2deg;}.pg-bento>*:nth-child(even){--rr:1.2deg;}
+@media (prefers-reduced-motion:reduce){.pg-bento.pre>*{opacity:1;transform:none;}.pg-bd,.pg-hand span{animation:none;}}
+@media (max-width:900px){
+  .pg-bento{grid-template-columns:1fr 1fr;grid-template-areas:"a a" "hc hc" "fc fc" "b c" "n n";}
+  .pg-tall .pg-tf{flex:none;min-height:0;aspect-ratio:4/5;max-height:76vh;}
+  .pg-tt span{display:none;}
+  .pg-go .pg-st{display:none;}
+  .pg-go{padding:5px;}
+  .pg-hand .l,.pg-hand .r{display:none;}
+}
+
+/* Playground · Hero bento: 百子櫃 leads big and playable; labels appear only on hover or tap */
+.pg-hero{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(2,clamp(220px,21vw,300px)) clamp(260px,27vw,380px);gap:clamp(12px,1.2vw,16px);
+  grid-template-areas:"hc hc hc hc hc fc fc fc fp fp fp fp" "hc hc hc hc hc fc fc fc rl rl rl rl" "ff ff ff ff ff ff ff mc mc mc mc mc";}
+.pg-ht{position:relative;margin:0;min-height:0;border-radius:clamp(14px,1.4vw,20px);overflow:hidden;background:#F7F6EE;isolation:isolate;
+  transition:transform .6s var(--spring,cubic-bezier(.34,1.56,.64,1)),box-shadow .45s var(--ease);}
+.pg-ht[data-k="hc"]{grid-area:hc;}.pg-ht[data-k="fc"]{grid-area:fc;}.pg-ht[data-k="mc"]{grid-area:mc;}.pg-ht[data-k="fp"]{grid-area:fp;}.pg-ht[data-k="rl"]{grid-area:rl;}.pg-ht[data-k="ff"]{grid-area:ff;}
+.pg-ht[data-pg-tile]{cursor:pointer;}
+.pg-ht:hover{transform:translateY(-5px);box-shadow:0 26px 44px -30px rgba(40,28,20,.55);z-index:2;}
+.pg-hm{position:absolute;inset:0;overflow:hidden;}
+.pg-hm video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s var(--ease);}
+.pg-ht:hover .pg-hm video{transform:scale(1.04);}
+.pg-lv{background:#EDEFC2;}
+.pg-lv iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;}
+.pg-hc{position:absolute;left:12px;top:12px;z-index:5;display:flex;align-items:flex-start;gap:12px;max-width:calc(100% - 24px);padding:10px 10px 10px 13px;border-radius:14px;
+  background:rgba(247,246,238,.96);color:#1b1a12;box-shadow:0 8px 22px -12px rgba(0,0,0,.35);
+  opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:opacity .3s var(--ease),transform .5s var(--spring,ease);}
+.pg-ht.is-live .pg-hc{top:auto;bottom:12px;transform:translateY(6px) scale(.97);}
+.pg-ht:hover .pg-hc,.pg-ht.show .pg-hc,.pg-ht:focus-within .pg-hc{opacity:1;pointer-events:auto;transform:none;}
+.pg-hx{display:flex;flex-direction:column;gap:3px;min-width:0;}
+.pg-hx b{display:flex;align-items:center;gap:8px;font:600 14px/1.15 var(--h-font);letter-spacing:-.01em;}
+.pg-hx span{font:400 12.5px/1.3 var(--h-font);color:var(--h-ink-2);}
+.pg-hx small{font:500 10px/1 var(--h-font);letter-spacing:.08em;text-transform:uppercase;color:var(--h-ink-2);}
+.pg-hd{width:6px;height:6px;border-radius:50%;background:#5BB25F;flex:none;animation:pgpulse 2.2s ease-out infinite;}
+.pg-hb{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;border:0;background:#262311;color:#fff;font-size:13px;cursor:pointer;transition:transform .45s var(--spring,ease);}
+.pg-hb:hover{transform:rotate(-45deg) scale(1.08);}
+.pg-hb:focus-visible{outline:2px solid #262311;outline-offset:2px;}
+@media (prefers-reduced-motion:reduce){.pg-hd{animation:none;}}
+@media (max-width:900px){
+  .pg-hero{grid-template-columns:1fr 1fr;grid-template-rows:none;grid-template-areas:"hc hc" "fc mc" "fc fp" "fc rl" "ff ff";}
+  .pg-ht[data-k="ff"]{aspect-ratio:16/9;}
+  .pg-ht[data-k="hc"]{aspect-ratio:4/5;}
+  .pg-ht[data-k="mc"],.pg-ht[data-k="fp"],.pg-ht[data-k="rl"]{aspect-ratio:4/3;}
+  .pg-hx span{display:none;}
+  .pg-hx b{font-size:13px;}
 }
 
 /* ── Decision Trail: cover + live demo ─────────── */
@@ -1459,7 +1677,7 @@ html.pg-lock,html.pg-lock body{overflow:hidden;}
           <div class="img media cv-cdl" style="background:#EFE9DE;"><div class="cdl dt-v" aria-hidden="true"><video class="dt-vid dt-reel" src="assets/dt/dt-cover.mp4" poster="assets/dt/dt-cover.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Decision Trail feature reel: mark a decision, Claude flags a clash, find it on the Decisions page"></video></div></div>
           <div class="top"><h3>Decision Trail</h3><span class="dur">In progress</span></div>
           <p class="cat">AI Product Concept for Claude · Conversation Design</p>
-          <span class="go">Draft case study</span>
+          <span class="go">View case study</span>
         </a>
       </div>
     </section>
@@ -1468,10 +1686,37 @@ html.pg-lock,html.pg-lock body{overflow:hidden;}
     <section class="h-sec" id="playground">
       <div class="h-div"></div>
       <div class="h-mh">
-        <h2>Playground<sup>(3)</sup></h2>
-        <p>Things I built to find out what would happen. Running live, not screenshots. Poke at them.</p>
+        <h2>Playground<sup>(6)</sup></h2>
+        <p>Things I built to find out what would happen.</p>
       </div>
-      <div class="pg">
+      <div class="pg-hero">
+        <figure class="pg-ht" data-k="hc" data-pg-tile="pg-d-hc">
+          <div class="pg-hm"><video src="assets/pg/herb-reel.mp4" poster="assets/pg/herb-reel-poster.jpg" muted loop playsinline preload="metadata" aria-label="百子櫃 highlights: the cover, pulling the goji drawer, brewing three herbs into a tea"></video></div>
+          <figcaption class="pg-hc"><span class="pg-hx"><b><span class="pg-hd"></span>百子櫃</b><span>Open a drawer, brew three herbs, find out which one you are.</span><small>Live · open to play</small></span><button class="pg-hb" type="button" data-pg-show="pg-d-hc" aria-haspopup="dialog" aria-label="百子櫃 details">→</button></figcaption>
+        </figure>
+        <figure class="pg-ht" data-k="fc" data-pg-tile="pg-d-fc">
+          <div class="pg-hm"><video src="assets/pg/cars-reel.mp4" poster="assets/pg/cars-reel-poster.jpg" muted loop playsinline preload="metadata" aria-label="Fifty Cars highlights: the cover, a car doing tricks and changing paint, the tour, all fifty"></video></div>
+          <figcaption class="pg-hc"><span class="pg-hx"><b><span class="pg-hd"></span>Fifty Cars</b><span>Fifty cars drawn in code. Tap one and it does a trick.</span><small>Live · open to play</small></span><button class="pg-hb" type="button" data-pg-show="pg-d-fc" aria-haspopup="dialog" aria-label="Fifty Cars details">→</button></figcaption>
+        </figure>
+        <figure class="pg-ht" data-k="mc" data-pg-tile="pg-d-mc">
+          <div class="pg-hm"><video src="assets/miscast-cover-4x3-v5.mp4" poster="assets/miscast-cover-4x3-poster-v5.jpg" muted loop playsinline preload="metadata" aria-label="MisCast cover loop: a director calls the scene while two AI characters play a first date"></video></div>
+          <figcaption class="pg-hc"><span class="pg-hx"><b>MisCast</b><span>You direct, two AI characters improvise.</span><small>In progress</small></span><button class="pg-hb" type="button" data-pg-show="pg-d-mc" aria-haspopup="dialog" aria-label="MisCast details">→</button></figcaption>
+        </figure>
+        <figure class="pg-ht" data-k="fp" data-pg-tile="pg-d-fp">
+          <div class="pg-hm"><video src="assets/ot/fp-reel.mp4" poster="assets/ot/fp-reel-poster.jpg" muted loop playsinline preload="metadata" aria-label="Talking Flower Pot reel: watering, the printer printing a note, the exhibition"></video></div>
+          <figcaption class="pg-hc"><span class="pg-hx"><b>Talking Flower Pot</b><span>A pot that prints what the plant would say.</span><small>2022</small></span><button class="pg-hb" type="button" data-pg-show="pg-d-fp" aria-haspopup="dialog" aria-label="Talking Flower Pot details">→</button></figcaption>
+        </figure>
+        <figure class="pg-ht" data-k="rl" data-pg-tile="pg-d-rl">
+          <div class="pg-hm"><video src="assets/ot/rl-reel.mp4" poster="assets/ot/rl-reel-poster.jpg" muted loop playsinline preload="metadata" aria-label="Reading Light Horizon reel: the light arc glowing, light sweeping across a book"></video></div>
+          <figcaption class="pg-hc"><span class="pg-hx"><b>Reading Light Horizon</b><span>A lamp that rises and sets with your book.</span><small>2022</small></span><button class="pg-hb" type="button" data-pg-show="pg-d-rl" aria-haspopup="dialog" aria-label="Reading Light Horizon details">→</button></figcaption>
+        </figure>
+        <figure class="pg-ht" data-k="ff" data-pg-tile="pg-d-ff">
+          <div class="pg-hm"><video src="assets/pg/flowers-reel.mp4" poster="assets/pg/flowers-reel-poster.jpg" muted loop playsinline preload="metadata" aria-label="Fifty Flowers highlights: planting flowers on the cover, the index, a sunflower losing petals, a bouquet of seven"></video></div>
+          <figcaption class="pg-hc"><span class="pg-hx"><b><span class="pg-hd"></span>Fifty Flowers</b><span>Plant one, pluck a petal, build a bouquet of seven.</span><small>Live · open to play</small></span><button class="pg-hb" type="button" data-pg-show="pg-d-ff" aria-haspopup="dialog" aria-label="Fifty Flowers details">→</button></figcaption>
+        </figure>
+      </div>
+      <dialog class="pg-dlg" id="pg-d-mc" aria-label="MisCast">
+        <button class="pg-x" type="button" data-pg-hide aria-label="Close">Close ×</button>
         <article class="pg-item">
           <div class="pg-stage">
             <a class="pg-media" href="#miscast" data-cur="In progress" style="background:#2E6B39;">
@@ -1497,6 +1742,9 @@ html.pg-lock,html.pg-lock body{overflow:hidden;}
             </div>
           </div>
         </article>
+      </dialog>
+      <dialog class="pg-dlg" id="pg-d-hc" aria-label="百子櫃">
+        <button class="pg-x" type="button" data-pg-hide aria-label="Close">Close ×</button>
         <article class="pg-item">
           <div class="pg-stage">
             <div class="pg-dev" id="hc-dev">
@@ -1525,6 +1773,9 @@ html.pg-lock,html.pg-lock body{overflow:hidden;}
             </div>
           </div>
         </article>
+      </dialog>
+      <dialog class="pg-dlg" id="pg-d-fc" aria-label="Fifty Cars">
+        <button class="pg-x" type="button" data-pg-hide aria-label="Close">Close ×</button>
         <article class="pg-item">
           <div class="pg-stage">
             <div class="pg-dev" id="fc-dev">
@@ -1553,7 +1804,76 @@ html.pg-lock,html.pg-lock body{overflow:hidden;}
             </div>
           </div>
         </article>
-      </div>
+      </dialog>
+      <dialog class="pg-dlg" id="pg-d-ff" aria-label="Fifty Flowers">
+        <button class="pg-x" type="button" data-pg-hide aria-label="Close">Close ×</button>
+        <article class="pg-item">
+          <div class="pg-stage">
+            <div class="pg-dev" id="ff-dev">
+              <button class="pg-close" type="button" data-pg-close aria-label="Exit full screen">Close ×</button>
+              <iframe src="assets/fifty-flowers.html" loading="lazy"
+                      title="Fifty Flowers — a field guide you can touch, running live"></iframe>
+            </div>
+            <p class="pg-hint"><span class="dot"></span>Live · plant a flower, pluck a petal</p>
+          </div>
+          <div class="pg-text">
+            <span class="pg-tag">Self-initiated</span>
+            <h3>Fifty Flowers<em>A field guide you can touch</em></h3>
+            <p class="pg-lede">Fifty flowers, and no photographs. Every one is drawn in code from its own numbers: petal count, shape, colour. So you can plant it, spin it, and pull its petals off one by one.</p>
+            <ol class="pg-ways">
+              <li><span class="n">01</span><b>Plant and bloom</b><span class="d">Tap the ground to plant a flower. Tap the big one and it blooms again.</span></li>
+              <li><span class="n">02</span><b>Pluck a petal</b><span class="d">Loves me, loves me not, all the way down to the last petal.</span></li>
+              <li><span class="n">03</span><b>Make a bouquet</b><span class="d">Pick up to seven, name it, and keep it in your garden.</span></li>
+            </ol>
+            <dl class="pg-meta">
+              <div><dt>Role</dt><dd>Concept, design, build</dd></div>
+              <div><dt>Built with</dt><dd>HTML, CSS, vanilla JS, SVG</dd></div>
+              <div><dt>Year</dt><dd>2026</dd></div>
+            </dl>
+            <div class="pg-cta">
+              <button class="h-btn pri" type="button" data-pg-open aria-controls="ff-dev">Open full screen <svg class="h-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5"/></svg></button>
+            </div>
+          </div>
+        </article>
+      </dialog>
+      <dialog class="pg-dlg" id="pg-d-fp" aria-label="Talking Flower Pot">
+        <button class="pg-x" type="button" data-pg-hide aria-label="Close">Close ×</button>
+        <article class="pg-item">
+          <div class="pg-stage pg-photos" id="fp-photos">
+            <figure class="pg-photo" data-fit="cover"><img src="assets/ot/fp-cover.jpg" alt="the Talking Flower Pot on its printer base" loading="lazy"></figure>
+            <div class="pg-thumbs" role="group" aria-label="Talking Flower Pot photos"><button type="button" class="pg-th" data-src="assets/ot/fp-cover.jpg" data-fit="cover" data-alt="the Talking Flower Pot on its printer base" aria-pressed="true" aria-label="Show the Talking Flower Pot on its printer base"><img src="assets/ot/fp-cover.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/fp-moods.jpg" data-fit="contain" data-alt="moisture levels mapped to six moods and their messages" aria-pressed="false" aria-label="Show moisture levels mapped to six moods and their messages"><img src="assets/ot/fp-moods.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/fp-wiring.jpg" data-fit="contain" data-alt="wiring of the moisture sensor, Arduino and thermal printer" aria-pressed="false" aria-label="Show wiring of the moisture sensor, Arduino and thermal printer"><img src="assets/ot/fp-wiring.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/fp-sketch.jpg" data-fit="contain" data-alt="form sketches inspired by the MUJI CD player" aria-pressed="false" aria-label="Show form sketches inspired by the MUJI CD player"><img src="assets/ot/fp-sketch.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/fp-rose.jpg" data-fit="cover" data-alt="the pot printing a note at the exhibition" aria-pressed="false" aria-label="Show the pot printing a note at the exhibition"><img src="assets/ot/fp-rose.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/fp-notes.jpg" data-fit="cover" data-alt="a pile of notes the rose printed" aria-pressed="false" aria-label="Show a pile of notes the rose printed"><img src="assets/ot/fp-notes.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/fp-show.jpg" data-fit="cover" data-alt="the rose at the show, notes pinned behind it" aria-pressed="false" aria-label="Show the rose at the show, notes pinned behind it"><img src="assets/ot/fp-show.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/fp-parts.jpg" data-fit="cover" data-alt="the parts: sensor, Arduino, printer, printed shell" aria-pressed="false" aria-label="Show the parts: sensor, Arduino, printer, printed shell"><img src="assets/ot/fp-parts.jpg" alt="" loading="lazy"></button></div>
+          </div>
+          <div class="pg-text">
+            <span class="pg-tag">Physical computing</span>
+            <h3>Talking Flower Pot<em>Object Timer, no. 1</em></h3>
+            <p class="pg-lede">A flower pot that measures time in notes instead of minutes. A soil sensor reads how thirsty the plant is, and a small printer in the base prints what it would say. It now sits on my mom’s windowsill, growing sunflowers.</p>
+            <ol class="pg-ways"><li><span class="n">01</span><b>Dry</b><span class="d">Below 300 on the sensor, it asks for water every 10 seconds.</span></li><li><span class="n">02</span><b>Getting wetter</b><span class="d">Between 300 and 700, the notes slow down and turn cheerful.</span></li><li><span class="n">03</span><b>Watered</b><span class="d">Above 700, it goes quiet so no one overwaters it.</span></li></ol>
+            <dl class="pg-meta"><div><dt>Role</dt><dd>Concept, design, build</dd></div><div><dt>Built with</dt><dd>Arduino, soil sensor, thermal printer, acrylic</dd></div><div><dt>Year</dt><dd>2022</dd></div></dl>
+            <div class="pg-cta">
+              <a class="h-btn pri" href="https://vimeo.com/880746940" target="_blank" rel="noopener">Watch the concept video <svg class="h-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5"/></svg></a>
+            </div>
+          </div>
+        </article>
+      </dialog>
+      <dialog class="pg-dlg" id="pg-d-rl" aria-label="Reading Light Horizon">
+        <button class="pg-x" type="button" data-pg-hide aria-label="Close">Close ×</button>
+        <article class="pg-item">
+          <div class="pg-stage pg-photos" id="rl-photos">
+            <figure class="pg-photo" data-fit="cover"><img src="assets/ot/rl-cover.jpg" alt="the Reading Light Horizon desk lamp" loading="lazy"></figure>
+            <div class="pg-thumbs" role="group" aria-label="Reading Light Horizon photos"><button type="button" class="pg-th" data-src="assets/ot/rl-cover.jpg" data-fit="cover" data-alt="the Reading Light Horizon desk lamp" aria-pressed="true" aria-label="Show the Reading Light Horizon desk lamp"><img src="assets/ot/rl-cover.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/rl-scene.jpg" data-fit="contain" data-alt="reading under the lamp as the light moves" aria-pressed="false" aria-label="Show reading under the lamp as the light moves"><img src="assets/ot/rl-scene.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/rl-modes.jpg" data-fit="contain" data-alt="comic and novel modes and how far the light travels" aria-pressed="false" aria-label="Show comic and novel modes and how far the light travels"><img src="assets/ot/rl-modes.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/rl-wiring.jpg" data-fit="contain" data-alt="wiring of the buttons, Arduino and 95-LED strip" aria-pressed="false" aria-label="Show wiring of the buttons, Arduino and 95-LED strip"><img src="assets/ot/rl-wiring.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/rl-show.jpg" data-fit="cover" data-alt="the lamp at the exhibition with a book on the desk" aria-pressed="false" aria-label="Show the lamp at the exhibition with a book on the desk"><img src="assets/ot/rl-show.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/rl-lamp.jpg" data-fit="cover" data-alt="the lamp arc in a white room" aria-pressed="false" aria-label="Show the lamp arc in a white room"><img src="assets/ot/rl-lamp.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/rl-buttons.jpg" data-fit="cover" data-alt="the comic, demo and off buttons on the stand" aria-pressed="false" aria-label="Show the comic, demo and off buttons on the stand"><img src="assets/ot/rl-buttons.jpg" alt="" loading="lazy"></button><button type="button" class="pg-th" data-src="assets/ot/rl-genres.jpg" data-fit="cover" data-alt="book genres mapped to reading time" aria-pressed="false" aria-label="Show book genres mapped to reading time"><img src="assets/ot/rl-genres.jpg" alt="" loading="lazy"></button></div>
+          </div>
+          <div class="pg-text">
+            <span class="pg-tag">Physical computing</span>
+            <h3>Reading Light Horizon<em>Object Timer, no. 2</em></h3>
+            <p class="pg-lede">A desk lamp that keeps time from a book’s point of view. The light rises like a sunrise when you start reading and sets when you stop.</p>
+            <ol class="pg-ways"><li><span class="n">01</span><b>Comic</b><span class="d">The sun crosses the arc in about an hour.</span></li><li><span class="n">02</span><b>Novel</b><span class="d">The same arc stretches to about three hours.</span></li><li><span class="n">03</span><b>Pause or stop</b><span class="d">Hold the light mid-chapter, or end the day early.</span></li></ol>
+            <dl class="pg-meta"><div><dt>Role</dt><dd>Concept, design, build</dd></div><div><dt>Built with</dt><dd>Arduino, 95-LED strip, metal, acrylic</dd></div><div><dt>Year</dt><dd>2022</dd></div></dl>
+            <div class="pg-cta">
+              <a class="h-btn pri" href="https://vimeo.com/880798096" target="_blank" rel="noopener">Watch the concept video <svg class="h-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5"/></svg></a>
+            </div>
+          </div>
+        </article>
+      </dialog>
     </section>
 
     <!-- 5 · Capabilities -->
@@ -3186,7 +3506,7 @@ mvs.forEach(function(v){mio.observe(v)});
   }
   function close(){
     if(!openFrame) return;
-    openFrame.classList.remove('is-full'); document.documentElement.classList.remove('pg-lock');
+    openFrame.classList.remove('is-full'); if(!document.querySelector('.pg-dlg[open]')) document.documentElement.classList.remove('pg-lock');
     openFrame=null; if(lastOpener) lastOpener.focus();
   }
   document.querySelectorAll('[data-pg-open]').forEach(function(btn){
@@ -3194,7 +3514,68 @@ mvs.forEach(function(v){mio.observe(v)});
     if(dev) btn.addEventListener('click',function(){ open(dev,btn); });
   });
   document.querySelectorAll('[data-pg-close]').forEach(function(c){ c.addEventListener('click',close); });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&openFrame){ e.preventDefault(); close(); } });
+})();
+</script>
+<script>
+/* Playground photo pieces: thumbnails swap the main photo */
+document.querySelectorAll('.pg-photos').forEach(function(st){
+  var fig=st.querySelector('.pg-photo'), img=fig.querySelector('img');
+  st.querySelectorAll('.pg-th').forEach(function(b){ b.addEventListener('click',function(){
+    if(b.getAttribute('aria-pressed')==='true') return;
+    st.querySelectorAll('.pg-th').forEach(function(x){x.setAttribute('aria-pressed','false');}); b.setAttribute('aria-pressed','true');
+    fig.classList.add('swap');
+    setTimeout(function(){ img.src=b.dataset.src; img.alt=b.dataset.alt; fig.dataset.fit=b.dataset.fit; fig.classList.remove('swap'); },180);
+  });});
+});
+</script>
+<script>
+/* Playground · Hero bento: live builds sized to their tile, films play on screen, labels on hover/tap, details in a dialog */
+(function(){
+  var g=document.querySelector('.pg-hero'); if(!g) return;
+  var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hover=window.matchMedia&&matchMedia('(hover:hover)').matches;
+  /* phone-sized tiles show the phone layout scaled down; bigger tiles get a roomier layout */
+  function fit(f){ var i=f.querySelector('iframe'), w=f.clientWidth, h=f.clientHeight; if(!w||!h) return;
+    var k=w<390?w/390:Math.min(1,Math.max(.8,w/700)); i.style.width=(w/k)+'px'; i.style.height=(h/k)+'px'; i.style.transform='scale('+k+')'; }
+  var lv=[].slice.call(g.querySelectorAll('.pg-lv'));
+  lv.forEach(function(f){ fit(f); if('ResizeObserver' in window) new ResizeObserver(function(){ fit(f); }).observe(f); });
+  function load(){ lv.forEach(function(f){ var i=f.querySelector('iframe'); if(!i.src) i.src=i.dataset.src; }); }
+  var vids=g.querySelectorAll('video');
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es,o){ if(es[0].isIntersecting){ load(); o.disconnect(); } },{rootMargin:'400px'}).observe(g);
+    vids.forEach(function(v){ new IntersectionObserver(function(es){ if(es[0].isIntersecting&&!rm){ var p=v.play(); if(p&&p.catch)p.catch(function(){}); } else v.pause(); },{threshold:.3}).observe(v); });
+    if(!rm){ var ts=g.querySelectorAll('.pg-ht'); ts.forEach(function(t){ t.style.opacity=0; });
+      new IntersectionObserver(function(es,o){ if(!es[0].isIntersecting) return; o.disconnect();
+        ts.forEach(function(t,i){ t.style.opacity=''; if(t.animate) t.animate([{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'none'}],{duration:700,delay:i*80,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'}); });
+      },{threshold:.15}).observe(g); }
+  } else { load(); }
+  /* labels: hover shows them on a laptop; on touch a tap shows one for a moment (also inside the live builds) */
+  var timer=null;
+  function reveal(t){ g.querySelectorAll('.pg-ht.show').forEach(function(x){ if(x!==t) x.classList.remove('show'); });
+    t.classList.add('show'); clearTimeout(timer); timer=setTimeout(function(){ t.classList.remove('show'); },2600); }
+  g.querySelectorAll('.pg-ht').forEach(function(t){
+    var f=t.querySelector('iframe');
+    if(f) f.addEventListener('load',function(){ try{ f.contentDocument.addEventListener('pointerdown',function(e){ if(e.pointerType!=='mouse') reveal(t); }); }catch(_){} });
+    /* films: click opens the details; on touch the first tap shows the label, the second opens */
+    if(t.dataset.pgTile) t.addEventListener('click',function(e){ if(e.target.closest('.pg-hb')) return;
+      if(!hover&&!t.classList.contains('show')){ reveal(t); return; }
+      var b=t.querySelector('.pg-hb'); if(b) b.click(); });
+  });
+  /* details dialogs */
+  var opener=null;
+  document.querySelectorAll('[data-pg-show]').forEach(function(c){ c.addEventListener('click',function(e){ e.stopPropagation();
+    var d=document.getElementById(c.dataset.pgShow); if(!d) return; opener=c;
+    if(d.showModal) d.showModal(); else d.setAttribute('open','');
+    document.documentElement.classList.add('pg-lock');
+    var x=d.querySelector('[data-pg-hide]'); if(x) x.focus();
+  });});
+  document.querySelectorAll('.pg-dlg').forEach(function(d){
+    d.addEventListener('close',function(){ document.documentElement.classList.remove('pg-lock'); if(opener) opener.focus(); });
+    d.addEventListener('click',function(e){ if(e.target===d) d.close(); });
+    d.querySelector('[data-pg-hide]').addEventListener('click',function(){ d.close(); });
+    d.querySelectorAll('a[href^="#"]').forEach(function(a){ a.addEventListener('click',function(){ opener=null; d.close(); }); });
+  });
 })();
 </script>
 </body></html>
