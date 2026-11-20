@@ -380,6 +380,7 @@ body.retuned #tunebtn{color:var(--accent)}
   background:rgba(250,251,252,.9);-webkit-backdrop-filter:blur(22px) saturate(1.4);backdrop-filter:blur(22px) saturate(1.4);
   box-shadow:-30px 0 80px -40px rgba(20,30,60,.45),inset 1px 0 0 rgba(255,255,255,.9);transform:translateX(104%);transition:transform .55s cubic-bezier(.2,.9,.2,1)}
 #cs.in{transform:none}
+#cs:not(.in){visibility:hidden;transition:transform .55s cubic-bezier(.2,.9,.2,1),opacity .3s,visibility 0s linear .55s}
 #cs.wide{width:min(1180px,74vw)}
 #cs.wide .cs-body{padding:0;overflow:hidden;flex:1}
 .cs-frame{display:block;width:100%;height:100%;border:0;background:#fff}
@@ -652,6 +653,39 @@ body:has(#intro[data-iv=e]:not(.gone)) .bar{opacity:0;pointer-events:none}
 @media (max-width:720px){#intro[data-iv=d] .in-box{grid-template-columns:1fr}#intro[data-iv=d] h2{grid-row:auto;font-size:22vw;margin-bottom:20px}#intro[data-iv=d] :is(.in-steps,.in-go,.in-skip,.in-note){grid-column:1}
  #intro[data-iv=e] .in-box{flex-wrap:wrap;border-radius:20px;justify-content:center}#intro[data-iv=e] h2{white-space:normal;width:100%;text-align:center}
  #intro[data-iv=c] .in-steps{grid-template-columns:1fr}}
+
+/* ===== quieter openings: the page explains itself without a curtain ===== */
+@property --h{syntax:'<percentage>';inherits:false;initial-value:100%}
+#hint{position:fixed;inset:0;z-index:3;pointer-events:none;transition:opacity .8s}
+#hint.out{opacity:0}
+#hint>div{display:none}
+#hint .hv,#hint .tp{display:none}#hint .hv{display:inline}@media (hover:none){#hint .hv{display:none}#hint .tp{display:inline}}
+/* margin: a lab-sheet annotation beside the text, with a line drawn down to the mic */
+#hint[data-h=margin] .hint-note{display:flex;gap:10px;position:absolute;width:230px;font-size:12.5px;line-height:1.5;color:var(--soft);opacity:0;animation:hfade 1s ease 1.2s forwards}
+#hint[data-h=margin] .hint-note b{color:var(--ink);font-weight:500}
+#hint[data-h=margin] .hint-note p{margin:0}
+#hint .hint-mark{color:var(--accent);font-size:14px;line-height:1.2}
+#hint[data-h=margin] .hint-line{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#hint .hint-line path{fill:none;stroke:var(--accent);stroke-width:1;stroke-dasharray:var(--len,800);stroke-dashoffset:var(--len,800);animation:hdraw 1.6s cubic-bezier(.6,0,.2,1) 1.6s forwards}
+#hint[data-h=margin] .hint-line::after{content:none}
+@keyframes hdraw{to{stroke-dashoffset:0}}
+#hint.narrow .hint-line{display:none}
+#hint.narrow .hint-note{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 14px 40px -18px rgba(20,30,60,.4);pointer-events:auto}
+@keyframes hfade{to{opacity:1}}
+/* whisper: one line types itself above the controls */
+#hint[data-h=whisper] .hint-whisper{display:block;position:absolute;left:50%;transform:translateX(-50%);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);white-space:nowrap}
+#hint .caret{display:inline-block;width:.55em;height:1.05em;margin-left:2px;vertical-align:-.15em;background:var(--accent);animation:blink 1s steps(1) infinite}
+/* eq: the highlights breathe like a level meter until a song arrives */
+#hint[data-h=eq] .hint-eq{display:flex;align-items:center;gap:8px;position:absolute;left:50%;transform:translateX(-50%);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);white-space:nowrap}
+#hint .bars{display:inline-flex;gap:2px;align-items:flex-end;height:12px}
+#hint .bars i{width:3px;background:var(--accent);animation:bar 1s ease-in-out infinite alternate}
+#hint .bars i:nth-child(2){animation-delay:-.3s}#hint .bars i:nth-child(3){animation-delay:-.6s}#hint .bars i:nth-child(4){animation-delay:-.15s}#hint .bars i:nth-child(5){animation-delay:-.45s}
+@keyframes bar{from{height:2px}to{height:12px}}
+body.hint-eq:not(.music):not(.open) .statement .ph{background:linear-gradient(var(--neon,#d6ff47),var(--neon,#d6ff47)) 0 100%/100% var(--h) no-repeat!important;animation:eqh 1.6s ease-in-out infinite alternate}
+body.hint-eq:not(.music) .statement .ph:nth-of-type(2){animation-delay:-.4s}body.hint-eq:not(.music) .statement .ph:nth-of-type(3){animation-delay:-.9s}
+@keyframes eqh{from{--h:30%}to{--h:100%}}
+body.hint-on .bar .mic{box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 18%,transparent)}
+@media (prefers-reduced-motion:reduce){#hint *{animation:none!important;opacity:1!important;stroke-dashoffset:0!important}body.hint-eq .statement .ph{animation:none!important}}
 #coach{position:fixed;z-index:5;width:max-content;max-width:260px;padding:10px 32px 10px 14px;border-radius:12px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 24px 60px -24px rgba(20,30,60,.45),0 0 0 1px rgba(21,24,28,.06);font-size:13.5px;line-height:1.5;color:var(--ink);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;pointer-events:none}
 #coach.in{opacity:1;transform:none;pointer-events:auto}
 #coach::after{content:"";position:absolute;bottom:-7px;left:var(--ax,40px);width:14px;height:14px;margin-left:-7px;background:inherit;transform:rotate(45deg);box-shadow:3px 3px 6px -3px rgba(21,24,28,.12)}
@@ -750,6 +784,12 @@ body.music .eq i{animation:eq .5s ease-in-out infinite alternate}
     <p class="in-note">Nothing is recorded. The sound only moves the page.</p>
   </div>
 </div>
+<div id="hint" aria-live="polite" hidden>
+  <svg class="hint-line" aria-hidden="true"><path d=""/></svg>
+  <div class="hint-note"><span class="hint-mark mono">※</span><p><b>Best with your own music.</b> Play a song out loud and turn on the mic: the words, ripples and colors follow it. <span class="hv">Hover</span><span class="tp">Tap</span> a highlighted line to open my work.</p></div>
+  <div class="hint-whisper mono"><span class="tw"></span><i class="caret"></i></div>
+  <div class="hint-eq mono"><span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span>waiting for a song · turn on the mic</span></div>
+</div>
 <div id="coach" role="note"><button class="x" aria-label="Dismiss">×</button>Put on a song out loud, then tap here.<small>Nothing is recorded.</small></div>
 <section id="panel" hidden aria-label="Tune the motion">
   <header><b>TUNE</b><div>
@@ -767,7 +807,7 @@ body.music .eq i{animation:eq .5s ease-in-out infinite alternate}
   <div class="cs-body" id="cs-body" tabindex="-1"></div>
 </aside>
 <div id="burst" aria-live="polite"><svg id="rays" aria-hidden="true"></svg></div>
-<script>window.YING_CONFIG={"draft": false, "caseBase": "work.html", "pop": "story", "bar": "a", "type": "index", "panel": "sheet", "panels": ["sheet", "split"], "introStyle": "c"}</script>
+<script>window.YING_CONFIG={"draft": false, "caseBase": "work.html", "pop": "story", "bar": "a", "type": "index", "panel": "sheet", "panels": ["sheet", "split"], "introStyle": "margin"}</script>
 <script>
 // ===== the choices that make the final page. draft: true shows the A/B pickers so you can compare =====
 const CONFIG=Object.assign({
@@ -779,7 +819,7 @@ const CONFIG=Object.assign({
   panels:['sheet','split'], // panel styles visitors can switch between (empty = no switcher)
   contact:true,
   intro:true,
-  introStyle:'c',      // opening card: a card · b one sentence · c record · d poster · e quiet note · f liner notes          // the opening card that explains the page and asks for your music (every visit)
+  introStyle:'margin', // opening: margin · whisper · eq (quiet, no curtain)  ·  a b c d e f (cards that cover the page)          // the opening card that explains the page and asks for your music (every visit)
   type:'index',         // how the words sit: plain · inline · index · ledger · display · stagger
   underline:'line',     // phrase links: 'line' one underline per phrase · 'words' the old per-word marks
   role:'Interaction designer · AI, health & connected objects · Brooklyn', // header line under/next to the name        // quiet "Open to full-time roles · Say hi" in the top bar
@@ -1346,6 +1386,7 @@ function togglePlay(){
 }
 const playBtn=document.getElementById('play'),songEl=document.getElementById('song');
 function setPlaying(on,label){
+  if(on&&typeof endHint==='function')endHint();
   document.body.classList.toggle('mic-on',!!on&&mode==='mic');document.getElementById('mic').setAttribute('aria-pressed',!!on&&mode==='mic');document.getElementById('music').setAttribute('aria-pressed',!!on&&mode!=='mic');playing=on;labelBar();if(on)hideCoach();
   if(typeof songReset==='function')songReset();
   playing=on;cMin=1;cMax=0;if(!on)hueDrift=0;document.body.classList.toggle('music',on);document.body.classList.toggle('reading',on);if(on){resetReading();lastStep=performance.now()}
@@ -1428,11 +1469,28 @@ let seen=false;try{seen=localStorage.getItem('ying-coach')==='1'}catch(e){}
 {let v=CONFIG.bar;if(CONFIG.draft)try{v=localStorage.getItem('ying-bar')||v}catch(e){}setBar(v)}
 // the intro shows on every visit; the old one-time hint is no longer needed
 const intro=document.getElementById('intro');
+// quiet openings
+var hint=document.getElementById('hint'),hintOn=false;
+function placeHint(){if(!hintOn)return;const v=hint.dataset.h,mic=document.getElementById('mic').getBoundingClientRect(),bar=document.getElementById('bar').getBoundingClientRect(),st=document.getElementById('statement').getBoundingClientRect();
+  const lift=bar.top-30;hint.querySelector('.hint-whisper').style.top=lift+'px';hint.querySelector('.hint-eq').style.top=lift+'px';
+  if(v==='margin'){const n=hint.querySelector('.hint-note'),w=230,room=innerWidth-st.right;let x,y;
+    const narrow=room<w+60;hint.classList.toggle('narrow',narrow);
+    if(!narrow){x=st.right+44;y=st.top+st.height*.38}else{x=16;n.style.width=(innerWidth-32)+'px';y=bar.top-n.offsetHeight-14}
+    n.style.left=x+'px';n.style.top=y+'px';
+    const sx=x+8,sy=y+n.offsetHeight+10,ex=mic.left+mic.width/2,ey=mic.top-8,mx=Math.min(sx,ex)+Math.abs(sx-ex)*.15;
+    const path=hint.querySelector('path');path.setAttribute('d',`M${sx},${sy} C${sx},${sy+(ey-sy)*.6} ${ex+ (sx>ex?60:-60)},${ey-(ey-sy)*.35} ${ex},${ey}`);
+    const L=Math.ceil(path.getTotalLength());path.style.setProperty('--len',L)}}
+function startHint(v){hint.dataset.h=v;hint.hidden=false;hintOn=true;document.body.classList.add('hint-on');document.body.classList.toggle('hint-eq',v==='eq');
+  requestAnimationFrame(placeHint);setTimeout(placeHint,700);
+  if(v==='whisper'){const t="It's quiet in here. Put on a song you love, then turn on the mic.",el=hint.querySelector('.tw');let i=0;el.textContent='';
+    const tick=()=>{if(!hintOn)return;el.textContent=t.slice(0,++i);if(i<t.length)setTimeout(tick,i===19?520:38)};setTimeout(tick,900)}}
+function endHint(){if(!hintOn)return;hintOn=false;hint.classList.add('out');document.body.classList.remove('hint-on','hint-eq');setTimeout(()=>{hint.hidden=true},900)}
+addEventListener('resize',placeHint);
 function introDone(){intro.classList.add('gone');try{sessionStorage.setItem('ying-intro','1')}catch(e){}}
 if(CONFIG.intro===false)intro.classList.add('gone');
 function setIntro(v,show){intro.dataset.iv=v;try{localStorage.setItem('ying-intro-v',v)}catch(e){}document.querySelectorAll('#intropick [data-iv]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.iv===v));if(show)intro.classList.remove('gone')}
 document.querySelectorAll('#intropick [data-iv]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();setIntro(b.dataset.iv,true)}));
-{let v=CONFIG.introStyle||'a';if(CONFIG.draft)try{v=localStorage.getItem('ying-intro-v')||v}catch(e){}setIntro(v,false)}
+{let v=CONFIG.introStyle||'a';if(CONFIG.draft)try{v=localStorage.getItem('ying-intro-v')||v}catch(e){}if(/^[a-f]$/.test(v))setIntro(v,false);else{intro.classList.add('gone');startHint(v)}}
 ['click','pointerdown'].forEach(t=>intro.addEventListener(t,e=>e.stopPropagation()));
 document.getElementById('in-mic').addEventListener('click',()=>{introDone();startMic()});
 document.getElementById('in-beat').addEventListener('click',()=>{introDone();startDemo()});
