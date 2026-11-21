@@ -1299,7 +1299,7 @@ body.cue-buddy #buddy{display:block;position:fixed;left:28px;bottom:26px;z-index
 #buddy[data-who=orange].talk .pk-orange{animation:bnboil .5s steps(1) infinite,pkwave 1.07s ease-in-out infinite}
 @keyframes pkwave{0%,100%{rotate:0deg}50%{rotate:-3deg}}
 #buddy .pk-orange{transform-origin:0 100%}
-#buddy.groove[data-who=bunny] .pk-bunny,#buddy.groove[data-who=orange] .pk-orange{animation:bnboil .5s steps(1) infinite,pkgroove calc(60s / 112) ease-in-out infinite alternate;transform-origin:50% 100%}
+#buddy.groove[data-who=bunny] .pk-bunny,#buddy.groove[data-who=orange] .pk-orange{animation:bnboil .5s steps(1) infinite,pkgroove calc(60s / 72) ease-in-out infinite alternate;transform-origin:50% 100%}
 #buddy.groove[data-who=pink] .pk-pink{animation:bnboil .5s steps(1) infinite,pkbreath 2.2s ease-in-out infinite;transform-origin:20% 100%}
 @keyframes pkgroove{from{rotate:-5deg;translate:0 0}to{rotate:5deg;translate:0 -3px}}
 @keyframes pkbreath{0%,100%{scale:1 1}50%{scale:1.02 1.05}}
@@ -1366,7 +1366,7 @@ body.mic-wait.reading .statement .w{opacity:1;color:inherit}
   <button type="button" id="music" class="bm mus" aria-pressed="false"><span class="ic"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 9.2V2.6l6-1.4v6.6" fill="none" stroke="currentColor" stroke-width="1.1"/><circle cx="3.3" cy="9.3" r="1.6"/><circle cx="9.3" cy="7.9" r="1.6"/></svg></span><span class="l"></span></button>
   <span class="t post"></span>
   <span id="navcue" role="note"><b>This page moves with music.</b> <span>Pick a sound</span></span>
-  <span class="b3" role="group" aria-label="How the page listens"><button type="button" data-b3="mic" class="b3p"><span class="ic"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="4" y="1" width="4" height="6.5" rx="2"/><path d="M2.5 6a3.5 3.5 0 0 0 7 0M6 9.5V11" fill="none" stroke="currentColor" stroke-width="1"/></svg></span><span class="l">Bring your song</span><span class="s">Your song</span></button><button type="button" data-b3="mine"><span class="i2"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.2v7.6L9.8 6z"/></svg></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="l">Play mine</span><span class="s">Mine</span></button><button type="button" data-b3="quiet"><span class="i2"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 4.5h2l2.6-2.2v7.4L3.5 7.5h-2z"/><path d="M8 4.5l3 3m0-3l-3 3" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="l">Play work without sound</span><span class="s">No sound</span></button></span>
+  <span class="b3" role="group" aria-label="How the page listens"><button type="button" data-b3="mic" class="b3p"><span class="ic"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="4" y="1" width="4" height="6.5" rx="2"/><path d="M2.5 6a3.5 3.5 0 0 0 7 0M6 9.5V11" fill="none" stroke="currentColor" stroke-width="1"/></svg></span><span class="l">Bring your song</span><span class="s">Your song</span></button><button type="button" data-b3="mine"><span class="i2"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.2v7.6L9.8 6z"/></svg></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="l">Play mine</span><span class="s">Mine</span></button><button type="button" data-b3="quiet"><span class="i2"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 4.5h2l2.6-2.2v7.4L3.5 7.5h-2z"/><path d="M8 4.5l3 3m0-3l-3 3" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="l">Play with silence</span><span class="s">Play with silence</span></button></span>
 </div>
 <div id="arrange" class="mono" hidden role="dialog" aria-label="Arrange Story layout"><b>Arrange</b> · <span class="who"></span><span class="hint">drag to move · drag the corner to resize</span><button class="reset">Reset</button><button class="copy">Copy layout</button><button class="done">Done</button><textarea readonly aria-label="Layout data"></textarea></div>
 <div class="barpick intropick mono" id="intropick" role="group" aria-label="Intro draft"><span>intro</span><button data-iv="a">A</button><button data-iv="b">B</button><button data-iv="c">C</button><button data-iv="d">D</button><button data-iv="e">E</button><button data-iv="f">F</button></div>
@@ -1690,7 +1690,7 @@ function makeSat(s){
 }
 // gallery inside the open card
 let gal=null;
-function galShow(i,tx){if(!gal)return;const n=gal.layers.length;const st=gal.layers[0]&&gal.layers[0].parentElement;if(st){st.dataset.tx=tx||'fade';const bd=60/((typeof V!=='undefined'&&V.bpm)||112);st.style.setProperty('--bd',bd.toFixed(3)+'s')}gal.prev=gal.i;gal.i=(i+n)%n;gal.beats=0;gal.layers.forEach((l,j)=>l.classList.toggle('out',j===gal.prev&&j!==gal.i));
+function galShow(i,tx){if(!gal)return;const n=gal.layers.length;const st=gal.layers[0]&&gal.layers[0].parentElement;if(st){st.dataset.tx=tx||'fade';const bd=60/((typeof V!=='undefined'&&V.bpm)||BPM);st.style.setProperty('--bd',bd.toFixed(3)+'s')}gal.prev=gal.i;gal.i=(i+n)%n;gal.beats=0;gal.layers.forEach((l,j)=>l.classList.toggle('out',j===gal.prev&&j!==gal.i));
   gal.layers.forEach((l,j)=>{l.classList.toggle('on',j===gal.i);const v=l.querySelector('video');if(v){j===gal.i&&!RM?(v.currentTime=0,v.play().catch(()=>{})):v.pause()}});
   gal.thumbs.forEach((t,j)=>{t.classList.toggle('on',j===gal.i);t.setAttribute('aria-pressed',j===gal.i)});
   gal.ticks.forEach((t,j)=>t.classList.toggle('on',j===gal.i));
@@ -2082,21 +2082,25 @@ function ensureCtx(){
   fbuf=new Uint8Array(analyser.frequencyBinCount);
 }
 // --- built-in loop (synthesized, no files) ---
-const BPM=112,SPB=60/BPM;
+const BPM=72,SPB=60/BPM;   // slow and soothing: warm maj7 chords, a soft heartbeat, a few bell notes
 let nextT=0,step=0;
-const CH=[[220,277.18,329.63],[196,246.94,293.66],[174.61,220,261.63],[196,246.94,329.63]];
-function kick(t){const o=ac.createOscillator(),g=ac.createGain();o.frequency.setValueAtTime(140,t);o.frequency.exponentialRampToValueAtTime(42,t+.16);g.gain.setValueAtTime(.95,t);g.gain.exponentialRampToValueAtTime(.001,t+.32);o.connect(g);g.connect(master);o.start(t);o.stop(t+.34)}
+const CH=[[174.61,220,261.63,329.63],[164.81,196,246.94,293.66],[146.83,174.61,220,261.63],[130.81,164.81,196,246.94]];
+function kick(t,v){v=v||.55;const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.setValueAtTime(92,t);o.frequency.exponentialRampToValueAtTime(46,t+.22);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.012);g.gain.exponentialRampToValueAtTime(.001,t+.55);o.connect(g);g.connect(master);o.start(t);o.stop(t+.6)}
 let noiseBuf=null;
 function hat(t,v){if(!noiseBuf){noiseBuf=ac.createBuffer(1,ac.sampleRate*.2,ac.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
-  const s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=noiseBuf;f.type='highpass';f.frequency.value=7000;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+.06);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+.08)}
-function pad(t,notes,dur){notes.forEach(n=>{const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=n;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.045,t+.6);g.gain.linearRampToValueAtTime(0,t+dur);o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+.05)})}
-function bassNote(t,f){const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f/2;g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+SPB*.9);o.connect(g);g.connect(master);o.start(t);o.stop(t+SPB)}
+  const s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=noiseBuf;f.type='bandpass';f.frequency.value=5200;f.Q.value=.7;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.03);g.gain.exponentialRampToValueAtTime(.001,t+.16);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+.18)}
+function pad(t,notes,dur){notes.forEach((n,i)=>{const lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1100;lp.connect(master);
+  [-4,4].forEach(c=>{const o=ac.createOscillator(),g=ac.createGain();o.type=c<0?'sine':'triangle';o.frequency.value=n;o.detune.value=c;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.032,t+1.2);g.gain.setValueAtTime(.032,t+dur-.6);g.gain.linearRampToValueAtTime(0,t+dur+.4);o.connect(g);g.connect(lp);o.start(t);o.stop(t+dur+.5)})})}
+function bassNote(t,f){const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f/2;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.2,t+.04);g.gain.exponentialRampToValueAtTime(.001,t+SPB*1.9);o.connect(g);g.connect(master);o.start(t);o.stop(t+SPB*2)}
+function bell(t,f,v){[1,2.01].forEach((m,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f*m;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v*(i?.25:1),t+.008);g.gain.exponentialRampToValueAtTime(.001,t+(i?.9:2.4));o.connect(g);g.connect(master);o.start(t);o.stop(t+2.5)})}
+const ARP=[0,2,1,3,2,1,3,0];
 function schedule(){
-  while(nextT<ac.currentTime+0.15){
+  while(nextT<ac.currentTime+0.2){
     const beat=Math.floor(step/2),bar=Math.floor(beat/4),c=CH[bar%4];
-    if(step%2===0){kick(nextT);if(beat%2===0)bassNote(nextT,c[0])}
-    else hat(nextT,beat%4===3?.18:.1);
-    if(step%16===0) pad(nextT,c,SPB*4);
+    if(step%2===0){const b4=beat%4;if(b4===0)kick(nextT,.55);else if(b4===2)kick(nextT,.32);if(b4===0)bassNote(nextT,c[0])}
+    else if(beat%2===1)hat(nextT,.035);
+    if(step%8===0) pad(nextT,c,SPB*4);
+    if(Math.random()<.72){const n=c[ARP[step%8]]*2;bell(nextT+Math.random()*.02,n,step%2?.045:.07)}
     nextT+=SPB/2;step++;
   }
 }
@@ -2113,12 +2117,12 @@ function scheduleAmbient(){
 function startAmbient(){ensureCtx();stopAll();ac.resume();nextT=ac.currentTime+.05;step=0;demoTimer=setInterval(scheduleAmbient,50);scheduleAmbient();mode='ambient';setPlaying(true,'Ambient loop · no drums')}
 // iPhone: Web Audio follows the silent switch and the mic's "call" mode. Ask for real playback, and keep a silent <audio> running so sound comes out of the speaker.
 let iosKeep=null;
-function audioRoute(kind){try{if(navigator.audioSession)navigator.audioSession.type=kind==='mic'?'play-and-record':'playback'}catch(e){}
+function audioRoute(kind){try{if(navigator.audioSession)navigator.audioSession.type=kind==='mic'?'auto':'playback'}catch(e){}
   if(kind==='mic')return;try{if(!iosKeep){iosKeep=document.createElement('audio');iosKeep.setAttribute('playsinline','');iosKeep.loop=true;iosKeep.preload='auto';
     // 0.25 s of silence
     const n=11025,b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,44100,true);v.setUint32(28,88200,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
     iosKeep.src=URL.createObjectURL(new Blob([b],{type:'audio/wav'}))}iosKeep.play().catch(()=>{})}catch(e){}}
-function startDemo(auto){if(!auto)audioRoute('play');ensureCtx();stopAll();ac.resume();silent=false;document.body.classList.remove('silent');if(outG){outG.gain.cancelScheduledValues(ac.currentTime);outG.gain.setValueAtTime(1,ac.currentTime)}if(!auto){autoPending=false;master.gain.cancelScheduledValues(ac.currentTime);master.gain.setValueAtTime(.55,ac.currentTime)}else{master.gain.setValueAtTime(0,ac.currentTime);master.gain.linearRampToValueAtTime(.42,ac.currentTime+4)}nextT=ac.currentTime+.05;step=0;demoTimer=setInterval(schedule,40);schedule();mode='demo';setPlaying(true,'Built-in loop · 112 BPM')}
+function startDemo(auto){if(!auto)audioRoute('play');ensureCtx();stopAll();ac.resume();silent=false;document.body.classList.remove('silent');if(outG){outG.gain.cancelScheduledValues(ac.currentTime);outG.gain.setValueAtTime(1,ac.currentTime)}if(!auto){autoPending=false;master.gain.cancelScheduledValues(ac.currentTime);master.gain.setValueAtTime(.55,ac.currentTime)}else{master.gain.setValueAtTime(0,ac.currentTime);master.gain.linearRampToValueAtTime(.42,ac.currentTime+4)}nextT=ac.currentTime+.05;step=0;demoTimer=setInterval(schedule,40);schedule();mode='demo';setPlaying(true,'Built-in loop')}
 var autoPending=false,outG=null,silent=false;
 function startSilent(){startDemo();silent=true;outG.gain.setValueAtTime(0,ac.currentTime);document.body.classList.add('silent');labelBar();if(songEl)songEl.textContent='No sound · moving to my loop'}
 function soundOn(){if(!outG)return;audioRoute('play');silent=false;document.body.classList.remove('silent');outG.gain.cancelScheduledValues(ac.currentTime);outG.gain.setValueAtTime(0,ac.currentTime);outG.gain.linearRampToValueAtTime(1,ac.currentTime+1.5);labelBar()}
@@ -2263,7 +2267,7 @@ function startHint(v){if((CONFIG.cue||'buddy')==='buddy'&&v==='margin'){document
 document.querySelectorAll('.hint-pick [data-hp]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const h=b.dataset.hp;if(h==='mic'){startMic()}else if(h==='mine'){startDemo();endHint()}else{startSilent();endHint()}}));
 function sync3(){const b=document.querySelector('#bar .b3');if(!b)return;const micOn=playing&&mode==='mic',quietOn=playing&&mode!=='mic'&&silent,mineOn=playing&&mode!=='mic'&&!silent;
   const set=(k,on,idle,act,si,sa)=>{const e=b.querySelector(`[data-b3=${k}]`);e.classList.toggle('on',on);e.setAttribute('aria-pressed',on);e.querySelector('.l').textContent=on?act:idle;e.querySelector('.s').textContent=on?sa:si;e.setAttribute('aria-label',on?sa:si);e.title=on?sa:si};
-  set('mic',micOn,'Bring your song','Listening · stop','Your song','Listening');set('mine',mineOn,'Play mine','Pause mine','Mine','Pause');set('quiet',quietOn,'Play work without sound','Without sound · stop','No sound','Silent');b.classList.toggle('any',micOn||mineOn||quietOn);b.dataset.state=micOn?'mic':mineOn?'mine':quietOn?'quiet':'none';if((micOn||mineOn||quietOn)&&typeof buddyChose==='function')buddyChose()}
+  set('mic',micOn,'Bring your song','Listening · stop','Your song','Listening');set('mine',mineOn,'Play mine','Pause mine','Mine','Pause');set('quiet',quietOn,'Play with silence','Silence · stop','Play with silence','Silence');b.classList.toggle('any',micOn||mineOn||quietOn);b.dataset.state=micOn?'mic':mineOn?'mine':quietOn?'quiet':'none';if((micOn||mineOn||quietOn)&&typeof buddyChose==='function')buddyChose()}
 document.querySelectorAll('#bar [data-b3]').forEach(e=>e.addEventListener('click',ev=>{ev.stopPropagation();const k=e.dataset.b3;try{if(current&&peekActive)close()}catch(_){}
   if(e.classList.contains('on')){stopAll();setPlaying(false);setTimeout(sync3,30);return}
   if(k==='mic')startMic();else if(k==='mine'){startDemo()}else startSilent();if(typeof endHint==='function')endHint();setTimeout(sync3,60)}));
@@ -2399,22 +2403,23 @@ function colorize(f){
 // ---- listening: works for any music, not only heavy beats ----
 let tbuf=null,prevSpec=null,fluxAvg=0,peak=0.05,loudS=0,brightS=0,lastOnset=0,cMin=1,cMax=0;
 const feat={loud:0,bright:0,bass:0,mid:0,tre:0,onset:false};let synPh=1;
-let micFloor=0,micHeardT=-1e9,micWait=false;
+let micFloor=0,micHeardT=-1e9,micWait=false,ftb=null;
 function setMicWait(v){if(v===micWait)return;micWait=v;document.body.classList.toggle('mic-wait',v);const c=document.getElementById('navcue');if(c&&!c.dataset.idle)c.dataset.idle=c.innerHTML;if(c)c.innerHTML=v?(matchMedia('(pointer:coarse)').matches?'<b>Listening…</b> <span>Play a song on a speaker nearby</span>':'<b>Listening…</b> <span>Play a song out loud</span>'):c.dataset.idle}
 function listen(now){
   feat.onset=false;
   if(!(playing&&analyser)){feat.loud*=.9;return}
   if(mode==='demo'&&ac&&ac.state!=='running'){   // sound not allowed yet: move to the same 112 BPM pulse, silently
-    const T=60/112,t=now/1000,ph=(t%T)/T,k=Math.exp(-ph*7);
+    const T=SPB,t=now/1000,ph=(t%T)/T,k=Math.exp(-ph*5);
     if(ph<synPh)feat.onset=true;synPh=ph;
     feat.loud=.32+.42*k;feat.bass=k*.9;feat.mid=.35+.15*Math.sin(t*2.1);feat.tre=((t*4)%1)<.18?.55:.18;feat.bright=.5+.2*Math.sin(t*.7);return}
   analyser.getByteFrequencyData(fbuf);
   if(!tbuf){tbuf=new Uint8Array(analyser.fftSize);prevSpec=new Float32Array(fbuf.length)}
   analyser.getByteTimeDomainData(tbuf);
-  let rms=0;for(let i=0;i<tbuf.length;i++){const v=(tbuf[i]-128)/128;rms+=v*v}rms=Math.sqrt(rms/tbuf.length);
+  let rms=0;if(analyser.getFloatTimeDomainData){if(!ftb)ftb=new Float32Array(analyser.fftSize);analyser.getFloatTimeDomainData(ftb);for(let i=0;i<ftb.length;i++)rms+=ftb[i]*ftb[i];rms=Math.sqrt(rms/ftb.length)}else{for(let i=0;i<tbuf.length;i++){const v=(tbuf[i]-128)/128;rms+=v*v}rms=Math.sqrt(rms/tbuf.length)}
   if(mode==='mic'){   // the mic only moves the page when it actually hears something: a quiet room stays still
-    micFloor=micFloor?Math.min(micFloor*1.0008,Math.max(rms,.002)):Math.max(rms,.002);if(rms<micFloor)micFloor=micFloor*.97+rms*.03;
-    const heard=rms>Math.max(.018,micFloor*2.6);
+    // quiet-room level: starts low, follows the room down fast and up only very slowly (so a song already playing still counts as sound)
+    if(!micFloor)micFloor=.003;if(rms<micFloor)micFloor=Math.max(.0008,rms);else micFloor+=(rms-micFloor)*.0004;
+    const heard=rms>Math.max(.006,micFloor*2.2);
     if(heard){micHeardT=now}
     const quiet=now-micHeardT>450;setMicWait(quiet);
     if(quiet){feat.loud*=.86;loudS=feat.loud;feat.bass*=.86;feat.mid*=.86;feat.tre*=.86;analyser.getByteFrequencyData(fbuf);if(prevSpec)for(let i=0;i<fbuf.length;i++)prevSpec[i]=fbuf[i]/255;return}}
