@@ -1,19 +1,17 @@
-# Ying Chung portfolio: deploy to Vercel
+# Deploy · ychungworks.com
 
-## Deploy (about 5 minutes)
-1. Unzip this folder.
-2. In Terminal, `cd` into the folder and run: `npx vercel --prod`
-3. Log in when it asks. Project name: `ying-chung` (this gives you https://www.ychungworks.com).
-4. Open the link it prints and click through: Projects, each case study, About.
+Drop everything in this folder into the root of `ying3298/ying-chung-portfolio`, commit, push. Vercel deploys it.
 
-Alternative with no terminal: push the folder to a GitHub repo, then on vercel.com choose "Add New → Project", import the repo and click Deploy (no build settings needed).
+| File | What it is |
+|---|---|
+| `index.html` | The new home: the belief paragraph, music, project pop-ups. |
+| `work.html` | Your full portfolio (latest version). Case studies open from here inside the side panel. |
+| `img/` · `play/` | Pictures, clips and the two live Fifty Something pieces the home page uses. |
+| `assets/dt/` | Four newer Decision Trail clips (replace the old ones). |
 
-## If your project name is different
-Find `www.ychungworks.com` in index.html (2 places, in the `<head>`) and change it to your real URL, so the LinkedIn link preview shows the right image.
+`index.html` replaces the current home page. Everything already in `assets/` stays as it is.
 
-## One missing file
-`assets/steeped-cover-4x3.mp4` (the Steeped cover loop, 4.5 MB) was too large to export. Until you add it, the Steeped card shows its still poster image, which looks fine. If you have the video on your computer, drop it into `assets/` with that exact name and deploy again.
+**Change a choice later:** open `index.html`, find `window.YING_CONFIG` near the top.
+`bar` a–d · `type` plain/inline/index/… · `panel` sheet/split · `introStyle` a–f · `layout` hand-placed Story positions.
 
-## Add the link to LinkedIn
-- Profile → Edit intro → Website: paste the URL, link text "Portfolio".
-- Profile → Add section → Featured → Add a link: paste the URL so the preview card shows.
+**Check after deploy:** open the site on your phone, tap Turn on mic (needs https, which Vercel gives you), open MiMo and Steeped in the side panel.
