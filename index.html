@@ -7,8 +7,8 @@
 <meta name="description" content="Ying Chung is an interaction designer in Brooklyn working on AI, health and connected objects. Play a song and the page moves with it.">
 <meta property="og:title" content="Ying Chung · Interaction Designer">
 <meta property="og:description" content="Play a song and the page moves with it.">
-<link rel="icon" href="assets/icon/ying-32.png?v=2">
-<link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png?v=2">
+<link rel="icon" href="assets/icon/ying-32.png?v=3">
+<link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png?v=3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -1299,7 +1299,7 @@ body.cue-buddy #buddy{display:block;position:fixed;left:28px;bottom:26px;z-index
 #buddy[data-who=orange].talk .pk-orange{animation:bnboil .5s steps(1) infinite,pkwave 1.07s ease-in-out infinite}
 @keyframes pkwave{0%,100%{rotate:0deg}50%{rotate:-3deg}}
 #buddy .pk-orange{transform-origin:0 100%}
-#buddy.groove[data-who=bunny] .pk-bunny,#buddy.groove[data-who=orange] .pk-orange{animation:bnboil .5s steps(1) infinite,pkgroove calc(60s / 72) ease-in-out infinite alternate;transform-origin:50% 100%}
+#buddy.groove[data-who=bunny] .pk-bunny,#buddy.groove[data-who=orange] .pk-orange{animation:bnboil .5s steps(1) infinite,pkgroove calc(60s / 66) ease-in-out infinite alternate;transform-origin:50% 100%}
 #buddy.groove[data-who=pink] .pk-pink{animation:bnboil .5s steps(1) infinite,pkbreath 2.2s ease-in-out infinite;transform-origin:20% 100%}
 @keyframes pkgroove{from{rotate:-5deg;translate:0 0}to{rotate:5deg;translate:0 -3px}}
 @keyframes pkbreath{0%,100%{scale:1 1}50%{scale:1.02 1.05}}
@@ -1338,6 +1338,9 @@ body.cue-bubble.music.mic-wait #navcue{opacity:1!important;animation:cue-in .5s 
 body.mic-wait.reading .statement .w{opacity:1;color:inherit}
 /* no tempo / key readout on the page */
 #bar .st{display:none!important}
+body.mic-note #navcue{opacity:1!important;white-space:normal;max-width:min(320px,calc(100vw - 32px));text-align:center}
+#bar [data-b3=mic].nope{animation:nope .4s ease}
+@keyframes nope{20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
 </style>
 </head>
 <body data-theme="lab">
@@ -2082,25 +2085,28 @@ function ensureCtx(){
   fbuf=new Uint8Array(analyser.frequencyBinCount);
 }
 // --- built-in loop (synthesized, no files) ---
-const BPM=72,SPB=60/BPM;   // slow and soothing: warm maj7 chords, a soft heartbeat, a few bell notes
-let nextT=0,step=0;
-const CH=[[174.61,220,261.63,329.63],[164.81,196,246.94,293.66],[146.83,174.61,220,261.63],[130.81,164.81,196,246.94]];
-function kick(t,v){v=v||.55;const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.setValueAtTime(92,t);o.frequency.exponentialRampToValueAtTime(46,t+.22);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.012);g.gain.exponentialRampToValueAtTime(.001,t+.55);o.connect(g);g.connect(master);o.start(t);o.stop(t+.6)}
+const BPM=66,SPB=60/BPM;   // airy ambient: glassy arpeggios through a soft echo, slow pads, a faint pulse to keep time
+let nextT=0,step=0,echo=null;
+const CH=[[146.83,185,220,277.18],[123.47,146.83,185,220],[98,123.47,146.83,185],[110,138.59,164.81,246.94]];
+function echoBus(){if(echo)return echo;const d=ac.createDelay(2),fb=ac.createGain(),lp=ac.createBiquadFilter(),wet=ac.createGain();d.delayTime.value=SPB*.75;fb.gain.value=.38;lp.type='lowpass';lp.frequency.value=2600;wet.gain.value=.34;
+  d.connect(lp);lp.connect(fb);fb.connect(d);lp.connect(wet);wet.connect(master);echo=d;return d}
+function kick(t,v){v=v||.3;const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.setValueAtTime(70,t);o.frequency.exponentialRampToValueAtTime(44,t+.3);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.03);g.gain.exponentialRampToValueAtTime(.001,t+.9);o.connect(g);g.connect(master);o.start(t);o.stop(t+1)}
 let noiseBuf=null;
-function hat(t,v){if(!noiseBuf){noiseBuf=ac.createBuffer(1,ac.sampleRate*.2,ac.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
-  const s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=noiseBuf;f.type='bandpass';f.frequency.value=5200;f.Q.value=.7;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.03);g.gain.exponentialRampToValueAtTime(.001,t+.16);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+.18)}
-function pad(t,notes,dur){notes.forEach((n,i)=>{const lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1100;lp.connect(master);
-  [-4,4].forEach(c=>{const o=ac.createOscillator(),g=ac.createGain();o.type=c<0?'sine':'triangle';o.frequency.value=n;o.detune.value=c;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.032,t+1.2);g.gain.setValueAtTime(.032,t+dur-.6);g.gain.linearRampToValueAtTime(0,t+dur+.4);o.connect(g);g.connect(lp);o.start(t);o.stop(t+dur+.5)})})}
-function bassNote(t,f){const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f/2;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.2,t+.04);g.gain.exponentialRampToValueAtTime(.001,t+SPB*1.9);o.connect(g);g.connect(master);o.start(t);o.stop(t+SPB*2)}
-function bell(t,f,v){[1,2.01].forEach((m,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f*m;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v*(i?.25:1),t+.008);g.gain.exponentialRampToValueAtTime(.001,t+(i?.9:2.4));o.connect(g);g.connect(master);o.start(t);o.stop(t+2.5)})}
-const ARP=[0,2,1,3,2,1,3,0];
+function hat(t,v){if(!noiseBuf){noiseBuf=ac.createBuffer(1,ac.sampleRate*.4,ac.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
+  const s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=noiseBuf;f.type='bandpass';f.frequency.value=7400;f.Q.value=1.4;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.12);g.gain.exponentialRampToValueAtTime(.001,t+.38);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+.4)}
+function pad(t,notes,dur){notes.forEach(n=>{const lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.setValueAtTime(500,t);lp.frequency.linearRampToValueAtTime(1500,t+dur*.5);lp.frequency.linearRampToValueAtTime(600,t+dur);lp.connect(master);
+  [-6,6].forEach(c=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=n;o.detune.value=c;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.03,t+1.8);g.gain.setValueAtTime(.03,t+dur-.8);g.gain.linearRampToValueAtTime(0,t+dur+1.2);o.connect(g);g.connect(lp);o.start(t);o.stop(t+dur+1.3)})})}
+function bassNote(t,f){const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f/2;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.16,t+.25);g.gain.exponentialRampToValueAtTime(.001,t+SPB*3.6);o.connect(g);g.connect(master);o.start(t);o.stop(t+SPB*3.8)}
+function glass(t,f,v){const e=echoBus();[[1,'triangle',1],[3.01,'sine',.18]].forEach(([m,ty,k])=>{const o=ac.createOscillator(),g=ac.createGain();o.type=ty;o.frequency.value=f*m;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v*k,t+.006);g.gain.exponentialRampToValueAtTime(.001,t+(m>1?.5:1.5));o.connect(g);g.connect(master);g.connect(e);o.start(t);o.stop(t+1.6)})}
+function bell(t,f,v){glass(t,f,v)}
+const ARP=[0,1,2,3,2,1,3,2],OCT=[2,2,2,2,4,2,2,4];
 function schedule(){
-  while(nextT<ac.currentTime+0.2){
-    const beat=Math.floor(step/2),bar=Math.floor(beat/4),c=CH[bar%4];
-    if(step%2===0){const b4=beat%4;if(b4===0)kick(nextT,.55);else if(b4===2)kick(nextT,.32);if(b4===0)bassNote(nextT,c[0])}
-    else if(beat%2===1)hat(nextT,.035);
-    if(step%8===0) pad(nextT,c,SPB*4);
-    if(Math.random()<.72){const n=c[ARP[step%8]]*2;bell(nextT+Math.random()*.02,n,step%2?.045:.07)}
+  while(nextT<ac.currentTime+0.25){
+    const beat=Math.floor(step/2),bar=Math.floor(beat/4),c=CH[bar%4],s8=step%8;
+    if(step%8===0){kick(nextT,.32);bassNote(nextT,c[0]);pad(nextT,c,SPB*4);glass(nextT+.01,c[3]*4,.03)}
+    else if(step%8===4)kick(nextT,.16);
+    if(step%4===2)hat(nextT,.012);
+    if(s8===0||Math.random()<.8)glass(nextT,c[ARP[s8]]*OCT[s8],s8%2?.05:.075);
     nextT+=SPB/2;step++;
   }
 }
@@ -2135,7 +2141,7 @@ function startFile(file){
   if(!audioEl){audioEl=new Audio();audioEl.loop=true;mediaSrc=ac.createMediaElementSource(audioEl);mediaSrc.connect(master)}
   window.songTitle=file.name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ');audioEl.src=URL.createObjectURL(file);audioEl.play().then(()=>{mode='file';setPlaying(true,file.name.replace(/\.[^.]+$/,''))}).catch(()=>setPlaying(false,'Could not play that file'));
 }
-function stopAll(){if(demoTimer){clearInterval(demoTimer);demoTimer=null}if(audioEl&&!audioEl.paused)audioEl.pause();stopMic()}
+function stopAll(){if(demoTimer){clearInterval(demoTimer);demoTimer=null}if(echo){try{echo.disconnect()}catch(e){}echo=null}if(audioEl&&!audioEl.paused)audioEl.pause();stopMic()}
 let micStream=null,micSrc=null,micGain=null;
 function stopMic(){if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null}if(micSrc){try{micSrc.disconnect()}catch(e){}micSrc=null}}
 async function startMic(){
@@ -2150,7 +2156,10 @@ async function startMic(){
     mode='mic';setPlaying(true,'Listening');
   }catch(e){
     if(location.protocol==='file:'){setPlaying(false,'Mic blocked: allow it in the address bar, then tap again');return}
-    startDemo();songEl.textContent='Mic isn’t available in this preview · playing music instead';
+    // say what happened, where people will see it, and leave the choice to them
+    const ios=/iPhone|iPad|iPod/.test(navigator.userAgent),app=/CriOS/.test(navigator.userAgent)?'Chrome':(/FxiOS/.test(navigator.userAgent)?'Firefox':'Safari');
+    const why=e&&e.name==='NotAllowedError'?(ios?`<b>Mic is blocked.</b> <span>Allow it in Settings → ${app} → Microphone, then tap again.</span>`:'<b>Mic is blocked.</b> <span>Allow it from the address bar, then tap again.</span>'):(e&&e.name==='NotFoundError'?'<b>No mic found.</b> <span>Try Mine, or play with silence.</span>':'<b>Mic isn’t available here.</b> <span>Try Mine, or play with silence.</span>');
+    setPlaying(false);micNote(why);
   }
 }
 function togglePlay(){
@@ -2404,6 +2413,7 @@ function colorize(f){
 let tbuf=null,prevSpec=null,fluxAvg=0,peak=0.05,loudS=0,brightS=0,lastOnset=0,cMin=1,cMax=0;
 const feat={loud:0,bright:0,bass:0,mid:0,tre:0,onset:false};let synPh=1;
 let micFloor=0,micHeardT=-1e9,micWait=false,ftb=null;
+function micNote(html){const c=document.getElementById('navcue');if(!c)return;if(!c.dataset.idle)c.dataset.idle=c.innerHTML;c.innerHTML=html;document.body.classList.add('mic-note');clearTimeout(micNote.t);micNote.t=setTimeout(()=>{c.innerHTML=c.dataset.idle;document.body.classList.remove('mic-note')},7000);const m=document.querySelector('#bar [data-b3=mic]');if(m){m.classList.remove('nope');void m.offsetWidth;m.classList.add('nope')}}
 function setMicWait(v){if(v===micWait)return;micWait=v;document.body.classList.toggle('mic-wait',v);const c=document.getElementById('navcue');if(c&&!c.dataset.idle)c.dataset.idle=c.innerHTML;if(c)c.innerHTML=v?(matchMedia('(pointer:coarse)').matches?'<b>Listening…</b> <span>Play a song on a speaker nearby</span>':'<b>Listening…</b> <span>Play a song out loud</span>'):c.dataset.idle}
 function listen(now){
   feat.onset=false;
