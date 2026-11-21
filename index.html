@@ -1482,7 +1482,7 @@ body.enter.en-rf #hint .hint-line path{animation-delay:3.1s!important}
   <div class="cs-body" id="cs-body" tabindex="-1"></div>
 </aside>
 <div id="burst" aria-live="polite"><svg id="rays" aria-hidden="true"></svg></div>
-<script>window.YING_CONFIG={"draft": false, "caseBase": "work.html", "pop": "story", "bar": "a", "type": "index", "panel": "sheet", "panels": ["sheet", "split"], "introStyle": "margin", "introSwitch": false, "navSwitch": false, "cue": "buddy", "nav": "text", "enter": "rf"}</script>
+<script>window.YING_CONFIG={"draft": false, "caseBase": "work.html", "pop": "story", "bar": "a", "type": "index", "panel": "sheet", "panels": ["sheet", "split"], "introStyle": "margin", "introSwitch": false, "navSwitch": false, "cue": "buddy", "nav": "seg", "enter": "rf"}</script>
 <script>
 // ===== the choices that make the final page. draft: true shows the A/B pickers so you can compare =====
 document.body.classList.add('enter');
@@ -1530,13 +1530,13 @@ const CUES=[['buddy','Buddy'],['bubble','Bubble'],['note','Note']];
 const ENTERS=[['rf','Ripple+Focus'],['beat','Beat'],['ripple','Ripple'],['focus','Focus'],['words','Words']];
 const NAVS=[['float','Float dark'],['floatl','Float light'],['text','Text'],['seg','Segmented'],['tab','Tab bar'],['dock','Dock'],['player','Player'],['chips','Chips']];
 function applyNav(v){const b=document.getElementById('bar');if(!b)return;b.dataset.nav=v;document.body.dataset.nav=v;document.querySelectorAll('#nsw button').forEach(x=>x.classList.toggle('on',x.dataset.n===v));if(typeof placeHint==='function')setTimeout(placeHint,50)}
-addEventListener('DOMContentLoaded',()=>{applyNav(CONFIG.nav||'floatl');setTimeout(()=>{if(typeof sync3==='function')sync3()},0);
+addEventListener('DOMContentLoaded',()=>{applyNav(CONFIG.nav||'seg');setTimeout(()=>{if(typeof sync3==='function')sync3()},0);
   if(CONFIG.navSwitch===false)return;const w=document.createElement('div');w.id='nsw';w.innerHTML='<span>Nav</span>'+NAVS.map(n=>`<button data-n="${n[0]}">${n[1]}</button>`).join('');
   w.innerHTML+='<button class="ph-open" title="Phone preview">📱 Phone</button>';
   const ew=document.createElement('div');ew.id='esw';const ce=CONFIG.enter||'beat';ew.innerHTML='<span>Enter</span>'+ENTERS.map(x=>`<button data-e="${x[0]}" class="${x[0]===ce?'on':''}">${x[1]}</button>`).join('')+'<button class="rp" title="Replay">↻ Replay</button>';
   ew.addEventListener('click',e=>{const x=e.target.closest('button');if(!x)return;e.stopPropagation();const v=x.classList.contains('rp')?(CONFIG.enter||'beat'):x.dataset.e;replayEntrance(v);const h=HS();h.enter=v;setHS(h)});document.body.appendChild(ew);
   const cw=document.createElement('div');cw.id='csw';cw.innerHTML='<span>Cue</span>'+CUES.map(x=>`<button data-c="${x[0]}" class="${x[0]===(CONFIG.cue||'buddy')?'on':''}">${x[1]}</button>`).join('');cw.addEventListener('click',e=>{const x=e.target.closest('button');if(!x)return;e.stopPropagation();setCue(x.dataset.c);const h=HS();h.cue=x.dataset.c;setHS(h)});document.body.appendChild(cw);
-  w.addEventListener('click',e=>{const x=e.target.closest('button');if(!x)return;e.stopPropagation();if(x.classList.contains('ph-open')){openPhone();return}applyNav(x.dataset.n);const h=HS();h.nav=x.dataset.n;setHS(h)});document.body.appendChild(w);applyNav(CONFIG.nav||'floatl')});
+  w.addEventListener('click',e=>{const x=e.target.closest('button');if(!x)return;e.stopPropagation();if(x.classList.contains('ph-open')){openPhone();return}applyNav(x.dataset.n);const h=HS();h.nav=x.dataset.n;setHS(h)});document.body.appendChild(w);applyNav(CONFIG.nav||'seg')});
 function openPhone(){if(document.getElementById('phonepv'))return;try{if(playing){stopAll();setPlaying(false)}}catch(e){}
   const cur=document.getElementById('bar').dataset.nav||'text',base=location.href.split('#')[0];
   const o=document.createElement('div');o.id='phonepv';
