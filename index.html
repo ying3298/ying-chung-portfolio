@@ -1333,6 +1333,11 @@ body.enter.en-rf #bar{animation:en-upbar .9s cubic-bezier(.2,.9,.2,1) max(2.4s,v
 body.enter.en-rf .hint-note{animation-delay:2.8s!important}
 body.enter.en-rf #hint .hint-line path{animation-delay:3.1s!important}
 #buddy:not(.met):not(.slit) .pt-hit{pointer-events:none}#buddy:not(.met):not(.slit) .pt-hit::before{opacity:0!important}
+/* mic on but nothing heard yet: the page waits, the bubble says so */
+body.cue-bubble.music.mic-wait #navcue{opacity:1!important;animation:cue-in .5s cubic-bezier(.2,.9,.2,1) forwards,cue-bob 2.14s ease-in-out .6s infinite!important}
+body.mic-wait.reading .statement .w{opacity:1;color:inherit}
+/* no tempo / key readout on the page */
+#bar .st{display:none!important}
 </style>
 </head>
 <body data-theme="lab">
@@ -2070,6 +2075,10 @@ function ensureCtx(){
   analyser=ac.createAnalyser();analyser.fftSize=1024;analyser.smoothingTimeConstant=0.78;
   master=ac.createGain();master.gain.value=0.55;
   master.connect(analyser);outG=ac.createGain();outG.gain.value=1;master.connect(outG);outG.connect(ac.destination);
+  // Safari only runs nodes that lead to the speakers: a silent tap keeps the analyser (and the mic) alive
+  {const sink=ac.createGain();sink.gain.value=0;analyser.connect(sink);sink.connect(ac.destination)}
+  // iPhone can interrupt audio when the mic opens or a call comes in: wake it on the next touch
+  ac.addEventListener('statechange',()=>{if(ac.state!=='running'&&playing){const w=()=>{ac.resume().catch(()=>{});['pointerdown','touchend','keydown'].forEach(t=>removeEventListener(t,w,true))};['pointerdown','touchend','keydown'].forEach(t=>addEventListener(t,w,true))}});
   fbuf=new Uint8Array(analyser.frequencyBinCount);
 }
 // --- built-in loop (synthesized, no files) ---
@@ -2102,10 +2111,17 @@ function scheduleAmbient(){
   }
 }
 function startAmbient(){ensureCtx();stopAll();ac.resume();nextT=ac.currentTime+.05;step=0;demoTimer=setInterval(scheduleAmbient,50);scheduleAmbient();mode='ambient';setPlaying(true,'Ambient loop · no drums')}
-function startDemo(auto){ensureCtx();stopAll();ac.resume();silent=false;document.body.classList.remove('silent');if(outG){outG.gain.cancelScheduledValues(ac.currentTime);outG.gain.setValueAtTime(1,ac.currentTime)}if(!auto){autoPending=false;master.gain.cancelScheduledValues(ac.currentTime);master.gain.setValueAtTime(.55,ac.currentTime)}else{master.gain.setValueAtTime(0,ac.currentTime);master.gain.linearRampToValueAtTime(.42,ac.currentTime+4)}nextT=ac.currentTime+.05;step=0;demoTimer=setInterval(schedule,40);schedule();mode='demo';setPlaying(true,'Built-in loop · 112 BPM')}
+// iPhone: Web Audio follows the silent switch and the mic's "call" mode. Ask for real playback, and keep a silent <audio> running so sound comes out of the speaker.
+let iosKeep=null;
+function audioRoute(kind){try{if(navigator.audioSession)navigator.audioSession.type=kind==='mic'?'play-and-record':'playback'}catch(e){}
+  if(kind==='mic')return;try{if(!iosKeep){iosKeep=document.createElement('audio');iosKeep.setAttribute('playsinline','');iosKeep.loop=true;iosKeep.preload='auto';
+    // 0.25 s of silence
+    const n=11025,b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,44100,true);v.setUint32(28,88200,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
+    iosKeep.src=URL.createObjectURL(new Blob([b],{type:'audio/wav'}))}iosKeep.play().catch(()=>{})}catch(e){}}
+function startDemo(auto){if(!auto)audioRoute('play');ensureCtx();stopAll();ac.resume();silent=false;document.body.classList.remove('silent');if(outG){outG.gain.cancelScheduledValues(ac.currentTime);outG.gain.setValueAtTime(1,ac.currentTime)}if(!auto){autoPending=false;master.gain.cancelScheduledValues(ac.currentTime);master.gain.setValueAtTime(.55,ac.currentTime)}else{master.gain.setValueAtTime(0,ac.currentTime);master.gain.linearRampToValueAtTime(.42,ac.currentTime+4)}nextT=ac.currentTime+.05;step=0;demoTimer=setInterval(schedule,40);schedule();mode='demo';setPlaying(true,'Built-in loop · 112 BPM')}
 var autoPending=false,outG=null,silent=false;
 function startSilent(){startDemo();silent=true;outG.gain.setValueAtTime(0,ac.currentTime);document.body.classList.add('silent');labelBar();if(songEl)songEl.textContent='No sound · moving to my loop'}
-function soundOn(){if(!outG)return;silent=false;document.body.classList.remove('silent');outG.gain.cancelScheduledValues(ac.currentTime);outG.gain.setValueAtTime(0,ac.currentTime);outG.gain.linearRampToValueAtTime(1,ac.currentTime+1.5);labelBar()}
+function soundOn(){if(!outG)return;audioRoute('play');silent=false;document.body.classList.remove('silent');outG.gain.cancelScheduledValues(ac.currentTime);outG.gain.setValueAtTime(0,ac.currentTime);outG.gain.linearRampToValueAtTime(1,ac.currentTime+1.5);labelBar()}
 function autoStart(){if(playing||CONFIG.autoplay===false)return;startDemo(true);autoPending=true;document.body.classList.add('auto-on');
   const wake=()=>{['pointerdown','keydown','touchstart'].forEach(t=>removeEventListener(t,wake,true));if(!autoPending||mode!=='demo')return;
     ac.resume().then(()=>{master.gain.cancelScheduledValues(ac.currentTime);master.gain.setValueAtTime(0,ac.currentTime);master.gain.linearRampToValueAtTime(.42,ac.currentTime+3);autoPending=false})};
@@ -2119,13 +2135,14 @@ function stopAll(){if(demoTimer){clearInterval(demoTimer);demoTimer=null}if(audi
 let micStream=null,micSrc=null,micGain=null;
 function stopMic(){if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null}if(micSrc){try{micSrc.disconnect()}catch(e){}micSrc=null}}
 async function startMic(){
-  ensureCtx();stopAll();ac.resume();
+  audioRoute('mic');ensureCtx();stopAll();ac.resume();
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){setPlaying(false,'This browser has no microphone access here');return}
   try{
     micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
     micSrc=ac.createMediaStreamSource(micStream);
     if(!micGain){micGain=ac.createGain();micGain.gain.value=2.2;micGain.connect(analyser)}
     micSrc.connect(micGain);   // analyser only: the mic is never played back, so no feedback
+    try{await ac.resume()}catch(_){}
     mode='mic';setPlaying(true,'Listening');
   }catch(e){
     if(location.protocol==='file:'){setPlaying(false,'Mic blocked: allow it in the address bar, then tap again');return}
@@ -2138,7 +2155,7 @@ function togglePlay(){
   if(mode==='file'&&audioEl&&audioEl.src){ac.resume();audioEl.play();setPlaying(true)}else startDemo();
 }
 const playBtn=document.getElementById('play'),songEl=document.getElementById('song');
-function setPlaying(on,label){
+function setPlaying(on,label){if(!(on&&mode==='mic')){if(typeof setMicWait==='function')setMicWait(false)}else{micHeardT=-1e9;micFloor=0}
   if(on&&mode!=='demo'&&typeof endHint==='function')endHint();
   document.body.classList.toggle('mic-on',!!on&&mode==='mic');document.getElementById('mic').setAttribute('aria-pressed',!!on&&mode==='mic');setTimeout(()=>{if(typeof sync3==='function')sync3()},0);document.getElementById('music').setAttribute('aria-pressed',!!on&&mode!=='mic');playing=on;labelBar();if(on)hideCoach();
   if(typeof songReset==='function')songReset();
@@ -2247,7 +2264,7 @@ document.querySelectorAll('.hint-pick [data-hp]').forEach(b=>b.addEventListener(
 function sync3(){const b=document.querySelector('#bar .b3');if(!b)return;const micOn=playing&&mode==='mic',quietOn=playing&&mode!=='mic'&&silent,mineOn=playing&&mode!=='mic'&&!silent;
   const set=(k,on,idle,act,si,sa)=>{const e=b.querySelector(`[data-b3=${k}]`);e.classList.toggle('on',on);e.setAttribute('aria-pressed',on);e.querySelector('.l').textContent=on?act:idle;e.querySelector('.s').textContent=on?sa:si;e.setAttribute('aria-label',on?sa:si);e.title=on?sa:si};
   set('mic',micOn,'Bring your song','Listening · stop','Your song','Listening');set('mine',mineOn,'Play mine','Pause mine','Mine','Pause');set('quiet',quietOn,'Play work without sound','Without sound · stop','No sound','Silent');b.classList.toggle('any',micOn||mineOn||quietOn);b.dataset.state=micOn?'mic':mineOn?'mine':quietOn?'quiet':'none';if((micOn||mineOn||quietOn)&&typeof buddyChose==='function')buddyChose()}
-document.querySelectorAll('#bar [data-b3]').forEach(e=>e.addEventListener('click',ev=>{ev.stopPropagation();const k=e.dataset.b3;
+document.querySelectorAll('#bar [data-b3]').forEach(e=>e.addEventListener('click',ev=>{ev.stopPropagation();const k=e.dataset.b3;try{if(current&&peekActive)close()}catch(_){}
   if(e.classList.contains('on')){stopAll();setPlaying(false);setTimeout(sync3,30);return}
   if(k==='mic')startMic();else if(k==='mine'){startDemo()}else startSilent();if(typeof endHint==='function')endHint();setTimeout(sync3,60)}));
 let demoT=null,demoDone=false,touched=false;['pointerdown','keydown','touchstart'].forEach(t=>addEventListener(t,()=>{touched=true},{capture:true,passive:true}));
@@ -2382,6 +2399,8 @@ function colorize(f){
 // ---- listening: works for any music, not only heavy beats ----
 let tbuf=null,prevSpec=null,fluxAvg=0,peak=0.05,loudS=0,brightS=0,lastOnset=0,cMin=1,cMax=0;
 const feat={loud:0,bright:0,bass:0,mid:0,tre:0,onset:false};let synPh=1;
+let micFloor=0,micHeardT=-1e9,micWait=false;
+function setMicWait(v){if(v===micWait)return;micWait=v;document.body.classList.toggle('mic-wait',v);const c=document.getElementById('navcue');if(c&&!c.dataset.idle)c.dataset.idle=c.innerHTML;if(c)c.innerHTML=v?(matchMedia('(pointer:coarse)').matches?'<b>Listening…</b> <span>Play a song on a speaker nearby</span>':'<b>Listening…</b> <span>Play a song out loud</span>'):c.dataset.idle}
 function listen(now){
   feat.onset=false;
   if(!(playing&&analyser)){feat.loud*=.9;return}
@@ -2393,6 +2412,12 @@ function listen(now){
   if(!tbuf){tbuf=new Uint8Array(analyser.fftSize);prevSpec=new Float32Array(fbuf.length)}
   analyser.getByteTimeDomainData(tbuf);
   let rms=0;for(let i=0;i<tbuf.length;i++){const v=(tbuf[i]-128)/128;rms+=v*v}rms=Math.sqrt(rms/tbuf.length);
+  if(mode==='mic'){   // the mic only moves the page when it actually hears something: a quiet room stays still
+    micFloor=micFloor?Math.min(micFloor*1.0008,Math.max(rms,.002)):Math.max(rms,.002);if(rms<micFloor)micFloor=micFloor*.97+rms*.03;
+    const heard=rms>Math.max(.018,micFloor*2.6);
+    if(heard){micHeardT=now}
+    const quiet=now-micHeardT>450;setMicWait(quiet);
+    if(quiet){feat.loud*=.86;loudS=feat.loud;feat.bass*=.86;feat.mid*=.86;feat.tre*=.86;analyser.getByteFrequencyData(fbuf);if(prevSpec)for(let i=0;i<fbuf.length;i++)prevSpec[i]=fbuf[i]/255;return}}
   peak=Math.max(peak*0.997,rms,0.02);                       // auto gain: quiet songs still move the page
   loudS+=(Math.min(1,rms/peak)-loudS)*0.18;feat.loud=loudS;
   let num=0,den=0,flux=0;
@@ -2412,7 +2437,7 @@ function frame(now){
   listen(now);
   if(feat.onset) onOnset(now);
   hearMore(now);
-  if(playing&&!userHold&&performance.now()>=peekHoldUntil&&now-lastStep>S.maxGap) readStep(now);  // keep reading flowing through quiet passages
+  if(playing&&!(mode==='mic'&&micWait)&&!userHold&&performance.now()>=peekHoldUntil&&now-lastStep>S.maxGap) readStep(now);  // keep reading flowing through quiet passages
   colorize(feat);
   drawWave(t,feat.loud,now,feat.bright);
   if(glow&&!GL) glow.style.transform=`scale(${1+(playing?feat.loud*S.amp*6:0)})`;
