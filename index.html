@@ -2785,16 +2785,21 @@ burst.addEventListener('mouseout',e=>{const n=e.target.closest('.node');if(n&&!(
   const B=document.body,st=document.getElementById('statement'),T=document.getElementById('meltT'),D=document.getElementById('meltD');
   const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isOn=()=>!!document.querySelector('#bar .b3 button.on,#mic[aria-pressed=true],#music[aria-pressed=true]');
-  let ws=[],tot=0,start=0,was=false,sc=0,ph=0,lastP=0,fr=0;
+  let ws=[],tot=0,start=0,was=false,sc=0,ph=0,lastP=0,fr=0,prog=0,lastT=0,avgA=0,lastKick=0;
   const collect=()=>{ws=[...st.querySelectorAll('.w')];tot=ws.reduce((a,w)=>a+w.textContent.length,0)||1};
   const loop=now=>{requestAnimationFrame(loop);if(window.CB){window.CB*=.975;if(window.CB<.001)window.CB=0}
     const on=isOn();
-    if(on&&!was){collect();start=now;lastP=0;document.querySelectorAll('#statement .ph.lit').forEach(x=>x.classList.remove('lit'));B.classList.add('reading')}
+    if(on&&!was){collect();start=now;lastP=0;prog=0;lastT=now;avgA=0;document.querySelectorAll('#statement .ph.lit').forEach(x=>x.classList.remove('lit'));B.classList.add('reading')}
     if(!on&&was){B.classList.remove('reading');ws.forEach(w=>w.style.removeProperty('--fp'));st.style.filter=''}
     was=on;if(!on)return;
     // progress: the real song if one is loaded, otherwise one pass every 40 seconds
     let p;try{p=(typeof audioEl!=='undefined'&&audioEl&&audioEl.duration&&isFinite(audioEl.duration)&&!audioEl.paused)?audioEl.currentTime/audioEl.duration:null}catch(e){p=null}
-    if(p==null)p=((now-start)/60000)%1;
+    if(p==null){/* mic or loop: the music itself pushes the ink. Louder moments move it faster, beats give a small push, silence holds it still. About a minute per pass at normal volume. */
+      const dt=Math.min(.1,(now-(lastT||now))/1000);let amp=0;try{amp=DR.amp||0}catch(e){}
+      avgA=avgA?avgA*.995+amp*.005:amp;const rel=avgA>0?amp/avgA:0;
+      if(amp>.004){prog+=dt/60*Math.min(2.5,Math.max(.25,rel));if(rel>1.7&&now-lastKick>250){prog+=.004;lastKick=now}}
+      p=prog%1}
+    lastT=now;
     if(p<lastP-.5)document.querySelectorAll('#statement .ph.lit').forEach(x=>x.classList.remove('lit'));lastP=p;
     let c=p*tot;for(const w of ws){const n=w.textContent.length,f=Math.max(0,Math.min(1,c/n));w.style.setProperty('--fp',(f*100).toFixed(1)+'%');c-=n;
       // the project opens only when the ink reaches its name
@@ -2812,7 +2817,7 @@ burst.addEventListener('mouseout',e=>{const n=e.target.closest('.node');if(n&&!(
     for(const l of lines){const e=document.createElementNS('http://www.w3.org/2000/svg','rect');e.setAttribute('class','hl');e.setAttribute('x',l.l-pad);e.setAttribute('y',l.t-pad/2);e.setAttribute('width',l.r-l.l+pad*2);e.setAttribute('height',l.b-l.t+pad);e.setAttribute('rx',8);e.setAttribute('fill','#000');MK.appendChild(e)}};
   hole();addEventListener('resize',hole);addEventListener('scroll',hole,{passive:true});setInterval(hole,1000);
   requestAnimationFrame(loop);
-  document.getElementById('bar').addEventListener('click',()=>{start=performance.now()},true);
+  document.getElementById('bar').addEventListener('click',()=>{start=performance.now();prog=0;avgA=0},true);
 }
 </script>
 
