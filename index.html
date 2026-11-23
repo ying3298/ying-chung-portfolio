@@ -439,7 +439,9 @@ body.cs-open.pv-split .bar{transform:translateX(calc(-50% - 30vw))}
 body.cs-open .barpick{opacity:0;pointer-events:none}
 body.cs-open.pv-split .bottom,body.cs-open.pv-split .top .hire{opacity:0;pointer-events:none}
 @media (max-width:720px){.pv{display:none}}
-@media (max-width:720px){#cs,#cs.v-sheet,#cs.v-center{bottom:var(--barh,120px)!important;border-radius:0 0 18px 18px}#cs.v-sheet,#cs.v-center{border-radius:18px}#cs.v-center{top:5vh;left:50%}}
+@media (max-width:720px){#cs,#cs.v-sheet,#cs.v-center{bottom:0!important;border-radius:18px 18px 0 0;padding-bottom:env(safe-area-inset-bottom,0px)}#cs.v-center{top:5vh;left:50%}
+  /* reading a case study: the sheet runs to the bottom edge, the music bar steps aside */
+  body.cs-open #bar,body.cs-open .bar{opacity:0!important;pointer-events:none!important;transform:translateY(140%)!important;transition:opacity .3s,transform .4s}}
 @media (max-width:760px){#cs.v-split.wide{width:100vw}body.cs-open.pv-split main{transform:none}}
 /* live pieces */
 #cs.play .cs-body{display:flex;flex-direction:column}
