@@ -2821,7 +2821,8 @@ burst.addEventListener('mouseout',e=>{const n=e.target.closest('.node');if(n&&!(
     if(!on&&was){B.classList.remove('reading');hideNP();ws.forEach(w=>w.style.removeProperty('--fp'));st.style.filter=''}
     was=on;if(!on)return;
     // progress: the real song if one is loaded, otherwise one pass every 40 seconds
-    let p;try{p=(typeof audioEl!=='undefined'&&audioEl&&audioEl.duration&&isFinite(audioEl.duration)&&!audioEl.paused)?audioEl.currentTime/audioEl.duration:null}catch(e){p=null}
+    // a whole song you dropped in: follow its position. Previews (Ying's pick, visitors' songs) loop every 30 s, so they follow the music's loudness and beats instead.
+    let p;try{p=(typeof audioEl!=='undefined'&&audioEl&&audioEl.duration&&isFinite(audioEl.duration)&&!audioEl.paused&&!String(audioEl.src).includes('/api/preview'))?audioEl.currentTime/audioEl.duration:null}catch(e){p=null}
     if(p==null){/* mic or loop: only real sound pushes the ink. Raw loudness against the room's own noise floor; louder moves faster, beats give a push, quiet holds it still. About a minute per pass at normal volume. */
       const dt=Math.min(.1,(now-(lastT||now))/1000);let rms=0;
       try{if(analyser){buf=buf&&buf.length===analyser.fftSize?buf:new Float32Array(analyser.fftSize);analyser.getFloatTimeDomainData(buf);let q=0;for(let i=0;i<buf.length;i+=4)q+=buf[i]*buf[i];rms=Math.sqrt(q/(buf.length/4))}}catch(e){}
