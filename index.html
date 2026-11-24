@@ -457,9 +457,10 @@ body.cs-open.pv-split .bottom,body.cs-open.pv-split .top .hire{opacity:0;pointer
 .playbar .live{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);display:flex;align-items:center;gap:7px}
 .playbar .live i{width:7px;height:7px;border-radius:50%;background:#2fbf71;box-shadow:0 0 0 0 rgba(47,191,113,.5);animation:livepulse 1.8s infinite}
 @keyframes livepulse{70%{box-shadow:0 0 0 7px rgba(47,191,113,0)}100%{box-shadow:0 0 0 0 rgba(47,191,113,0)}}
-.ptabs{display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(21,24,28,.05)}
-.ptabs button{all:unset;cursor:pointer;padding:6px 14px;border-radius:999px;font-size:13px;color:var(--soft)}
-.ptabs button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(20,30,60,.15)}
+.ptabs{display:flex;gap:20px;padding:0;background:none;white-space:nowrap;overflow-x:auto;scrollbar-width:none}.ptabs::-webkit-scrollbar{display:none}
+.ptabs button{all:unset;cursor:pointer;padding:6px 0 5px;font-size:13px;color:var(--soft);border-bottom:1.5px solid transparent;transition:color .2s,border-color .2s}
+.ptabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+@media (max-width:720px){.playbar .live{display:none!important}.playbar{justify-content:flex-start!important}}
 .ptabs button:focus-visible{outline:2px solid var(--accent)}
 .playwrap{flex:1;min-height:0;padding:0 12px 12px}
 .play-frame{display:block;width:100%;height:100%;border:0;border-radius:14px;background:#fff;box-shadow:0 0 0 1px rgba(21,24,28,.06)}
@@ -1411,6 +1412,20 @@ body[data-theme=lab]{--accent:#15181C!important;--hl:rgba(21,24,28,.08)!importan
 #rays line,#rays circle{mask:url(#rayhole)}
 /* phone: the headline leads */
 @media (max-width:700px){body[data-type=plain] .statement p:first-child{font-size:1em!important;line-height:1.4;letter-spacing:-.01em;margin-bottom:1.6em}}
+
+/* phone: "now playing" strip. While the music fills the text, the project the ink reaches shows as a small strip above the music bar; the text stays in view */
+#np{position:fixed;left:12px;right:12px;bottom:calc(var(--npb,96px) + 10px);z-index:40;display:flex;align-items:center;gap:12px;padding:8px 10px 8px 8px;border-radius:16px;border:0;font:inherit;text-align:left;color:var(--ink);
+  background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(18px) saturate(1.3);backdrop-filter:blur(18px) saturate(1.3);box-shadow:0 0 0 1px rgba(21,24,28,.06),0 14px 30px -18px rgba(20,30,60,.45);
+  opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .45s ease,transform .45s cubic-bezier(.2,.9,.2,1)}
+#np.on{opacity:1;transform:none;pointer-events:auto}
+#np img{width:52px;height:52px;border-radius:10px;object-fit:cover;flex:none;background:#e9e7e1}
+#np .t{min-width:0;flex:1}#np b{display:block;font-size:15px;font-weight:600;line-height:1.25;color:#15181C}
+#np span{display:block;font-size:12.5px;line-height:1.35;opacity:.65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#np i{font-style:normal;font-size:12px;opacity:.5;flex:none;font-family:var(--mono)}
+#np.swap{transform:translateY(6px);opacity:.4}
+@media (min-width:721px){#np{display:none}}
+body.cs-open #np{opacity:0!important;transform:translateY(14px)!important;pointer-events:none!important}
+@media (max-width:720px){body.reading #burst,body.reading #rays{opacity:0!important;pointer-events:none!important}}
 /* paper grain */
 #grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5  0 0 0 0 .47  0 0 0 0 .42  0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 main{position:relative;z-index:2}
@@ -1432,6 +1447,7 @@ body[data-theme=lab]:has(#mic[aria-pressed=true]) .fx.lab,body[data-theme=lab]:h
 <div class="fx lab" aria-hidden="true"></div>
 <canvas id="ripple" aria-hidden="true"></canvas>
 <div id="grain" aria-hidden="true"></div>
+<button id="np" type="button" aria-live="polite"><img alt=""><div class="t"><b></b><span></span></div><i></i></button>
 
 <header class="top mono"><span><b class="me-ph" role="button" tabindex="0" data-k="about">Ying Chung</b> <span class="role" id="roleline">· Product designer · Brooklyn</span></span><span class="tr"><span class="hire" id="hire"><span class="dot" aria-hidden="true"></span>Open to full-time roles · <a id="sayhi" href="#">Say hi</a></span><span id="clock"></span></span></header>
 <main>
@@ -1710,7 +1726,7 @@ const P={
      {img:"img/ot-rl-scene.jpg",alt:"Reading Light Horizon light modes across a reading session",size:"m",tag:"Modes"},
      {img:"img/ot-fp-rose.jpg",alt:"The flower pot printing a note",size:"m",tag:"Printing"}]},
  fifty:{n:"06",name:"Fifty Something",kind:"Series · Learning",cta:"Play with it →",
-   play:[{name:"Fifty Cars",src:"play/fifty-cars.html"},{name:"Fifty Flowers",src:"play/fifty-flowers.html"},{name:"百子櫃 · Fifty Herbs",src:"assets/herb-cabinet.html"}],
+   play:[{name:"Fifty Cars",tab:"Cars",src:"play/fifty-cars.html"},{name:"Fifty Flowers",tab:"Flowers",src:"play/fifty-flowers.html"},{name:"百子櫃 · Fifty Herbs",tab:"Herbs 百子櫃",src:"assets/herb-cabinet.html"}],
    line:"Field guides you learn by playing. Fifty cars, fifty flowers, fifty herbs in a hundred-drawer cabinet: tap one and it shows you how it works.",
    media:[{vid:"img/fifty-cars.mp4",poster:"img/fifty-cars.jpg",alt:"Fifty Cars, a field guide, one car at a time"},
      {vid:"img/fifty-flowers.mp4",poster:"img/fifty-flowers.jpg",alt:"Fifty Flowers: every flower drawn from its own numbers"},
@@ -2696,7 +2712,7 @@ function openCS(k){
   }
   if(p.play){
     csEl.classList.add('wide');csEl.classList.add('play');
-    csBody.innerHTML=`<div class="playbar"><span class="mono live"><i></i>Live · tap anything</span><div class="ptabs" role="tablist">${p.play.map((x,i)=>`<button role="tab" aria-selected="${!i}" data-i="${i}">${esc(x.name)}</button>`).join('')}</div></div><div class="playwrap"><iframe class="play-frame" title="${esc(p.play[0].name)}, live"></iframe></div>`;
+    csBody.innerHTML=`<div class="playbar"><span class="mono live"><i></i>Live · tap anything</span><div class="ptabs" role="tablist">${p.play.map((x,i)=>`<button role="tab" aria-selected="${!i}" data-i="${i}">${esc(x.tab||x.name)}</button>`).join('')}</div></div><div class="playwrap"><iframe class="play-frame" title="${esc(p.play[0].name)}, live"></iframe></div>`;
     const fr=csBody.querySelector('.play-frame');
     const load=i=>{const x=p.play[i];fr.title=x.name+', live';const b=window.PLAYDOC&&PLAYDOC[x.src];
       if(b){fr.removeAttribute('src');fr.srcdoc=new TextDecoder().decode(Uint8Array.from(atob(b),c=>c.charCodeAt(0)))}else{fr.removeAttribute('srcdoc');fr.src=x.src}
@@ -2790,7 +2806,7 @@ burst.addEventListener('mouseout',e=>{const n=e.target.closest('.node');if(n&&!(
   const loop=now=>{requestAnimationFrame(loop);if(window.CB){window.CB*=.975;if(window.CB<.001)window.CB=0}
     const on=isOn();
     if(on&&!was){collect();start=now;lastP=0;prog=0;lastT=now;avgA=0;avgS=0;floor=.002;document.querySelectorAll('#statement .ph.lit').forEach(x=>x.classList.remove('lit'));B.classList.add('reading')}
-    if(!on&&was){B.classList.remove('reading');ws.forEach(w=>w.style.removeProperty('--fp'));st.style.filter=''}
+    if(!on&&was){B.classList.remove('reading');hideNP();ws.forEach(w=>w.style.removeProperty('--fp'));st.style.filter=''}
     was=on;if(!on)return;
     // progress: the real song if one is loaded, otherwise one pass every 40 seconds
     let p;try{p=(typeof audioEl!=='undefined'&&audioEl&&audioEl.duration&&isFinite(audioEl.duration)&&!audioEl.paused)?audioEl.currentTime/audioEl.duration:null}catch(e){p=null}
@@ -2803,16 +2819,24 @@ burst.addEventListener('mouseout',e=>{const n=e.target.closest('.node');if(n&&!(
       window._ink=[+rms.toFixed(4),+floor.toFixed(4),+sig.toFixed(4)];
       p=prog%1}
     lastT=now;
-    if(p<lastP-.5)document.querySelectorAll('#statement .ph.lit').forEach(x=>x.classList.remove('lit'));lastP=p;
+    if(p<lastP-.5){document.querySelectorAll('#statement .ph.lit').forEach(x=>x.classList.remove('lit'));hideNP()}lastP=p;
     let c=p*tot;for(const w of ws){const n=w.textContent.length,f=Math.max(0,Math.min(1,c/n));w.style.setProperty('--fp',(f*100).toFixed(1)+'%');c-=n;
       // the project opens only when the ink reaches its name
-      if(f>0){const ph=w.closest('.ph');if(ph&&!ph.classList.contains('lit')){ph.classList.add('lit');try{if(!pinned&&!(current&&!peekActive)&&!B.classList.contains('cs-open')&&!B.classList.contains('hint-on'))open(ph.dataset.k,ph,null,{peek:true})}catch(e){}}}}
+      if(f>0){const ph=w.closest('.ph');if(ph&&!ph.classList.contains('lit')){ph.classList.add('lit');if(PHONE.matches){showNP(ph.dataset.k);continue}try{if(!pinned&&!(current&&!peekActive)&&!B.classList.contains('cs-open')&&!B.classList.contains('hint-on'))open(ph.dataset.k,ph,null,{peek:true})}catch(e){}}}}
     // melt: the same wave that moves the paper bends the letters a little
     if(RM)return;let a=0;try{a=typeof DR!=='undefined'?DR.amp:0}catch(e){}
     sc+=(Math.min(7,a*140)-sc)*.15;ph+=.004;
     T.setAttribute('baseFrequency',(0.010+0.004*Math.sin(ph))+' '+(0.018+0.006*Math.cos(ph*1.3)));
     D.setAttribute('scale',sc.toFixed(2));st.style.filter=sc>.15?'url(#melt)':'';
   };
+  const PHONE=matchMedia('(max-width:720px)'),NP=document.getElementById('np');let npK=null;
+  const npPlace=()=>{const bar=document.getElementById('bar');if(bar)document.documentElement.style.setProperty('--npb',Math.round(innerHeight-bar.getBoundingClientRect().top)+'px')};
+  const showNP=k=>{const p=P[k];if(!p||k===npK)return;npK=k;const m=(p.media&&p.media[0])||{};npPlace();
+    const fill=()=>{NP.querySelector('img').src=m.poster||m.src||'';NP.querySelector('b').textContent=p.name;NP.querySelector('span').textContent=(p.line||'').split(/(?<=\.)\s/)[0];NP.querySelector('i').textContent=p.n||'';NP.classList.remove('swap');NP.classList.add('on');NP.setAttribute('aria-label',p.name+', open case study')};
+    if(NP.classList.contains('on')){NP.classList.add('swap');setTimeout(fill,220)}else fill()};
+  const hideNP=()=>{NP.classList.remove('on');npK=null};
+  NP.addEventListener('click',e=>{e.stopPropagation();if(npK&&typeof openCS==='function')openCS(npK)});
+  addEventListener('resize',npPlace);
   const hole=()=>{const MK=document.getElementById('rayhole');if(!MK)return;
     // one hole per line of text, so the lines stop right where the words are
     const lines=[];st.querySelectorAll('p:not([hidden])').forEach(p=>{const rg=document.createRange();rg.selectNodeContents(p);for(const r of rg.getClientRects()){if(r.width<2)continue;const l=lines.find(x=>Math.abs(x.t-r.top)<r.height*.5);if(l){l.l=Math.min(l.l,r.left);l.r=Math.max(l.r,r.right);l.b=Math.max(l.b,r.bottom)}else lines.push({t:r.top,l:r.left,r:r.right,b:r.bottom})}});
