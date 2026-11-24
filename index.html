@@ -2883,5 +2883,243 @@ burst.addEventListener('mouseout',e=>{const n=e.target.closest('.node');if(n&&!(
   window.songColor=()=>{const now=performance.now();if(now-lastSC<4000)return;lastSC=now;clearTimeout(pickT);pickT=setTimeout(()=>{if(typeof playing==='undefined'||playing)pick()},6000)};
 }
 </script>
+<!-- ===== Leave a song: visitors add the song they're playing; every song leaves a ripple ===== -->
+<style>
+#lv{position:fixed;z-index:6;left:50%;bottom:112px;width:min(340px,calc(100vw - 32px));transform:translate(-50%,10px);padding:16px 16px 14px;border-radius:14px;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 24px 60px -24px rgba(20,30,60,.45),0 0 0 1px rgba(21,24,28,.06);font-size:13.5px;line-height:1.5;color:var(--ink);opacity:0;pointer-events:none;transition:opacity .35s,transform .35s}
+#lv.in{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#lv .lx{position:absolute;right:8px;top:6px;border:0;background:none;color:var(--soft);font-size:18px;line-height:1;padding:6px;cursor:pointer}
+#lv b.h{display:block;font-weight:500;font-size:15px;margin:0 22px 2px 0}
+#lv p{margin:0 0 12px;color:var(--soft)}
+#lv .row{display:flex;gap:8px;flex-wrap:wrap}
+#lv button.go,#lv button.alt{border:0;border-radius:999px;padding:8px 14px;font:inherit;font-size:13.5px;cursor:pointer}
+#lv button.go{background:var(--ink);color:#fff}
+#lv button.go:disabled{opacity:.4}
+#lv button.alt{background:rgba(21,24,28,.06);color:var(--ink)}
+#lv input{width:100%;box-sizing:border-box;border:1px solid rgba(21,24,28,.14);border-radius:10px;background:#fff;padding:9px 11px;font:16px var(--sans,Inter,sans-serif);color:var(--ink);outline:none;margin-bottom:8px}
+#lv input:focus{border-color:var(--ink)}
+#lv ul{list-style:none;margin:0 0 8px;padding:0;max-height:200px;overflow-y:auto}
+#lv li button{width:100%;display:flex;gap:10px;align-items:center;text-align:left;border:0;background:none;padding:6px 4px;border-radius:8px;cursor:pointer;font:inherit;color:inherit}
+#lv li button:hover,#lv li button:focus-visible{background:rgba(21,24,28,.05);outline:none}
+#lv img{width:38px;height:38px;border-radius:6px;object-fit:cover;flex:none;background:rgba(21,24,28,.06)}
+#lv .t{display:block;font-weight:500;line-height:1.3}
+#lv .a{display:block;color:var(--soft);font-size:12.5px;line-height:1.3}
+#lv .pick{display:flex;gap:12px;align-items:center;margin:2px 0 10px}
+#lv .pick img{width:52px;height:52px}
+#lv .lvl{display:inline-block;width:12px;height:12px;border-radius:50%;border:1.5px solid var(--ink);vertical-align:-1px;margin-right:8px;transition:transform .08s}
+#lv .s{display:none}#lv .s.on{display:block}
+#lvCount{position:fixed;z-index:4;left:50%;bottom:22px;transform:translateX(-50%);border:0;background:none;padding:4px 8px;font:10.5px/1.4 var(--mono,"IBM Plex Mono",monospace);letter-spacing:.06em;text-transform:uppercase;color:var(--soft);cursor:pointer;opacity:0;transition:opacity .4s}
+#lv li button[aria-current=true] .t:before{content:"\25B6\FE0E  ";font-size:.8em}
+#lv li button.silent{opacity:.55}
+#lvCount.in{opacity:.8}
+#lvCount.glow{opacity:1;color:var(--ink);animation:lvGlow 2.4s ease-in-out 3}
+@keyframes lvGlow{50%{text-shadow:0 0 14px rgba(255,255,255,1),0 0 4px currentColor}}
+@media (prefers-reduced-motion:reduce){#lvCount.glow{animation:none}}#lvCount:hover{opacity:1}
+body.open #lvCount,body.open #lv{opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){#lv{transition:none}}
+</style>
+
+<button id="lvCount" type="button"></button>
+<section id="lv" role="dialog" aria-label="Leave a song" aria-hidden="true">
+  <button class="lx" type="button" aria-label="Close">×</button>
+  <div class="s" data-s="invite">
+    <b class="h">Leave this song here?</b>
+    <p>It joins a playlist this page keeps. Every song leaves a ripple for the next visitor.</p>
+    <div class="row"><button class="go" type="button" data-do="listen">Find the song</button><button class="alt" type="button" data-do="type">Type it</button></div>
+  </div>
+  <div class="s" data-s="listening">
+    <b class="h"><span class="lvl"></span>Listening for 8 seconds</b>
+    <p>Using the mic you already turned on. Nothing is kept.</p>
+    <div class="row"><button class="alt" type="button" data-do="type">Type it instead</button></div>
+  </div>
+  <div class="s" data-s="type">
+    <b class="h">What’s playing?</b>
+    <p class="msg">Song, artist, or a link.</p>
+    <input type="text" autocomplete="off" aria-label="Song, artist, or a link" placeholder="Song, artist, or a link">
+    <ul aria-label="Matching songs"></ul>
+  </div>
+  <div class="s" data-s="confirm">
+    <div class="pick"><img alt=""><div><span class="t"></span><span class="a"></span></div></div>
+    <input type="text" maxlength="28" class="from" aria-label="Your name or city, optional" placeholder="Your name or city (optional)">
+    <div class="row"><button class="go" type="button" data-do="add">Add it</button><button class="alt" type="button" data-do="type">Not this one</button></div>
+  </div>
+  <div class="s" data-s="done">
+    <b class="h">Your ripple is in.</b>
+    <p class="msg"></p>
+  </div>
+  <div class="s" data-s="list">
+    <b class="h">Songs left here</b>
+    <ul class="all"></ul>
+    <div class="row"><button class="go" type="button" data-do="playall">Play them all</button><button class="alt" type="button" data-do="type">Add yours</button></div>
+  </div>
+</section>
+
+<script>
+(()=>{
+const LV=document.getElementById('lv'),CNT=document.getElementById('lvCount');
+const q=s=>LV.querySelector(s);
+const PREVIEW=!/ychungworks\.com$|vercel\.app$|^localhost$/.test(location.hostname);
+const SAMPLE=[['Pink + White','Frank Ocean','Brooklyn',.22,.32],['Merry Christmas Mr. Lawrence','Ryuichi Sakamoto','Taipei',.78,.26],['Nights','Frank Ocean','',.72,.7],['Retrograde','James Blake','',.28,.74],['Pink + White','Frank Ocean','Queens',.22,.32]]
+  .map(([title,artist,from,x,y],i)=>({id:'s'+i,title,artist,from,x,y,t:i}));
+const esc=t=>String(t||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hsh=s=>{let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0};
+const key=s=>(s.title+'|'+s.artist).toLowerCase();
+const colOf=s=>{try{return nipPick(hsh(key(s))%360,.72,.9).rgb}catch(_){return [.4,.5,.8]}};
+// added: they left a song this visit, so don't ask again. dismissed: closed the card during this listening session only.
+let songs=[],chosen=null,via='type',added=false,dismissed=false,Q=null,glowing=false;
+try{added=!!sessionStorage.getItem('lv-added')}catch(_){}
+
+// ---- a ripple on the page's own water, in the song's colour ----
+function ripple(s,a){
+  const x=(s.x||.5)*innerWidth,y=(s.y||.5)*innerHeight;
+  try{pulses.push({t0:(performance.now()-t0)/1000,a:a||1,x,y,col:colOf(s)});if(pulses.length>8)pulses.shift()}catch(_){}
+}
+function uniq(list){const m=new Map();for(const s of list){const k=key(s);const g=m.get(k)||{...s,n:0,froms:[]};g.n++;if(s.from)g.froms.push(s.from);m.set(k,g)}return [...m.values()]}
+function count(){const n=songs.length;CNT.textContent=Q?'Next song \u203A':glowing?'Leave this song here?':(n?`${n} song${n>1?'s':''} left here`:'');CNT.classList.toggle('in',n>0||glowing||!!Q)}
+
+async function load(){
+  if(PREVIEW)songs=SAMPLE.slice();
+  else try{songs=(await (await fetch('/api/songs')).json()).songs||[]}catch(_){songs=[]}
+  count();
+  // the page remembers: earlier visitors' songs ripple in, one by one, after the opening wave
+  uniq(songs).slice(0,5).forEach((s,i)=>setTimeout(()=>ripple(s,.55+Math.min(4,s.n)*.12),2600+i*900));
+}
+
+// ---- panel ----
+function askedEndOpen(){return false}
+function step(n){LV.querySelectorAll('.s').forEach(x=>x.classList.toggle('on',x.dataset.s===n))}
+function open(n){if(n==='type'&&!askedEndOpen()){q('[data-s=type] .h').textContent='What\u2019s playing?';q('[data-s=type] .msg').textContent='Song, artist, or a link.'}step(n);LV.classList.add('in');LV.setAttribute('aria-hidden','false');if(n==='type')setTimeout(()=>q('[data-s=type] input').focus({preventScroll:true}),60)}
+function close(){stopRec(true);LV.classList.remove('in');LV.setAttribute('aria-hidden','true');dismissed=true}
+q('.lx').addEventListener('click',e=>{e.stopPropagation();close()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&LV.classList.contains('in'))close()});
+LV.addEventListener('pointerdown',e=>e.stopPropagation());
+LV.addEventListener('click',e=>{const b=e.target.closest('[data-do]');if(!b)return;e.stopPropagation();
+  const d=b.dataset.do;if(d==='listen')listen();else if(d==='type'){stopRec(true);open('type')}else if(d==='add')add();else if(d==='playall'){const q0=uniq(songs).filter(s=>s.preview);if(q0.length)startQueue(q0,0)}});
+CNT.addEventListener('click',e=>{e.stopPropagation();if(Q){nextInQueue();return}if(glowing){setGlow(false);open('invite');return}
+  q('.all').innerHTML=uniq(songs).map(s=>`<li><button type="button" data-k="${esc(key(s))}" class="${s.preview?'':'silent'}" aria-current="${!!(Q&&Q.list[Q.i]&&key(Q.list[Q.i])===key(s))}"><img alt="" ${s.art?`src="${esc(s.art)}"`:''}><span><span class="t">${esc(s.title)}</span><span class="a">${esc(s.artist)}${s.n>1?' · '+s.n+'×':''}${s.froms.length?' · from '+esc([...new Set(s.froms)].slice(-2).join(', ')):''}</span></span></button></li>`).join('');
+  open('list')});
+q('.all').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;const s=songs.find(x=>key(x)===b.dataset.k);if(!s)return;const q0=uniq(songs).filter(x=>x.preview),i=q0.findIndex(x=>key(x)===key(s));if(i>=0)startQueue(q0,i);else{ripple(s,1.1);if(s.link&&!PREVIEW)window.open(s.link,'_blank','noopener')}});
+CNT.addEventListener('pointerdown',e=>e.stopPropagation());
+
+// ---- the invite: only when the page is already following someone's music through the mic ----
+// Flow: arrival → earlier songs ripple in + "N songs left here".
+// Their song playing (mic) → the line glows once: "Leave this song here?" (tap → can still Find the song).
+// Their song ends (mic off, or ~8 s of quiet) → the card asks "Leave that song here?".
+let heard=0,micWas=false,glowT=0,askedEnd=false;
+function setGlow(on){glowing=on;CNT.classList.toggle('glow',on);clearTimeout(glowT);if(on)glowT=setTimeout(()=>setGlow(false),12000);count()}
+function askEnd(){
+  if(added||dismissed||askedEnd||Q||LV.classList.contains('in')||document.body.classList.contains('open'))return;
+  askedEnd=true;setGlow(false);open('type');
+  q('[data-s=type] .h').textContent='Leave that song here?';
+  q('[data-s=type] .msg').textContent='Type it or paste a link. The next visitor will see it ripple in.';
+}
+setInterval(()=>{
+  const micOn=typeof mode!=='undefined'&&mode==='mic'&&playing;
+  if(micOn&&!micWas){heard=0;dismissed=false;askedEnd=false}          // a new listening session
+  if(!micOn&&micWas&&heard>=6)askEnd();                                // they turned the mic off after real music
+  micWas=micOn;
+  if(!micOn)return;
+  const now=performance.now(),on=now-micHeardT<2500;
+  if(on){heard+=.5;if(heard===6&&!added&&!dismissed)setGlow(true)}
+  else if(heard>=6&&now-micHeardT>8000)askEnd();                       // the song ended, the room went quiet
+},500);
+if(/[?&]song\b/.test(location.search))setTimeout(()=>open('invite'),1200);
+
+// ---- find the song: 8 seconds from the mic stream already running (no second permission) ----
+let rec=null,recT=0,lvlRaf=0;
+function stopRec(cancel){clearTimeout(recT);cancelAnimationFrame(lvlRaf);if(rec&&rec.state==='recording'){rec._cancel=!!cancel;rec.stop()}}
+function listen(){
+  if(PREVIEW){open('type');q('[data-s=type] .msg').textContent='Finding the song works on the live site. Type it here.';return}
+  const st=typeof micStream!=='undefined'&&micStream;
+  if(!st||!window.MediaRecorder){open('type');q('[data-s=type] .msg').textContent='Turn on the mic first, or type it.';return}
+  step('listening');
+  try{const an=analyser,d=new Uint8Array(an.fftSize),dot=q('.lvl');const tick=()=>{an.getByteTimeDomainData(d);let m=0;for(const v of d)m=Math.max(m,Math.abs(v-128));dot.style.transform=`scale(${1+m/25})`;lvlRaf=requestAnimationFrame(tick)};tick()}catch(_){}
+  const type=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'].find(t=>MediaRecorder.isTypeSupported(t))||'';
+  const chunks=[];rec=new MediaRecorder(st,type?{mimeType:type}:undefined);
+  rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);
+  rec.onstop=async()=>{cancelAnimationFrame(lvlRaf);if(rec._cancel)return;
+    q('[data-s=listening] p').textContent='Finding it…';
+    const blob=new Blob(chunks,{type:rec.mimeType||type||'audio/webm'});
+    const b64=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(String(fr.result).split(',')[1]||'');fr.readAsDataURL(blob)});
+    let j={status:'error'};try{j=await (await fetch('/api/identify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({audio:b64,type:blob.type})})).json()}catch(_){}
+    q('[data-s=listening] p').textContent='Using the mic you already turned on. Nothing is kept.';
+    if(j.status==='match'){via='listen';confirm(j.song)}
+    else{open('type');q('[data-s=type] .msg').textContent=j.status==='off'?'Finding songs isn’t switched on yet. Type it instead.':'Couldn’t catch it. Type it instead?'}
+  };
+  rec.start();recT=setTimeout(()=>{if(rec.state==='recording')rec.stop()},8000);
+}
+
+// ---- type or paste ----
+const inp=q('[data-s=type] input'),ul=q('[data-s=type] ul');let qT,qN=0;
+inp.addEventListener('input',()=>{clearTimeout(qT);const v=inp.value.trim();if(v.length<2){ul.innerHTML='';return}qT=setTimeout(()=>search(v),/^https?:/.test(v)?0:280)});
+inp.addEventListener('keydown',e=>e.stopPropagation());
+async function search(v){
+  const n=++qN;let r=[];
+  if(!PREVIEW)try{r=(await (await fetch('/api/search?q='+encodeURIComponent(v))).json()).results||[]}catch(_){}
+  if(n!==qN)return;via=/^https?:/.test(v)?'link':'type';
+  if(!r.length&&via==='type')r=[{title:v,artist:'',hint:'Add it as typed'}];
+  ul.innerHTML=r.map((s,i)=>`<li><button type="button" data-i="${i}"><img alt="" ${s.art?`src="${esc(s.art)}"`:''}><span><span class="t">${esc(s.title)}</span><span class="a">${esc(s.hint||s.artist)}</span></span></button></li>`).join('');
+  ul.querySelectorAll('button').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const s=r[+b.dataset.i];delete s.hint;confirm(s)}));
+}
+function confirm(s){
+  chosen=s;const c=q('[data-s=confirm]');
+  c.querySelector('.t').textContent=s.title;c.querySelector('.a').textContent=s.artist||'';
+  const im=c.querySelector('img');if(s.art)im.src=s.art;else im.removeAttribute('src');
+  open('confirm');setTimeout(()=>c.querySelector('.from').focus({preventScroll:true}),60);
+}
+q('.from').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter')add()});
+async function add(){
+  if(!chosen)return;const btn=q('[data-do=add]');btn.disabled=true;
+  const body={...chosen,from:q('.from').value.trim(),via};let saved=null,persist=false;
+  if(!PREVIEW)try{const j=await (await fetch('/api/songs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})).json();saved=j.song;persist=j.persistent}catch(_){}
+  if(!saved)saved={...body,id:'l'+Date.now(),x:.15+Math.random()*.7,y:.2+Math.random()*.6,t:Date.now()};
+  songs.unshift(saved);count();ripple(saved,1.4);
+  q('[data-s=done] .msg').textContent=persist?'Look where it landed. The next visitor will see it ripple in.':PREVIEW?'Preview only. On the live site it stays for the next visitor.':'It’s here for now. The shared playlist isn’t switched on yet.';
+  btn.disabled=false;q('.from').value='';inp.value='';ul.innerHTML='';open('done');
+  added=true;try{sessionStorage.setItem('lv-added','1')}catch(_){}
+  setTimeout(()=>{if(q('[data-s=done]').classList.contains('on'))close()},3200);
+}
+
+// ---- play the playlist: 30-second previews through the page's own player, so the water moves with each ----
+function playOne(s){
+  if(PREVIEW){ripple(s,1.2);return}
+  ensureCtx();stopAll();ac.resume();
+  if(!audioEl){audioEl=new Audio();mediaSrc=ac.createMediaElementSource(audioEl);mediaSrc.connect(master)}
+  audioEl.crossOrigin='anonymous';audioEl.loop=false;
+  audioEl.src='/api/preview?u='+encodeURIComponent(s.preview);
+  window.songTitle=s.title;
+  const who=s.froms&&s.froms.length?' \u00b7 left by someone in '+s.froms[s.froms.length-1]:'';
+  if(Q)Q.loading=true;
+  audioEl.play().then(()=>{if(Q)Q.loading=false;mode='file';setPlaying(true,s.title+(s.artist?' \u00b7 '+s.artist:'')+who);ripple(s,1.4)}).catch(()=>{if(Q)Q.loading=false;nextInQueue()});
+}
+function startQueue(list,i){Q={list,i};close();playOne(list[i]);count()}
+function nextInQueue(){if(!Q)return;Q.i++;if(Q.i>=Q.list.length){endQueue();try{stopAll();setPlaying(false)}catch(_){}return}playOne(Q.list[Q.i])}
+function endQueue(){Q=null;count()}
+// a preview ended: go on; someone switched to mic / their own music / paused: let go of the playlist
+setInterval(()=>{if(!Q||PREVIEW||Q.loading)return;
+  if(audioEl&&audioEl.ended){nextInQueue();return}
+  const mine=typeof mode!=='undefined'&&mode==='file'&&audioEl&&String(audioEl.src).includes('/api/preview');
+  if(!mine||!playing)endQueue()},400);
+
+// ---- "Mine" plays Ying's pick: a real song's 30-second preview, so the text fills with ink as it plays ----
+const PICK={q:'Merry Christmas Mr. Lawrence Ryuichi Sakamoto',artist:/sakamoto/i,song:null};
+if(!PREVIEW)fetch('/api/search?q='+encodeURIComponent(PICK.q)).then(r=>r.json()).then(j=>{PICK.song=(j.results||[]).find(x=>x.preview&&PICK.artist.test(x.artist))||null}).catch(()=>{});
+function playPick(){
+  const s=PICK.song;endQueue();
+  ensureCtx();stopAll();ac.resume();silent=false;document.body.classList.remove('silent');
+  if(outG){outG.gain.cancelScheduledValues(ac.currentTime);outG.gain.setValueAtTime(1,ac.currentTime)}
+  master.gain.cancelScheduledValues(ac.currentTime);master.gain.setValueAtTime(.55,ac.currentTime);
+  if(!audioEl){audioEl=new Audio();mediaSrc=ac.createMediaElementSource(audioEl);mediaSrc.connect(master)}
+  audioEl.crossOrigin='anonymous';audioEl.loop=true;
+  audioEl.src='/api/preview?u='+encodeURIComponent(s.preview);window.songTitle=s.title;
+  audioEl.play().then(()=>{mode='file';setPlaying(true,'Ying\u2019s pick \u00b7 '+s.title+' \u00b7 '+s.artist);setTimeout(()=>{try{sync3()}catch(_){}},60)}).catch(()=>{try{_startDemo()}catch(_){}});
+}
+// every "Mine" button calls startDemo(); the silent mode and autoplay call it too, so only take over a plain "Mine" press
+const _startDemo=startDemo,_startSilent=startSilent;let inSilent=false;
+startSilent=function(){inSilent=true;try{_startSilent()}finally{inSilent=false}};
+startDemo=function(auto){if(auto||inSilent||!PICK.song)return _startDemo(auto);playPick()};
+
+load();
+})();
+</script>
 </body>
 </html>
