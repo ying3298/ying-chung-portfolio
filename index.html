@@ -1458,7 +1458,8 @@ body[data-theme=lab]:has(#mic[aria-pressed=true]) .fx.lab,body[data-theme=lab]:h
        <span class="sg" data-seg="s3a"></span><span class="ph" role="button" tabindex="0" data-k="trail">Decision Trail<sup>03</sup></span><span class="sg" data-seg="s3b"> · conversation design for Claude</span></p>
     <p><span class="sg sec" data-seg="s4a">Playground</span><br><span class="ph" role="button" tabindex="0" data-k="miscast">MisCast<sup>04</sup></span><span class="sg" data-seg="s4b"> · two AI characters, one scene</span><br>
        <span class="sg" data-seg="s5a"></span><span class="ph" role="button" tabindex="0" data-k="ot">Object Timer<sup>05</sup></span><span class="sg" data-seg="s5b"> · objects that keep time their own way</span><br>
-       <span class="sg" data-seg="s6a"></span><span class="ph" role="button" tabindex="0" data-k="fifty">Fifty Something<sup>06</sup></span><span class="sg" data-seg="s6b"> · fifty things to learn, one tap at a time</span></p>
+       <span class="sg" data-seg="s6a"></span><span class="ph" role="button" tabindex="0" data-k="fifty">Fifty Something<sup>06</sup></span><span class="sg" data-seg="s6b"> · fifty things to learn, one tap at a time</span><br>
+       <span class="sg" data-seg="s8a"></span><span class="ph" role="button" tabindex="0" data-k="ltd">Let Time Dream<sup>07</sup></span><span class="sg" data-seg="s8b"> · clocks for presence, not pressure</span></p>
     <p hidden><span class="sg" data-seg="s7"></span></p>
     <p class="closing" hidden></p>
   </div>
@@ -1735,6 +1736,19 @@ const P={
      {vid:"img/fifty-cars.mp4",poster:"img/fifty-cars.jpg",alt:"Fifty Cars",size:"s",tag:"Fifty Cars"},
      {img:"img/herb-cabinet.jpg",alt:"百子櫃, the Hundred-Drawer Cabinet",size:"s",tag:"百子櫃 · Fifty Herbs"},
      {chip:"Tap it <i>→</i> it shows you"}]},
+ ltd:{n:"07",name:"Let Time Dream",kind:"Clocks · Thesis",cta:"Play with it →",
+   play:[{name:"Let Time Dream",tab:"Clocks",src:"play/lettimedream/"}],
+   line:"When interfaces let time dream. A thesis piece on time displays that support presence, not pressure: ambient clocks, a tear-off calendar, and your phone rhythm drawn as layers and thread.",
+   media:[{vid:"img/ltd-reel.mp4",poster:"img/ltd-calendar.jpg",alt:"Let Time Dream reel: quadrant grid, breathing orb, tear-off calendar, strata, loom"},
+     {src:"img/ltd-grid.jpg",alt:"Quadrant Grid: time as four blocks of colour"},
+     {src:"img/ltd-orb.jpg",alt:"Breathing Orb: a glow that moves with the minute"},
+     {src:"img/ltd-calendar.jpg",alt:"Tear-off Calendar: today's date, lunar date and almanac"}],
+   sats:[{img:"img/ltd-grid.jpg",alt:"Quadrant Grid",size:"s",tag:"Grid"},
+     {img:"img/ltd-orb.jpg",alt:"Breathing Orb",size:"s",tag:"Orb"},
+     {img:"img/ltd-calendar.jpg",alt:"Tear-off Calendar",size:"s",tag:"Calendar"},
+     {img:"img/ltd-strata.jpg",alt:"Strata: your phone rhythm as layers",size:"s",tag:"Strata"},
+     {img:"img/ltd-loom.jpg",alt:"Loom: your days woven into fabric",size:"s",tag:"Loom"},
+     {chip:"Presence <i>·</i> not pressure"}]},
  about:{n:"Hi",name:"Hi, I’m Ying!",kind:"Brooklyn, from Taiwan",head:"About",cta:"More about me →",
    line:"Product designer with an MFA from SVA. I started in communication design, building installations with sensors and Arduino. Now I go from first interviews to something people can hold and use. Lately: AI products and multi-agent systems.",
    extra:'<div class="do"><div><b>Research</b><span>Interviews &amp; co-design</span><span>Usability testing</span><span>Synthesis into decisions</span></div><div><b>Design</b><span>Interaction &amp; flows</span><span>UI &amp; visual systems</span><span>Phygital &amp; service</span></div><div><b>Build</b><span>Prototypes in code</span><span>AI &amp; multi-agent</span><span>Physical prototypes</span></div></div>',
@@ -2036,7 +2050,7 @@ let S={...DEF};
 const RMQ=matchMedia('(prefers-reduced-motion:reduce)').matches;
 let ac=null,analyser=null,master=null,mediaSrc=null,audioEl=null,demoTimer=null,playing=false,mode=null;
 let fbuf=null,avg=0,lastBeat=0,beatCount=0,deliverIdx=0,userHold=false,rngState=1;
-const order=['mimo','steeped','trail','ot','fifty','miscast'];
+const order=['mimo','steeped','trail','ot','fifty','ltd','miscast'];
 const cv=document.getElementById('ripple');
 const pulses=[];
 
