@@ -21,3 +21,14 @@ exports.add = async (song) => {
   await redis(['LPUSH', KEY, JSON.stringify(song)]);
   await redis(['LTRIM', KEY, '0', '499']);
 };
+// anonymous tap counts for the mobile nav (which button people use); no personal data
+const memTaps = globalThis.__rippleTaps || (globalThis.__rippleTaps = {});
+exports.incr = async (field) => {
+  if (!exports.persistent) { memTaps[field] = (memTaps[field] || 0) + 1; return; }
+  await redis(['HINCRBY', 'ripple:taps', field, '1']);
+};
+exports.counts = async () => {
+  if (!exports.persistent) return { ...memTaps };
+  const a = await redis(['HGETALL', 'ripple:taps']) || []; const o = {};
+  for (let i = 0; i < a.length; i += 2) o[a[i]] = +a[i + 1]; return o;
+};

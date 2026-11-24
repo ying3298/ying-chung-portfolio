@@ -2917,9 +2917,40 @@ burst.addEventListener('mouseout',e=>{const n=e.target.closest('.node');if(n&&!(
 @media (prefers-reduced-motion:reduce){#lvCount.glow{animation:none}}#lvCount:hover{opacity:1}
 body.open #lvCount,body.open #lv{opacity:0;pointer-events:none}
 @media (prefers-reduced-motion:reduce){#lv{transition:none}}
+/* phone nav: Play is the main pill (right); Your song and Leave a song sit quietly on the left */
+#mnav{display:none}
+@media (max-width:720px){
+ #bar,#lvCount,#navcue{display:none!important}
+ #mnav{display:flex;position:fixed;z-index:5;left:14px;right:14px;bottom:calc(18px + env(safe-area-inset-bottom));align-items:flex-end;justify-content:space-between;pointer-events:none;transition:opacity .3s}
+ body.open #mnav{opacity:.35}
+ #mnav button{pointer-events:auto;font:14px/1 var(--sans);color:var(--ink);border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+ #mnav .ml{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+ #mnav .ml button{background:rgba(255,255,255,.55);box-shadow:0 0 0 1px rgba(21,24,28,.1);border-radius:999px;padding:9px 13px;min-height:36px;font-size:13px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+ #mnav .ml button[aria-pressed=true]{background:var(--ink);color:#fff;box-shadow:none}
+ #mnav .ml button.glow{box-shadow:0 0 0 1px var(--ink);animation:lvGlow 2.4s ease-in-out 3}
+ #mnav .mr{display:flex;border-radius:999px;background:var(--ink);overflow:hidden}
+ #mnav .mr button{background:none;color:#fff;padding:13px 17px;min-height:44px;font-size:14px}
+ #mnav .mr .mc{padding:13px 13px 13px 9px;border-left:1px solid rgba(255,255,255,.18);font-size:12px;letter-spacing:.04em}
+ #mmenu{position:fixed;z-index:6;right:14px;bottom:calc(84px + env(safe-area-inset-bottom));width:min(260px,calc(100vw - 28px));padding:6px;border-radius:16px;background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 0 0 1px rgba(21,24,28,.07),0 24px 50px -24px rgba(20,30,60,.45);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .25s,transform .25s}
+ #mmenu.in{opacity:1;transform:none;pointer-events:auto}
+ #mmenu button{display:block;width:100%;text-align:left;border:0;background:none;padding:11px 12px;border-radius:10px;font:14px/1.3 var(--sans);color:var(--ink);cursor:pointer}
+ #mmenu button small{display:block;color:var(--soft);font-size:12px;margin-top:2px}
+ #mmenu button[aria-current=true]{background:rgba(21,24,28,.05)}
+ #lv{bottom:calc(132px + env(safe-area-inset-bottom))}
+ #np{bottom:calc(132px + env(safe-area-inset-bottom))!important}
+}
 </style>
 
 <button id="lvCount" type="button"></button>
+<nav id="mnav" aria-label="Music">
+  <div class="ml"><button type="button" data-m="mic" aria-pressed="false">Your song</button><button type="button" data-m="leave">Leave a song</button></div>
+  <div class="mr"><button type="button" class="mp" data-m="play">Play</button><button type="button" class="mc" data-m="menu" aria-expanded="false" aria-controls="mmenu" aria-label="More ways to listen"><span class="mn"></span> &#8964;</button></div>
+</nav>
+<div id="mmenu" role="menu" aria-label="Ways to listen">
+  <button type="button" role="menuitem" data-mm="pick">Ying’s pick<small>Fotografia #1 · Ryuichi Sakamoto</small></button>
+  <button type="button" role="menuitem" data-mm="songs">Songs left here<small>Play them all, or pick one</small></button>
+  <button type="button" role="menuitem" data-mm="silence">Silence<small>The page moves on its own</small></button>
+</div>
 <section id="lv" role="dialog" aria-label="Leave a song" aria-hidden="true">
   <button class="lx" type="button" aria-label="Close">×</button>
   <div class="s" data-s="invite">
@@ -2995,9 +3026,10 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&LV.classList.contains('in'))
 LV.addEventListener('pointerdown',e=>e.stopPropagation());
 LV.addEventListener('click',e=>{const b=e.target.closest('[data-do]');if(!b)return;e.stopPropagation();
   const d=b.dataset.do;if(d==='listen')listen();else if(d==='type'){stopRec(true);open('type')}else if(d==='add')add();else if(d==='playall'){const q0=uniq(songs).filter(s=>s.preview);if(q0.length)startQueue(q0,0)}});
-CNT.addEventListener('click',e=>{e.stopPropagation();if(Q){nextInQueue();return}if(glowing){setGlow(false);open('invite');return}
+CNT.addEventListener('click',e=>{e.stopPropagation();if(Q){nextInQueue();return}if(glowing){setGlow(false);open('invite');return}showList()});
+function showList(){
   q('.all').innerHTML=uniq(songs).map(s=>`<li><button type="button" data-k="${esc(key(s))}" class="${s.preview?'':'silent'}" aria-current="${!!(Q&&Q.list[Q.i]&&key(Q.list[Q.i])===key(s))}"><img alt="" ${s.art?`src="${esc(s.art)}"`:''}><span><span class="t">${esc(s.title)}</span><span class="a">${esc(s.artist)}${s.n>1?' · '+s.n+'×':''}${s.froms.length?' · from '+esc([...new Set(s.froms)].slice(-2).join(', ')):''}</span></span></button></li>`).join('');
-  open('list')});
+  open('list')}
 q('.all').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;const s=songs.find(x=>key(x)===b.dataset.k);if(!s)return;const q0=uniq(songs).filter(x=>x.preview),i=q0.findIndex(x=>key(x)===key(s));if(i>=0)startQueue(q0,i);else{ripple(s,1.1);if(s.link&&!PREVIEW)window.open(s.link,'_blank','noopener')}});
 CNT.addEventListener('pointerdown',e=>e.stopPropagation());
 
@@ -3114,6 +3146,33 @@ function playPick(){
   audioEl.src='/api/preview?u='+encodeURIComponent(s.preview);window.songTitle=s.title;
   audioEl.play().then(()=>{mode='file';setPlaying(true,'Ying\u2019s pick \u00b7 '+s.title+' \u00b7 '+s.artist);setTimeout(()=>{try{sync3()}catch(_){}},60)}).catch(()=>{try{_startDemo()}catch(_){}});
 }
+// ---- phone nav ----
+const MN=document.getElementById('mnav'),MM=document.getElementById('mmenu');
+const tap=b=>{try{navigator.sendBeacon('/api/tap',new Blob([JSON.stringify({b})],{type:'application/json'}))}catch(_){}};
+const menuOpen=on=>{MM.classList.toggle('in',on);MN.querySelector('.mc').setAttribute('aria-expanded',on)};
+MN.addEventListener('pointerdown',e=>e.stopPropagation());MM.addEventListener('pointerdown',e=>e.stopPropagation());
+MN.addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;e.stopPropagation();const m=b.dataset.m;tap(m);
+  if(m==='menu'){menuOpen(!MM.classList.contains('in'));return}
+  menuOpen(false);
+  if(m==='play'){if(playing&&mode!=='mic'){endQueue();stopAll();setPlaying(false)}else startDemo()}
+  else if(m==='mic'){if(playing&&mode==='mic'){stopAll();setPlaying(false)}else startMic()}
+  else if(m==='leave'){if(glowing||(playing&&mode==='mic')){setGlow(false);open('invite')}else open('type')}
+  syncM()});
+MM.addEventListener('click',e=>{const b=e.target.closest('[data-mm]');if(!b)return;e.stopPropagation();const m=b.dataset.mm;tap(m==='songs'?'songs':m);menuOpen(false);
+  if(m==='pick')startDemo();else if(m==='silence'){endQueue();startSilent()}else{if(Q)nextInQueue();else showList()}
+  syncM()});
+addEventListener('pointerdown',()=>menuOpen(false));
+function syncM(){
+  const micOn=playing&&mode==='mic',other=playing&&mode!=='mic',pickOn=other&&!silent&&!Q&&mode==='file';
+  MN.querySelector('.mp').textContent=other?(silent?'Stop':'Pause'):'Play';
+  const mic=MN.querySelector('[data-m=mic]');mic.textContent=micOn?'Listening':'Your song';mic.setAttribute('aria-pressed',micOn);
+  const lv=MN.querySelector('[data-m=leave]');lv.textContent=glowing?'Leave this song':'Leave a song';lv.classList.toggle('glow',glowing);
+  const n=uniq(songs).length;MN.querySelector('.mn').textContent=n?n:'';
+  const sb=MM.querySelector('[data-mm=songs]');sb.firstChild.textContent=Q?'Next song':(n?`Songs left here \u00b7 ${n}`:'Songs left here');
+  MM.querySelector('[data-mm=pick]').setAttribute('aria-current',pickOn);MM.querySelector('[data-mm=songs]').setAttribute('aria-current',!!Q);MM.querySelector('[data-mm=silence]').setAttribute('aria-current',other&&silent);
+}
+setInterval(syncM,400);
+
 // every "Mine" button calls startDemo(); the silent mode and autoplay call it too, so only take over a plain "Mine" press
 const _startDemo=startDemo,_startSilent=startSilent;let inSilent=false;
 startSilent=function(){inSilent=true;try{_startSilent()}finally{inSilent=false}};
