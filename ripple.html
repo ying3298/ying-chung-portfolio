@@ -3089,6 +3089,24 @@ setInterval(()=>{if(!Q||PREVIEW||Q.loading)return;
   const mine=typeof mode!=='undefined'&&mode==='file'&&audioEl&&String(audioEl.src).includes('/api/preview');
   if(!mine||!playing)endQueue()},400);
 
+// ---- "Mine" plays Ying's pick: a real song's 30-second preview, so the text fills with ink as it plays ----
+const PICK={q:'Merry Christmas Mr. Lawrence Ryuichi Sakamoto',artist:/sakamoto/i,song:null};
+if(!PREVIEW)fetch('/api/search?q='+encodeURIComponent(PICK.q)).then(r=>r.json()).then(j=>{PICK.song=(j.results||[]).find(x=>x.preview&&PICK.artist.test(x.artist))||null}).catch(()=>{});
+function playPick(){
+  const s=PICK.song;endQueue();
+  ensureCtx();stopAll();ac.resume();silent=false;document.body.classList.remove('silent');
+  if(outG){outG.gain.cancelScheduledValues(ac.currentTime);outG.gain.setValueAtTime(1,ac.currentTime)}
+  master.gain.cancelScheduledValues(ac.currentTime);master.gain.setValueAtTime(.55,ac.currentTime);
+  if(!audioEl){audioEl=new Audio();mediaSrc=ac.createMediaElementSource(audioEl);mediaSrc.connect(master)}
+  audioEl.crossOrigin='anonymous';audioEl.loop=true;
+  audioEl.src='/api/preview?u='+encodeURIComponent(s.preview);window.songTitle=s.title;
+  audioEl.play().then(()=>{mode='file';setPlaying(true,'Ying\u2019s pick \u00b7 '+s.title+' \u00b7 '+s.artist);setTimeout(()=>{try{sync3()}catch(_){}},60)}).catch(()=>{try{_startDemo()}catch(_){}});
+}
+// every "Mine" button calls startDemo(); the silent mode and autoplay call it too, so only take over a plain "Mine" press
+const _startDemo=startDemo,_startSilent=startSilent;let inSilent=false;
+startSilent=function(){inSilent=true;try{_startSilent()}finally{inSilent=false}};
+startDemo=function(auto){if(auto||inSilent||!PICK.song)return _startDemo(auto);playPick()};
+
 load();
 })();
 </script>
