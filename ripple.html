@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Ripple · Ying Chung</title>
+<link rel="icon" href="assets/icon/ying-32.png?v=4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F5F1;--ink:#1A1A18;--soft:#6B675E;--mut:#A6A296;--line:rgba(26,26,24,.12);
+ --sans:Inter,"Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font:15px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:default}
+.mono{font:10.5px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.06em}
+button{font:inherit;color:inherit;cursor:pointer}
+/* top line */
+.head{position:fixed;left:24px;top:20px;right:24px;display:flex;justify-content:space-between;align-items:baseline;pointer-events:none;z-index:2}
+.head a{pointer-events:auto;color:var(--soft);text-decoration:none}
+.head h1{margin:0;font-weight:400;font-size:15px;letter-spacing:-.01em}
+.head h1 span{color:var(--soft)}
+/* tooltip for a ripple */
+#tip{position:fixed;z-index:3;pointer-events:none;background:#FBFAF6;border:1px solid var(--line);padding:8px 10px;display:flex;gap:10px;align-items:center;max-width:280px;opacity:0;transform:translate(-50%,calc(-100% - 18px));transition:opacity .15s}
+#tip.on{opacity:1}
+#tip img{width:36px;height:36px;object-fit:cover;flex:none}
+#tip b{display:block;font-weight:500;font-size:13px;line-height:1.3}
+#tip small{display:block;color:var(--soft);font-size:12px;line-height:1.3}
+/* bottom bar */
+.foot{position:fixed;left:24px;right:24px;bottom:20px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;z-index:2}
+#now{color:var(--soft);max-width:60%;min-height:1.4em}
+#now a{color:var(--ink)}
+#addBtn{background:var(--ink);color:var(--paper);border:0;padding:10px 16px;font-size:14px;border-radius:999px}
+#count{color:var(--soft);margin-bottom:6px;text-align:right}
+/* invite panel */
+#ask{position:fixed;z-index:5;right:24px;bottom:72px;width:min(380px,calc(100vw - 32px));background:#FBFAF6;border:1px solid var(--line);box-shadow:0 18px 50px -20px rgba(26,26,24,.25);padding:20px;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .3s,transform .3s}
+#ask.on{opacity:1;transform:none;pointer-events:auto}
+#ask h2{margin:0 0 4px;font-size:18px;font-weight:500;letter-spacing:-.015em;line-height:1.3}
+#ask p{margin:0 0 14px;color:var(--soft);font-size:14px}
+#ask .x{position:absolute;right:10px;top:8px;border:0;background:none;color:var(--mut);font-size:20px;line-height:1;padding:4px}
+.field{width:100%;border:1px solid var(--line);background:var(--paper);padding:11px 12px;font:15px var(--sans);color:var(--ink);outline:none;border-radius:0}
+.field:focus{border-color:var(--ink)}
+#results{list-style:none;margin:6px 0 0;padding:0;max-height:220px;overflow-y:auto}
+#results li button{width:100%;display:flex;gap:10px;align-items:center;text-align:left;border:0;background:none;padding:7px 4px}
+#results li button:hover,#results li button:focus{background:rgba(26,26,24,.05);outline:none}
+#results img,.pick img{width:40px;height:40px;object-fit:cover;flex:none;background:#E9E7E0}
+#results b,.pick b{display:block;font-weight:500;font-size:14px;line-height:1.3}
+#results small,.pick small{display:block;color:var(--soft);font-size:12.5px;line-height:1.3}
+.or{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--mut)}
+.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
+.ghost{width:100%;border:1px solid var(--ink);background:none;padding:11px 12px;font-size:14px;display:flex;justify-content:center;align-items:center;gap:10px}
+.hint{display:block;margin-top:6px;color:var(--mut);font-size:12px;text-align:center}
+.row{display:flex;gap:8px;margin-top:14px}
+.solid{flex:1;border:0;background:var(--ink);color:var(--paper);padding:11px 12px;font-size:14px}
+.solid:disabled{opacity:.4}
+.text{border:0;background:none;color:var(--soft);padding:11px 8px;font-size:14px}
+.pick{display:flex;gap:12px;align-items:center;margin:4px 0 14px}
+.pick img{width:56px;height:56px}
+#lvl{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--ink);transition:transform .08s}
+.step{display:none}.step.on{display:block}
+.msg{color:var(--soft);font-size:14px;margin:0 0 10px}
+@media (max-width:560px){#ask{right:16px;left:16px;width:auto;bottom:70px}.foot{left:16px;right:16px}.head{left:16px;right:16px}#now{max-width:55%}}
+@media (prefers-reduced-motion:reduce){#ask{transition:none}}
+</style>
+</head>
+<body>
+<canvas id="c" aria-hidden="true"></canvas>
+
+<div class="head">
+  <h1>Ripple <span>· a playlist this page keeps</span></h1>
+  <a class="mono" href="/">Ying Chung</a>
+</div>
+
+<div id="tip" role="status"><img alt=""><div><b></b><small></small></div></div>
+
+<div class="foot">
+  <div id="now" class="mono">Tap a ripple to hear it.</div>
+  <div>
+    <div id="count" class="mono"></div>
+    <button id="addBtn" type="button">Add a song</button>
+  </div>
+</div>
+
+<section id="ask" role="dialog" aria-labelledby="askTitle" aria-hidden="true">
+  <button class="x" type="button" aria-label="Close" data-close>×</button>
+
+  <div class="step on" data-step="find">
+    <h2 id="askTitle">What’s playing for you right now?</h2>
+    <p>Add it here. Every song leaves a ripple for the next visitor.</p>
+    <input id="q" class="field" type="text" autocomplete="off" placeholder="Song, artist, or a link" aria-label="Song, artist, or a link">
+    <ul id="results" aria-label="Matching songs"></ul>
+    <div class="or mono">or</div>
+    <button id="listenBtn" class="ghost" type="button">Let it listen for 8 seconds</button>
+    <span class="hint">Your mic turns on only while it listens.</span>
+  </div>
+
+  <div class="step" data-step="listening">
+    <h2>Listening…</h2>
+    <p id="listenMsg">Hold your device near the music.</p>
+    <div style="display:flex;align-items:center;gap:10px"><span id="lvl"></span><span id="secs" class="mono">8</span></div>
+    <div class="row"><button class="text" type="button" id="stopListen">Cancel</button></div>
+  </div>
+
+  <div class="step" data-step="confirm">
+    <h2>Add this to the playlist?</h2>
+    <div class="pick"><img id="pArt" alt=""><div><b id="pTitle"></b><small id="pArtist"></small></div></div>
+    <input id="from" class="field" type="text" maxlength="28" placeholder="Your name or city (optional)" aria-label="Your name or city, optional">
+    <div class="row"><button class="text" type="button" data-back>Back</button><button id="addIt" class="solid" type="button">Add my song</button></div>
+  </div>
+
+  <div class="step" data-step="done">
+    <h2>Your song is here now.</h2>
+    <p id="doneMsg">It joined the others. Tap any ripple to hear what someone else brought.</p>
+    <div class="row"><button class="solid" type="button" data-close>Look around</button></div>
+  </div>
+</section>
+
+<audio id="player" preload="none"></audio>
+
+<script>
+(()=>{
+// ===== palette: Nippon colours =====
+const NIP=['#E83015','#ED784A','#FFB11B','#BEC23F','#5DAC81','#00896C','#33A6B8','#005CAF','#8B81C3','#77428D','#DC9FB4','#B5495B'];
+const hash=s=>{let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0};
+const keyOf=s=>(s.title+'|'+s.artist).toLowerCase();
+const LS={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+const $=s=>document.querySelector(s);
+const RMQ=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ===== state =====
+let songs=[];          // grouped: {key,title,artist,art,preview,link,froms[],count,x,y,col,born}
+let persistent=true;
+const local=LS.get('ripple-mine',[]); // fallback copy of what this visitor added
+
+function group(list){
+  const m=new Map();
+  for(const s of list.slice().sort((a,b)=>a.t-b.t)){
+    const k=keyOf(s);let g=m.get(k);
+    if(!g){g={key:k,title:s.title,artist:s.artist,art:s.art,preview:s.preview,link:s.link,froms:[],count:0,x:s.x,y:s.y,col:NIP[hash(k)%NIP.length],born:-99,t:s.t};m.set(k,g)}
+    g.count++;if(s.from)g.froms.push(s.from);g.art=g.art||s.art;g.preview=g.preview||s.preview;g.link=g.link||s.link;g.t=s.t;
+  }
+  return [...m.values()];
+}
+async function load(){
+  try{
+    const j=await (await fetch('/api/songs')).json();
+    persistent=j.persistent;
+    let all=j.songs||[];
+    if(!persistent){const ids=new Set(all.map(s=>s.id));all=all.concat(local.filter(s=>!ids.has(s.id)))}
+    songs=group(all);
+  }catch{songs=group(local)}
+  updateCount();
+}
+function updateCount(){
+  const n=songs.reduce((a,s)=>a+s.count,0);
+  $('#count').textContent=n?`${n} song${n>1?'s':''} so far`:'No songs yet. Be the first.';
+}
+
+// ===== canvas: every song is a ripple source =====
+const cv=$('#c'),cx=cv.getContext('2d');let W,H,DPR;
+function size(){DPR=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0)}
+size();addEventListener('resize',size);
+let playing=null,hover=null,taps=[];const T0=performance.now();
+const pos=s=>({x:s.x*W,y:s.y*H});
+function hexA(h,a){const n=parseInt(h.slice(1),16);return `rgba(${n>>16},${n>>8&255},${n&255},${a})`}
+function frame(now){
+  const t=(now-T0)/1000;
+  cx.clearRect(0,0,W,H);
+  for(const s of songs){
+    const p=pos(s),isP=playing===s,isH=hover===s;
+    const reach=70+Math.min(6,s.count)*26+(isP?90:0);   // repeated songs ripple wider
+    const speed=isP?46:RMQ?0:14, rings=isP?5:3;
+    const age=t-s.born;
+    for(let i=0;i<rings;i++){
+      const r=((t*speed+i*reach/rings+hash(s.key)%97)%reach);
+      const a=(1-r/reach)*(isP?.6:isH?.5:.38);
+      cx.beginPath();cx.arc(p.x,p.y,Math.max(1,r),0,Math.PI*2);cx.strokeStyle=hexA(s.col,a);cx.lineWidth=isP?1.6:1;cx.stroke();
+    }
+    if(age<3){const r=age*260,a=(1-age/3)*.7;cx.beginPath();cx.arc(p.x,p.y,r,0,Math.PI*2);cx.strokeStyle=hexA(s.col,a);cx.lineWidth=2;cx.stroke()}
+    cx.beginPath();cx.arc(p.x,p.y,isP||isH?6:4,0,Math.PI*2);cx.fillStyle=s.col;cx.fill();
+  }
+  taps=taps.filter(k=>t-k.t<1.6);
+  for(const k of taps){const r=(t-k.t)*120;cx.beginPath();cx.arc(k.x,k.y,r,0,Math.PI*2);cx.strokeStyle=`rgba(26,26,24,${.18*(1-(t-k.t)/1.6)})`;cx.lineWidth=1;cx.stroke()}
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+function nearest(x,y){let b=null,bd=28*28;for(const s of songs){const p=pos(s),d=(p.x-x)**2+(p.y-y)**2;if(d<bd){bd=d;b=s}}return b}
+const tip=$('#tip');
+function showTip(s){
+  if(!s){tip.classList.remove('on');return}
+  const p=pos(s);tip.style.left=p.x+'px';tip.style.top=p.y+'px';
+  tip.querySelector('img').src=s.art||'';tip.querySelector('img').style.display=s.art?'':'none';
+  tip.querySelector('b').textContent=s.title;
+  const who=s.froms.length?` · from ${[...new Set(s.froms)].slice(-2).join(', ')}`:'';
+  tip.querySelector('small').textContent=(s.artist||'')+(s.count>1?` · added ${s.count}×`:'')+who;
+  tip.classList.add('on');
+}
+cv.addEventListener('pointermove',e=>{const s=nearest(e.clientX,e.clientY);if(s!==hover){hover=s;showTip(s);cv.style.cursor=s?'pointer':'default'}});
+cv.addEventListener('pointerleave',()=>{hover=null;showTip(null)});
+cv.addEventListener('pointerdown',e=>{
+  const s=nearest(e.clientX,e.clientY);
+  if(s){play(s);if(e.pointerType!=='mouse'){hover=s;showTip(s)}}
+  else{taps.push({x:e.clientX,y:e.clientY,t:(performance.now()-T0)/1000});if(e.pointerType!=='mouse'){hover=null;showTip(null)}}
+});
+
+// ===== play a 30-second preview =====
+const player=$('#player');
+function play(s){
+  if(playing===s){player.pause();return}
+  playing=s;
+  const label=`<a href="${s.link||'#'}" target="_blank" rel="noopener">${esc(s.title)}</a> · ${esc(s.artist)}`;
+  if(s.preview){player.src=s.preview;player.play().then(()=>{$('#now').innerHTML='Playing '+label},()=>{$('#now').innerHTML=label})}
+  else{player.removeAttribute('src');$('#now').innerHTML=label+(s.link?'':' · no preview')}
+}
+player.addEventListener('pause',()=>{playing=null;$('#now').textContent='Tap a ripple to hear it.'});
+player.addEventListener('ended',()=>{playing=null;$('#now').textContent='Tap a ripple to hear it.'});
+const esc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// ===== the invite panel =====
+const ask=$('#ask');let chosen=null,via='type';
+function step(n){ask.querySelectorAll('.step').forEach(x=>x.classList.toggle('on',x.dataset.step===n))}
+function openAsk(){step('find');ask.classList.add('on');ask.setAttribute('aria-hidden','false');setTimeout(()=>$('#q').focus({preventScroll:true}),50)}
+function closeAsk(){stopListening(true);ask.classList.remove('on');ask.setAttribute('aria-hidden','true');try{sessionStorage.setItem('ripple-asked','1')}catch{}}
+$('#addBtn').addEventListener('click',openAsk);
+ask.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',closeAsk));
+ask.querySelector('[data-back]').addEventListener('click',()=>step('find'));
+addEventListener('keydown',e=>{if(e.key==='Escape'&&ask.classList.contains('on'))closeAsk()});
+// the invite arrives on its own a few seconds in, once per visit (?ask opens it right away for testing)
+const asked=(()=>{try{return sessionStorage.getItem('ripple-asked')}catch{return null}})();
+if(/[?&]ask\b/.test(location.search))setTimeout(openAsk,300);
+else if(!asked)setTimeout(()=>{if(!ask.classList.contains('on'))openAsk()},4000);
+
+// typing / pasting → suggestions
+let qT,qN=0;
+$('#q').addEventListener('input',e=>{clearTimeout(qT);const v=e.target.value.trim();if(v.length<2){$('#results').innerHTML='';return}qT=setTimeout(()=>search(v),/^https?:/.test(v)?0:280)});
+async function search(v){
+  const n=++qN;$('#results').innerHTML='<li class="msg">Looking…</li>';
+  let r=[];try{r=(await (await fetch('/api/search?q='+encodeURIComponent(v))).json()).results||[]}catch{}
+  if(n!==qN)return;
+  via=/^https?:/.test(v)?'link':'type';
+  const ul=$('#results');ul.innerHTML='';
+  r.forEach(s=>{const li=document.createElement('li');li.innerHTML=`<button type="button">${s.art?`<img src="${esc(s.art)}" alt="">`:'<img alt="">'}<span><b>${esc(s.title)}</b><small>${esc(s.artist)}</small></span></button>`;li.firstChild.addEventListener('click',()=>confirmSong(s));ul.appendChild(li)});
+  // nothing found: still let them add what they typed
+  if(!r.length&&via==='type'){const li=document.createElement('li');li.innerHTML=`<button type="button"><img alt=""><span><b>${esc(v)}</b><small>Add it as typed</small></span></button>`;li.firstChild.addEventListener('click',()=>confirmSong({title:v,artist:''}));ul.appendChild(li)}
+}
+function confirmSong(s){
+  chosen=s;$('#pTitle').textContent=s.title;$('#pArtist').textContent=s.artist||'';
+  $('#pArt').src=s.art||'';$('#pArt').style.visibility=s.art?'visible':'hidden';
+  step('confirm');setTimeout(()=>$('#from').focus({preventScroll:true}),50);
+}
+$('#addIt').addEventListener('click',async()=>{
+  if(!chosen)return;const btn=$('#addIt');btn.disabled=true;
+  const body={...chosen,from:$('#from').value.trim(),via};
+  let saved=null;
+  try{const j=await (await fetch('/api/songs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})).json();saved=j.song;persistent=j.persistent}catch{}
+  if(!saved)saved={...body,id:'l'+Date.now(),x:.12+Math.random()*.76,y:.18+Math.random()*.64,t:Date.now()};
+  local.push(saved);LS.set('ripple-mine',local.slice(-20));
+  const k=keyOf(saved);let g=songs.find(s=>s.key===k);
+  if(g){g.count++;if(saved.from)g.froms.push(saved.from)}else{g=group([saved])[0];songs.push(g)}
+  g.born=(performance.now()-T0)/1000;updateCount();
+  $('#doneMsg').textContent=persistent?'It joined the others. Tap any ripple to hear what someone else brought.':'Saved on this device for now. The shared playlist isn’t switched on yet.';
+  btn.disabled=false;$('#from').value='';$('#q').value='';$('#results').innerHTML='';step('done');
+});
+
+// ===== listen: mic only on tap, 8 seconds, then off =====
+let rec=null,stream=null,lvlRaf=0,secT=0,ac=null;
+$('#listenBtn').addEventListener('click',startListening);
+$('#stopListen').addEventListener('click',()=>{stopListening(true);step('find')});
+async function startListening(){
+  if(!navigator.mediaDevices||!window.MediaRecorder){findMsg('Listening isn’t supported in this browser. Type the song instead.');return}
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}
+  catch{findMsg('No mic access, and that’s fine. Type the song instead.');return}
+  step('listening');$('#listenMsg').textContent='Hold your device near the music.';
+  // live level so it feels like it’s hearing you
+  try{ac=new (window.AudioContext||window.webkitAudioContext)();const an=ac.createAnalyser();an.fftSize=512;ac.createMediaStreamSource(stream).connect(an);const d=new Uint8Array(an.fftSize);
+    const tick=()=>{an.getByteTimeDomainData(d);let m=0;for(const v of d)m=Math.max(m,Math.abs(v-128));$('#lvl').style.transform=`scale(${1+m/30})`;lvlRaf=requestAnimationFrame(tick)};tick()}catch{}
+  const type=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'].find(t=>MediaRecorder.isTypeSupported(t))||'';
+  const chunks=[];rec=new MediaRecorder(stream,type?{mimeType:type}:undefined);
+  rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);
+  rec.onstop=async()=>{
+    const cancelled=rec&&rec._cancel;cleanupMic();if(cancelled)return;
+    $('#listenMsg').textContent='Finding the song…';$('#secs').textContent='';
+    const blob=new Blob(chunks,{type:rec.mimeType||type||'audio/webm'});
+    const b64=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(String(fr.result).split(',')[1]||'');fr.readAsDataURL(blob)});
+    let j={status:'error'};try{j=await (await fetch('/api/identify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({audio:b64,type:blob.type})})).json()}catch{}
+    if(j.status==='match'){via='listen';confirmSong(j.song)}
+    else{step('find');findMsg(j.status==='off'?'Listening isn’t connected yet. Type the song instead.':'Couldn’t catch it. Try again closer to the music, or type it.')}
+  };
+  rec.start();let left=8;$('#secs').textContent=left;
+  secT=setInterval(()=>{left--;$('#secs').textContent=left;if(left<=0){clearInterval(secT);if(rec&&rec.state==='recording')rec.stop()}},1000);
+}
+function stopListening(cancel){clearInterval(secT);if(rec&&rec.state==='recording'){rec._cancel=!!cancel;rec.stop()}else cleanupMic()}
+function cleanupMic(){cancelAnimationFrame(lvlRaf);if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}if(ac){ac.close().catch(()=>{});ac=null}}
+function findMsg(m){const ul=$('#results');ul.innerHTML=`<li class="msg">${esc(m)}</li>`;$('#q').focus({preventScroll:true})}
+
+load();
+})();
+</script>
+</body>
+</html>
