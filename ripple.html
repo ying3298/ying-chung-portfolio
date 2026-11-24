@@ -2897,6 +2897,8 @@ burst.addEventListener('mouseout',e=>{const n=e.target.closest('.node');if(n&&!(
 #lv .lvl{display:inline-block;width:12px;height:12px;border-radius:50%;border:1.5px solid var(--ink);vertical-align:-1px;margin-right:8px;transition:transform .08s}
 #lv .s{display:none}#lv .s.on{display:block}
 #lvCount{position:fixed;z-index:4;left:50%;bottom:22px;transform:translateX(-50%);border:0;background:none;padding:4px 8px;font:10.5px/1.4 var(--mono,"IBM Plex Mono",monospace);letter-spacing:.06em;text-transform:uppercase;color:var(--soft);cursor:pointer;opacity:0;transition:opacity .4s}
+#lv li button[aria-current=true] .t:before{content:"\25B6\FE0E  ";font-size:.8em}
+#lv li button.silent{opacity:.55}
 #lvCount.in{opacity:.8}#lvCount:hover{opacity:1}
 body.open #lvCount,body.open #lv{opacity:0;pointer-events:none}
 @media (prefers-reduced-motion:reduce){#lv{transition:none}}
@@ -2933,7 +2935,7 @@ body.open #lvCount,body.open #lv{opacity:0;pointer-events:none}
   <div class="s" data-s="list">
     <b class="h">Songs left here</b>
     <ul class="all"></ul>
-    <div class="row"><button class="go" type="button" data-do="type">Add yours</button></div>
+    <div class="row"><button class="go" type="button" data-do="playall">Play them all</button><button class="alt" type="button" data-do="type">Add yours</button></div>
   </div>
 </section>
 
@@ -2948,7 +2950,7 @@ const esc=t=>String(t||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const hsh=s=>{let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0};
 const key=s=>(s.title+'|'+s.artist).toLowerCase();
 const colOf=s=>{try{return nipPick(hsh(key(s))%360,.72,.9).rgb}catch(_){return [.4,.5,.8]}};
-let songs=[],chosen=null,via='type',asked=false;
+let songs=[],chosen=null,via='type',asked=false,Q=null;
 try{asked=!!sessionStorage.getItem('lv-asked')}catch(_){}
 
 // ---- a ripple on the page's own water, in the song's colour ----
@@ -2957,7 +2959,7 @@ function ripple(s,a){
   try{pulses.push({t0:(performance.now()-t0)/1000,a:a||1,x,y,col:colOf(s)});if(pulses.length>8)pulses.shift()}catch(_){}
 }
 function uniq(list){const m=new Map();for(const s of list){const k=key(s);const g=m.get(k)||{...s,n:0,froms:[]};g.n++;if(s.from)g.froms.push(s.from);m.set(k,g)}return [...m.values()]}
-function count(){const n=songs.length;CNT.textContent=n?`${n} song${n>1?'s':''} left here`:'';CNT.classList.toggle('in',n>0)}
+function count(){const n=songs.length;CNT.textContent=Q?'Next song \u203A':(n?`${n} song${n>1?'s':''} left here`:'');CNT.classList.toggle('in',n>0)}
 
 async function load(){
   if(PREVIEW)songs=SAMPLE.slice();
@@ -2975,11 +2977,11 @@ q('.lx').addEventListener('click',e=>{e.stopPropagation();close()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&LV.classList.contains('in'))close()});
 LV.addEventListener('pointerdown',e=>e.stopPropagation());
 LV.addEventListener('click',e=>{const b=e.target.closest('[data-do]');if(!b)return;e.stopPropagation();
-  const d=b.dataset.do;if(d==='listen')listen();else if(d==='type'){stopRec(true);open('type')}else if(d==='add')add()});
-CNT.addEventListener('click',e=>{e.stopPropagation();
-  q('.all').innerHTML=uniq(songs).map(s=>`<li><button type="button" data-k="${esc(key(s))}"><img alt="" ${s.art?`src="${esc(s.art)}"`:''}><span><span class="t">${esc(s.title)}</span><span class="a">${esc(s.artist)}${s.n>1?' · '+s.n+'×':''}${s.froms.length?' · from '+esc([...new Set(s.froms)].slice(-2).join(', ')):''}</span></span></button></li>`).join('');
+  const d=b.dataset.do;if(d==='listen')listen();else if(d==='type'){stopRec(true);open('type')}else if(d==='add')add();else if(d==='playall'){const q0=uniq(songs).filter(s=>s.preview);if(q0.length)startQueue(q0,0)}});
+CNT.addEventListener('click',e=>{e.stopPropagation();if(Q){nextInQueue();return}
+  q('.all').innerHTML=uniq(songs).map(s=>`<li><button type="button" data-k="${esc(key(s))}" class="${s.preview?'':'silent'}" aria-current="${!!(Q&&Q.list[Q.i]&&key(Q.list[Q.i])===key(s))}"><img alt="" ${s.art?`src="${esc(s.art)}"`:''}><span><span class="t">${esc(s.title)}</span><span class="a">${esc(s.artist)}${s.n>1?' · '+s.n+'×':''}${s.froms.length?' · from '+esc([...new Set(s.froms)].slice(-2).join(', ')):''}</span></span></button></li>`).join('');
   open('list')});
-q('.all').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;const s=songs.find(x=>key(x)===b.dataset.k);if(s){ripple(s,1.1);if(s.link&&!PREVIEW)window.open(s.link,'_blank','noopener')}});
+q('.all').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;const s=songs.find(x=>key(x)===b.dataset.k);if(!s)return;const q0=uniq(songs).filter(x=>x.preview),i=q0.findIndex(x=>key(x)===key(s));if(i>=0)startQueue(q0,i);else{ripple(s,1.1);if(s.link&&!PREVIEW)window.open(s.link,'_blank','noopener')}});
 CNT.addEventListener('pointerdown',e=>e.stopPropagation());
 
 // ---- the invite: only when the page is already following someone's music through the mic ----
@@ -3045,6 +3047,27 @@ async function add(){
   asked=true;try{sessionStorage.setItem('lv-asked','1')}catch(_){}
   setTimeout(()=>{if(q('[data-s=done]').classList.contains('on'))close()},3200);
 }
+
+// ---- play the playlist: 30-second previews through the page's own player, so the water moves with each ----
+function playOne(s){
+  if(PREVIEW){ripple(s,1.2);return}
+  ensureCtx();stopAll();ac.resume();
+  if(!audioEl){audioEl=new Audio();mediaSrc=ac.createMediaElementSource(audioEl);mediaSrc.connect(master)}
+  audioEl.crossOrigin='anonymous';audioEl.loop=false;
+  audioEl.src='/api/preview?u='+encodeURIComponent(s.preview);
+  window.songTitle=s.title;
+  const who=s.froms&&s.froms.length?' \u00b7 left by someone in '+s.froms[s.froms.length-1]:'';
+  if(Q)Q.loading=true;
+  audioEl.play().then(()=>{if(Q)Q.loading=false;mode='file';setPlaying(true,s.title+(s.artist?' \u00b7 '+s.artist:'')+who);ripple(s,1.4)}).catch(()=>{if(Q)Q.loading=false;nextInQueue()});
+}
+function startQueue(list,i){Q={list,i};close();playOne(list[i]);count()}
+function nextInQueue(){if(!Q)return;Q.i++;if(Q.i>=Q.list.length){endQueue();try{stopAll();setPlaying(false)}catch(_){}return}playOne(Q.list[Q.i])}
+function endQueue(){Q=null;count()}
+// a preview ended: go on; someone switched to mic / their own music / paused: let go of the playlist
+setInterval(()=>{if(!Q||PREVIEW||Q.loading)return;
+  if(audioEl&&audioEl.ended){nextInQueue();return}
+  const mine=typeof mode!=='undefined'&&mode==='file'&&audioEl&&String(audioEl.src).includes('/api/preview');
+  if(!mine||!playing)endQueue()},400);
 
 load();
 })();
