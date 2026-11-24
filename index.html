@@ -3101,8 +3101,8 @@ setInterval(()=>{if(!Q||PREVIEW||Q.loading)return;
   if(!mine||!playing)endQueue()},400);
 
 // ---- "Mine" plays Ying's pick: a real song's 30-second preview, so the text fills with ink as it plays ----
-const PICK={q:'Merry Christmas Mr. Lawrence Ryuichi Sakamoto',artist:/sakamoto/i,song:null};
-if(!PREVIEW)fetch('/api/search?q='+encodeURIComponent(PICK.q)).then(r=>r.json()).then(j=>{PICK.song=(j.results||[]).find(x=>x.preview&&PICK.artist.test(x.artist))||null}).catch(()=>{});
+const PICK={q:'Fotografia #1 Ryuichi Sakamoto',artist:/sakamoto/i,title:/fotografia\s*#?\s*1/i,song:null};
+if(!PREVIEW)fetch('/api/search?q='+encodeURIComponent(PICK.q)).then(r=>r.json()).then(j=>{PICK.song=(j.results||[]).find(x=>x.preview&&PICK.artist.test(x.artist)&&PICK.title.test(x.title))||null}).catch(()=>{});
 function playPick(){
   const s=PICK.song;endQueue();
   ensureCtx();stopAll();ac.resume();silent=false;document.body.classList.remove('silent');
