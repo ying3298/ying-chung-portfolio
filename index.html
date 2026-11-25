@@ -2981,10 +2981,10 @@ body.open #lvCount,body.open #lv{opacity:0;pointer-events:none}
   <button type="button" role="menuitem" data-mm="silence">Silence<small>The page moves on its own</small></button>
   <button type="button" role="menuitem" data-mm="leave">Add a song<small>The next visitor sees it ripple in</small></button>
 </div>
-<section id="lv" role="dialog" aria-label="Leave a song" aria-hidden="true">
+<section id="lv" role="dialog" aria-label="Add a song" aria-hidden="true">
   <button class="lx" type="button" aria-label="Close">×</button>
   <div class="s" data-s="invite">
-    <b class="h">Leave this song here?</b>
+    <b class="h">Add this song?</b>
     <p>It joins a playlist this page keeps. Every song leaves a ripple for the next visitor.</p>
     <div class="row"><button class="go" type="button" data-do="listen">Find the song</button><button class="alt" type="button" data-do="type">Type it</button></div>
   </div>
@@ -3036,7 +3036,7 @@ function ripple(s,a){
   try{pulses.push({t0:(performance.now()-t0)/1000,a:a||1,x,y,col:colOf(s)});if(pulses.length>8)pulses.shift()}catch(_){}
 }
 function uniq(list){const m=new Map();for(const s of list){const k=key(s);const g=m.get(k)||{...s,n:0,froms:[]};g.n++;if(s.from)g.froms.push(s.from);m.set(k,g)}return [...m.values()]}
-function count(){const n=songs.length;CNT.textContent=Q?'Next song \u203A':glowing?'Leave this song here?':(n?`${n} song${n>1?'s':''} left here`:'');CNT.classList.toggle('in',n>0||glowing||!!Q)}
+function count(){const n=songs.length;CNT.textContent=Q?'Next song \u203A':glowing?'Add this song?':(n?`${n} song${n>1?'s':''} left here`:'');CNT.classList.toggle('in',n>0||glowing||!!Q)}
 
 async function load(){
   if(PREVIEW)songs=SAMPLE.slice();
@@ -3065,14 +3065,14 @@ CNT.addEventListener('pointerdown',e=>e.stopPropagation());
 
 // ---- the invite: only when the page is already following someone's music through the mic ----
 // Flow: arrival → earlier songs ripple in + "N songs left here".
-// Their song playing (mic) → the line glows once: "Leave this song here?" (tap → can still Find the song).
-// Their song ends (mic off, or ~8 s of quiet) → the card asks "Leave that song here?".
+// Their song playing (mic) → the line glows once: "Add this song?" (tap → can still Find the song).
+// Their song ends (mic off, or ~8 s of quiet) → the card asks "Add that song?".
 let heard=0,micWas=false,glowT=0,askedEnd=false;
 function setGlow(on){glowing=on;CNT.classList.toggle('glow',on);clearTimeout(glowT);if(on)glowT=setTimeout(()=>setGlow(false),12000);count()}
 function askEnd(){
   if(added||dismissed||askedEnd||Q||LV.classList.contains('in')||document.body.classList.contains('open'))return;
   askedEnd=true;setGlow(false);open('type');
-  q('[data-s=type] .h').textContent='Leave that song here?';
+  q('[data-s=type] .h').textContent='Add that song?';
   q('[data-s=type] .msg').textContent='Type it or paste a link. The next visitor will see it ripple in.';
 }
 setInterval(()=>{
