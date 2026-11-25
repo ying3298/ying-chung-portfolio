@@ -3181,5 +3181,10 @@ startDemo=function(auto){if(auto||inSilent||!PICK.song)return _startDemo(auto);p
 load();
 })();
 </script>
+<style id="ink-at-rest">
+/* at rest the words are in real ink; the blank pressed look returns only while music plays, and ink fills it as the song moves */
+body[data-type=plain]:not(.reading) .statement :is(p,span,.w,.sg,.ph){color:#15181C!important;text-shadow:none!important}
+body[data-type=plain]:not(.reading) .statement :is(.sec,.sec .w,.ph sup){color:#6B675E!important}
+</style>
 </body>
 </html>
