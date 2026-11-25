@@ -2943,7 +2943,7 @@ body.open #lvCount,body.open #lv{opacity:0;pointer-events:none}
  #mnav .pp{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:none;flex:none;padding:0}
  #mnav .pp svg{width:14px;height:14px}
  #mnav .nx{display:none}
- #mnav .tabs{position:absolute;left:14px;right:90px;bottom:18px;height:52px;border-radius:999px;display:flex;align-items:center;padding:0 6px;opacity:0;transform:translateY(14px) scale(.96);pointer-events:none;transition:opacity .25s,transform .35s cubic-bezier(.2,.9,.2,1)}
+ #mnav .tabs{position:absolute;left:14px;width:126px;bottom:18px;height:52px;border-radius:999px;display:flex;align-items:center;padding:0 6px;opacity:0;transform:translateY(14px) scale(.96);pointer-events:none;transition:opacity .25s,transform .35s cubic-bezier(.2,.9,.2,1)}
  #mnav .tabs button{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;font-size:10.5px;color:var(--soft);padding:5px 2px;border-radius:999px;min-height:44px;justify-content:center}
  #mnav .tabs button svg{width:16px;height:16px;flex:none}
  #mnav .tabs button span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -2969,7 +2969,7 @@ body.open #lvCount,body.open #lv{opacity:0;pointer-events:none}
 </style>
 
 <button id="lvCount" type="button"></button>
-<nav id="mnav" class="exp" aria-label="Music">
+<nav id="mnav" aria-label="Music">
   <button type="button" class="circ gl src" data-m="expand" aria-label="Open: songs left here and add a song"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="8" r="1.8" fill="currentColor"/><circle cx="8" cy="8" r="1.8" fill="currentColor" opacity=".6"/><circle cx="13" cy="8" r="1.8" fill="currentColor" opacity=".35"/></svg></button>
   <div class="cap gl"><button type="button" class="mb" data-m="menu" aria-expanded="false" aria-controls="mmenu" aria-label="Ways to listen"><span class="art"></span><span class="tx"><b>Fotografia #1</b><small>Ying’s pick</small></span></button><button type="button" class="pp" data-m="play" aria-label="Play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg></button><button type="button" class="pp nx" data-m="next" aria-label="Next song"><svg viewBox="0 0 17 16" aria-hidden="true"><path d="M2 3v10l6.5-5zM8.5 3v10L15 8z" fill="currentColor"/></svg></button></div>
   <div class="tabs gl"><button type="button" data-m="songs" aria-current="false"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="8" r="1.8" fill="currentColor"/><circle cx="8" cy="8" r="1.8" fill="currentColor" opacity=".6"/><circle cx="13" cy="8" r="1.8" fill="currentColor" opacity=".35"/></svg><span>Songs</span></button><button type="button" data-m="leave"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.4"/></svg><span>Add</span></button></div>
@@ -3180,16 +3180,16 @@ function playPick(){
 const MN=document.getElementById('mnav'),MM=document.getElementById('mmenu');
 const tap=b=>{try{navigator.sendBeacon('/api/tap',new Blob([JSON.stringify({b})],{type:'application/json'}))}catch(_){}};
 const MB=MN.querySelector('.mb');
-const menuOpen=on=>{MM.classList.toggle('in',on);MB.setAttribute('aria-expanded',on);if(on)openBar(0)};
+const menuOpen=on=>{MM.classList.toggle('in',on);MB.setAttribute('aria-expanded',on);if(on)openBar(0);else if(MN.classList.contains('exp'))foldSoon(6000)};
 const IC={play:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg>',
  pause:'<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="2.5" width="3" height="11" fill="currentColor"/><rect x="9.5" y="2.5" width="3" height="11" fill="currentColor"/></svg>'};
 let foldT=0,wasL=false;
 const listening=()=>!!playing;
 function openBar(ms){MN.classList.add('exp');clearTimeout(foldT);if(ms!==0)foldSoon(ms||6000)}
-function foldSoon(ms){clearTimeout(foldT);if(!listening())return;foldT=setTimeout(()=>{if(listening()&&!MM.classList.contains('in'))MN.classList.remove('exp')},ms)}
+function foldSoon(ms){clearTimeout(foldT);foldT=setTimeout(()=>{if(!MM.classList.contains('in'))MN.classList.remove('exp')},ms)}
 MN.addEventListener('pointerdown',e=>{e.stopPropagation();if(MN.classList.contains('exp'))foldSoon(6000)});MM.addEventListener('pointerdown',e=>e.stopPropagation());
 let sy=null;MN.addEventListener('touchstart',e=>{sy=e.touches[0].clientY},{passive:true});
-MN.addEventListener('touchend',e=>{if(sy==null)return;const d=e.changedTouches[0].clientY-sy;sy=null;if(d<-24)openBar();else if(d>24&&listening()){clearTimeout(foldT);MN.classList.remove('exp')}},{passive:true});
+MN.addEventListener('touchend',e=>{if(sy==null)return;const d=e.changedTouches[0].clientY-sy;sy=null;if(d<-24)openBar();else if(d>24){clearTimeout(foldT);MN.classList.remove('exp')}},{passive:true});
 MN.addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;e.stopPropagation();const m=b.dataset.m;tap(m);
   if(m==='expand'){openBar();return}
   if(m==='menu'){if(glowing){setGlow(false);open('invite')}else menuOpen(!MM.classList.contains('in'));return}
@@ -3223,7 +3223,7 @@ function syncM(){
   const n=uniq(songs).length,sg=MN.querySelector('[data-m=songs]');sg.querySelector('span').textContent=Q?'Next':(n?'Songs '+n:'Songs');sg.setAttribute('aria-current',!!Q);sg.setAttribute('aria-label',Q?'Next song':n+' songs left here');
   const sb=MM.querySelector('[data-mm=songs]');sb.firstChild.textContent=Q?'Next song':(n?`Songs left here · ${n}`:'Songs left here');
   MM.querySelector('[data-mm=pick]').setAttribute('aria-current',pickOn);MM.querySelector('[data-mm=songs]').setAttribute('aria-current',!!Q);MM.querySelector('[data-mm=silence]').setAttribute('aria-current',other&&silent);
-  const L=listening();if(L&&!wasL)foldSoon(1500);if(!L&&wasL){clearTimeout(foldT);MN.classList.add('exp')}wasL=L;
+  const L=listening();if(L&&!wasL)foldSoon(1500);if(!L&&wasL){clearTimeout(foldT);MN.classList.remove('exp')}wasL=L;
 }
 setInterval(syncM,400);
 
