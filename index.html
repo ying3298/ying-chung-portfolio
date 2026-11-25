@@ -1449,7 +1449,7 @@ body[data-theme=lab]:has(#mic[aria-pressed=true]) .fx.lab,body[data-theme=lab]:h
 <div id="grain" aria-hidden="true"></div>
 <button id="np" type="button" aria-live="polite"><img alt=""><div class="t"><b></b><span></span></div><i></i></button>
 
-<header class="top mono"><span><b class="me-ph" role="button" tabindex="0" data-k="about">Ying Chung</b> <span class="role" id="roleline">· Product designer · Brooklyn</span></span><span class="tr"><span class="hire" id="hire"><span class="dot" aria-hidden="true"></span>Open to full-time roles · <a id="sayhi" href="#">Say hi</a></span><span id="clock"></span></span></header>
+<header class="top mono"><span><b class="me-ph me-logo" role="button" tabindex="0" data-k="about"><svg class="px-logo" viewBox="0 0 23.8 7.8" fill="currentColor" aria-hidden="true"><rect style="--c:0" x="0" y="0" width="1.4" height="1.4"/><rect style="--c:2" x="3.2" y="0" width="1.4" height="1.4"/><rect style="--c:4" x="6.4" y="0" width="1.4" height="1.4"/><rect style="--c:6" x="9.6" y="0" width="1.4" height="1.4"/><rect style="--c:9" x="14.4" y="0" width="1.4" height="1.4"/><rect style="--c:11" x="17.6" y="0" width="1.4" height="1.4"/><rect style="--c:12" x="19.2" y="0" width="1.4" height="1.4"/><rect style="--c:13" x="20.8" y="0" width="1.4" height="1.4"/><rect style="--c:14" x="22.4" y="0" width="1.4" height="1.4"/><rect style="--c:0" x="0" y="1.6" width="1.4" height="1.4"/><rect style="--c:2" x="3.2" y="1.6" width="1.4" height="1.4"/><rect style="--c:4" x="6.4" y="1.6" width="1.4" height="1.4"/><rect style="--c:6" x="9.6" y="1.6" width="1.4" height="1.4"/><rect style="--c:7" x="11.2" y="1.6" width="1.4" height="1.4"/><rect style="--c:9" x="14.4" y="1.6" width="1.4" height="1.4"/><rect style="--c:11" x="17.6" y="1.6" width="1.4" height="1.4"/><rect style="--c:1" x="1.6" y="3.2" width="1.4" height="1.4"/><rect style="--c:4" x="6.4" y="3.2" width="1.4" height="1.4"/><rect style="--c:6" x="9.6" y="3.2" width="1.4" height="1.4"/><rect style="--c:8" x="12.8" y="3.2" width="1.4" height="1.4"/><rect style="--c:9" x="14.4" y="3.2" width="1.4" height="1.4"/><rect style="--c:11" x="17.6" y="3.2" width="1.4" height="1.4"/><rect style="--c:13" x="20.8" y="3.2" width="1.4" height="1.4"/><rect style="--c:14" x="22.4" y="3.2" width="1.4" height="1.4"/><rect style="--c:1" x="1.6" y="4.8" width="1.4" height="1.4"/><rect style="--c:4" x="6.4" y="4.8" width="1.4" height="1.4"/><rect style="--c:6" x="9.6" y="4.8" width="1.4" height="1.4"/><rect style="--c:9" x="14.4" y="4.8" width="1.4" height="1.4"/><rect style="--c:11" x="17.6" y="4.8" width="1.4" height="1.4"/><rect style="--c:14" x="22.4" y="4.8" width="1.4" height="1.4"/><rect style="--c:1" x="1.6" y="6.4" width="1.4" height="1.4"/><rect style="--c:4" x="6.4" y="6.4" width="1.4" height="1.4"/><rect style="--c:6" x="9.6" y="6.4" width="1.4" height="1.4"/><rect style="--c:9" x="14.4" y="6.4" width="1.4" height="1.4"/><rect style="--c:11" x="17.6" y="6.4" width="1.4" height="1.4"/><rect style="--c:12" x="19.2" y="6.4" width="1.4" height="1.4"/><rect style="--c:13" x="20.8" y="6.4" width="1.4" height="1.4"/><rect style="--c:14" x="22.4" y="6.4" width="1.4" height="1.4"/></svg><span class="sr-only">Ying Chung</span></b> <span class="role" id="roleline">· Product designer · Brooklyn</span></span><span class="tr"><span class="hire" id="hire"><span class="dot" aria-hidden="true"></span>Open to full-time roles · <a id="sayhi" href="#">Say hi</a></span><span id="clock"></span></span></header>
 <main>
   <div class="statement" id="statement">
     <p><span class="sg" data-seg="s0">I'm Ying, a product designer. I create like a child and edit like a scientist.</span></p>
@@ -3185,6 +3185,15 @@ load();
 /* at rest the words are in real ink; the blank pressed look returns only while music plays, and ink fills it as the song moves */
 body[data-type=plain]:not(.reading) .statement :is(p,span,.w,.sg,.ph){color:#15181C!important;text-shadow:none!important}
 body[data-type=plain]:not(.reading) .statement :is(.sec,.sec .w,.ph sup){color:#6B675E!important}
+</style>
+<style id="pixel-logo">
+.me-logo{text-decoration:none!important;display:inline-flex;align-items:center;vertical-align:middle;color:var(--ink,#15181C);margin-right:4px}
+.me-logo .px-logo{width:40px;height:auto;display:block}
+.me-logo:hover,.me-logo.on{color:var(--accent)}
+@keyframes px-hop{0%,100%{transform:none}35%{transform:translateY(-1.6px)}60%{transform:translateY(.3px)}}
+.me-logo:hover rect,.me-logo:focus-visible rect{animation:px-hop .52s cubic-bezier(.3,1.6,.4,1) both;animation-delay:calc(var(--c) * 26ms)}
+@media (prefers-reduced-motion:reduce){.me-logo:hover rect,.me-logo:focus-visible rect{animation:none}}
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </body>
 </html>
