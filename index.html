@@ -1449,38 +1449,6 @@ body[data-theme=lab]:has(#mic[aria-pressed=true]) .fx.lab,body[data-theme=lab]:h
 <div id="grain" aria-hidden="true"></div>
 <button id="np" type="button" aria-live="polite"><img alt=""><div class="t"><b></b><span></span></div><i></i></button>
 
-
-<style>
-/* top navigation, the same bar as the full portfolio, so people can go straight to the work */
-:root{--h-ink:#0b0b0b;--h-font:"Inter",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;--h-pad:clamp(20px,2.4vw,48px);--spring:cubic-bezier(.34,1.56,.64,1)}
-header.top{display:none!important}
-#hnav{position:fixed;left:0;right:0;top:0;padding-top:env(safe-area-inset-top,0px);z-index:30;background:rgba(246,245,241,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-#hnav .in{padding:0 var(--h-pad);height:clamp(52px,3.4vw,72px);display:flex;align-items:center;justify-content:space-between;gap:24px}
-#hnav .h-logo{display:block;width:clamp(36px,2.5vw,52px);color:var(--h-ink)}
-#hnav .h-logo svg{display:block;width:100%;height:auto}
-@keyframes px-hop{0%,100%{transform:none}35%{transform:translateY(-1.6px)}60%{transform:translateY(.3px)}}
-#hnav .h-logo:hover rect,#hnav .h-logo:focus-visible rect{animation:px-hop .52s var(--spring) both;animation-delay:calc(var(--c) * 26ms)}
-#hnav .h-nav{display:flex;gap:clamp(14px,1.1vw,24px)}
-#hnav .h-nav a{font:500 clamp(12px,.9vw,18px)/1 var(--h-font);letter-spacing:0;text-transform:uppercase;color:var(--h-ink);display:inline-flex;align-items:center;gap:.5em;transition:opacity .2s;text-decoration:none;min-height:44px}
-#hnav .h-nav a:hover{opacity:.55}
-#hnav .h-nav a:focus-visible,#hnav .h-logo:focus-visible{outline:2px solid var(--h-ink);outline-offset:3px}
-#hnav .h-arrow{width:.85em;height:.85em;display:inline-block}
-body.open #hnav,body.cs-open #hnav{opacity:.35}
-@media (max-width:809px){#hnav{--h-pad:20px}#hnav .h-nav{gap:16px}#hnav .h-nav a{font-size:13px}}
-@media (max-width:420px){#hnav .h-nav a[data-j]{display:none}}
-@media (prefers-reduced-motion:reduce){#hnav .h-logo:hover rect,#hnav .h-logo:focus-visible rect{animation:none}}
-</style>
-<header class="h-header" id="hnav">
-    <div class="in">
-      <a class="h-logo" href="/" aria-label="Ying Chung — home"><svg viewBox="0 0 23.8 7.8" fill="currentColor" aria-hidden="true"><rect style="--c:0" x="0" y="0" width="1.4" height="1.4"/><rect style="--c:2" x="3.2" y="0" width="1.4" height="1.4"/><rect style="--c:4" x="6.4" y="0" width="1.4" height="1.4"/><rect style="--c:6" x="9.6" y="0" width="1.4" height="1.4"/><rect style="--c:9" x="14.4" y="0" width="1.4" height="1.4"/><rect style="--c:11" x="17.6" y="0" width="1.4" height="1.4"/><rect style="--c:12" x="19.2" y="0" width="1.4" height="1.4"/><rect style="--c:13" x="20.8" y="0" width="1.4" height="1.4"/><rect style="--c:14" x="22.4" y="0" width="1.4" height="1.4"/><rect style="--c:0" x="0" y="1.6" width="1.4" height="1.4"/><rect style="--c:2" x="3.2" y="1.6" width="1.4" height="1.4"/><rect style="--c:4" x="6.4" y="1.6" width="1.4" height="1.4"/><rect style="--c:6" x="9.6" y="1.6" width="1.4" height="1.4"/><rect style="--c:7" x="11.2" y="1.6" width="1.4" height="1.4"/><rect style="--c:9" x="14.4" y="1.6" width="1.4" height="1.4"/><rect style="--c:11" x="17.6" y="1.6" width="1.4" height="1.4"/><rect style="--c:1" x="1.6" y="3.2" width="1.4" height="1.4"/><rect style="--c:4" x="6.4" y="3.2" width="1.4" height="1.4"/><rect style="--c:6" x="9.6" y="3.2" width="1.4" height="1.4"/><rect style="--c:8" x="12.8" y="3.2" width="1.4" height="1.4"/><rect style="--c:9" x="14.4" y="3.2" width="1.4" height="1.4"/><rect style="--c:11" x="17.6" y="3.2" width="1.4" height="1.4"/><rect style="--c:13" x="20.8" y="3.2" width="1.4" height="1.4"/><rect style="--c:14" x="22.4" y="3.2" width="1.4" height="1.4"/><rect style="--c:1" x="1.6" y="4.8" width="1.4" height="1.4"/><rect style="--c:4" x="6.4" y="4.8" width="1.4" height="1.4"/><rect style="--c:6" x="9.6" y="4.8" width="1.4" height="1.4"/><rect style="--c:9" x="14.4" y="4.8" width="1.4" height="1.4"/><rect style="--c:11" x="17.6" y="4.8" width="1.4" height="1.4"/><rect style="--c:14" x="22.4" y="4.8" width="1.4" height="1.4"/><rect style="--c:1" x="1.6" y="6.4" width="1.4" height="1.4"/><rect style="--c:4" x="6.4" y="6.4" width="1.4" height="1.4"/><rect style="--c:6" x="9.6" y="6.4" width="1.4" height="1.4"/><rect style="--c:9" x="14.4" y="6.4" width="1.4" height="1.4"/><rect style="--c:11" x="17.6" y="6.4" width="1.4" height="1.4"/><rect style="--c:12" x="19.2" y="6.4" width="1.4" height="1.4"/><rect style="--c:13" x="20.8" y="6.4" width="1.4" height="1.4"/><rect style="--c:14" x="22.4" y="6.4" width="1.4" height="1.4"/></svg></a>
-      <nav class="h-nav" aria-label="Main">
-        <a href="work.html#projects">Projects</a>
-        <a href="work.html#playground" data-j>Playground</a>
-        <a href="work.html#me">About</a>
-        <a href="work.html#contact">Contact <svg class="h-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5"/></svg></a>
-      </nav>
-    </div>
-  </header>
 <header class="top mono"><span><b class="me-ph" role="button" tabindex="0" data-k="about">Ying Chung</b> <span class="role" id="roleline">· Product designer · Brooklyn</span></span><span class="tr"><span class="hire" id="hire"><span class="dot" aria-hidden="true"></span>Open to full-time roles · <a id="sayhi" href="#">Say hi</a></span><span id="clock"></span></span></header>
 <main>
   <div class="statement" id="statement">
