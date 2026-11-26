@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Sound test</title>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#F1F0EC;color:#15181C;font:16px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}
+main{max-width:560px;padding:32px}
+h1{font-size:22px;font-weight:600;margin:0 0 6px}
+p{margin:0 0 20px;color:#6B675E}
+ol{margin:0 0 24px;padding:0;list-style:none}
+li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-top:1px solid rgba(21,24,28,.1)}
+li b{font-weight:500}
+.s{font:13px/1.4 ui-monospace,"SF Mono",Menlo,monospace;text-align:right}
+.ok{color:#2F6B1E}.no{color:#A32D2D}
+button{font:500 15px/1 inherit;min-height:44px;padding:0 18px;border-radius:999px;border:0;background:#15181C;color:#fff;cursor:pointer}
+</style></head><body><main>
+<h1>Can a page play sound by itself?</h1>
+<p>On load, this page tries three ways to play a short chime without any click. Open it in a private window to see what a first-time visitor gets.</p>
+<ol>
+<li><b>1. Audio file that autoplays</b><span class="s" id="r1">trying…</span></li>
+<li><b>2. Audio file played by script</b><span class="s" id="r2">trying…</span></li>
+<li><b>3. Sound made in code (Web Audio)</b><span class="s" id="r3">trying…</span></li>
+</ol>
+<button id="tap" type="button">Tap to play the chime</button>
+<p style="margin-top:14px" id="after"></p>
+<audio id="a1" src="assets/sound-test-chime.wav" autoplay></audio>
+</main>
+<script>
+const set=(id,ok,msg)=>{const e=document.getElementById(id);e.textContent=msg;e.className='s '+(ok?'ok':'no')};
+const a1=document.getElementById('a1');
+setTimeout(()=>set('r1',!a1.paused,a1.paused?'blocked: stayed paused':'played'),900);
+const a2=new Audio('assets/sound-test-chime.wav');
+a2.play().then(()=>set('r2',true,'played')).catch(e=>set('r2',false,'blocked: '+e.name));
+let ctx;try{ctx=new (window.AudioContext||window.webkitAudioContext)();
+ const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=660;g.gain.setValueAtTime(.2,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1);o.connect(g).connect(ctx.destination);o.start();o.stop(ctx.currentTime+1);
+ setTimeout(()=>set('r3',ctx.state==='running',ctx.state==='running'?'played':'blocked: audio engine '+ctx.state),300);
+}catch(e){set('r3',false,'error: '+e.name)}
+document.getElementById('tap').addEventListener('click',async()=>{
+ try{await new Audio('assets/sound-test-chime.wav').play();if(ctx&&ctx.state!=='running')await ctx.resume();
+ document.getElementById('after').textContent='After your tap, sound plays. The tap is what unlocks it.'}catch(e){document.getElementById('after').textContent='Still blocked: '+e.name}
+});
+</script></body></html>
